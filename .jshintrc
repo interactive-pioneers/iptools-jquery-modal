@@ -18,5 +18,6 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
-  "jquery": false
+  "jquery": false,
+  "predef": ["jQuery"]
 }
