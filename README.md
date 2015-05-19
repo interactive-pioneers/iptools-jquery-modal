@@ -3,7 +3,7 @@
 Simple jQuery Modal
 
 ## Features
-Open static and dynamic content inside an overlay. Modal closes on keydown ESC and click outside.
+Display static and ajax-loaded content inside an overlay, fully stylable with CSS, using CSS3 tranisitions and animations. Modal closes on keydown ESC and click outside.
 
 ## Requirements
 
@@ -12,12 +12,14 @@ Open static and dynamic content inside an overlay. Modal closes on keydown ESC a
 ## Example
 
 ```html
-<a class="trigger-modal" data-modal-content="#test" data-modal-effect="scale"></a>
+<a class="js_trigger-modal" data-modal-content="#test" data-modal-effect="scale"></a>
+
+<div id="test" style="display: none;">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
 
 <script src="src/iptools-jquery-modal.js"></script>
 <script type="text/javascript">
    $(document).ready(function() {
-      $('.trigger-modal').iptoolsModal({
+      $('.js_trigger-modal').iptoolsModal({
          // options
       });
    });
