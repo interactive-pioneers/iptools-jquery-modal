@@ -12,9 +12,12 @@ Display static and ajax-loaded content inside an overlay, fully stylable with CS
 ## Example
 
 ```html
-<a class="js_trigger-modal" data-modal-content="#test" data-modal-effect="scale"></a>
-
+<h2>simple HTML content</h2>
+<a class="js_trigger-modal" data-modal-content="#test" data-modal-effect="scale">trigger modal</a>
 <div id="test" style="display: none;">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
+
+<h2>content via ajax</h2>
+<a class="js_trigger-modal" data-modal-content="/pagecontroller/buttons" data-modal-effect="scale">trigger modal</a>
 
 <script src="src/iptools-jquery-modal.js"></script>
 <script type="text/javascript">
