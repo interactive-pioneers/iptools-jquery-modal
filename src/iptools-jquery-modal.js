@@ -1,4 +1,4 @@
-;(function($, document) {
+(function($, document) {
 
   'use strict';
 
@@ -15,7 +15,13 @@
     modalClass: 'modal'
   };
 
-  function iptoolsModal(element, options) {
+  /**
+   * IpToolsModal
+   * @constructor
+   * @param {object} element - jQuery element
+   * @param {object} options - plugin options
+   */
+  function IpToolsModal(element, options) {
 
     this.element = $(element);
     this.settings = $.extend({}, defaults, options);
@@ -26,21 +32,30 @@
     this.$content = null;
     this.loaded = false;
 
-    this.$modal = $('<div/>', { class: this.settings.modalClass, width: this.settings.width, height: this.settings.height });
+    this.$modal = $('<div/>', {
+      class: this.settings.modalClass,
+      width: this.settings.width,
+      height: this.settings.height
+    });
 
     this.effect = this.element.attr('data-modal-effect');
-    if (this.effect) this.$modal.addClass(this.settings.modalClass + '--effect-' + this.effect);
+    if (this.effect) {
+      this.$modal.addClass(this.settings.modalClass + '--effect-' + this.effect);
+    }
 
     $('body').append(this.$modal);
 
     this.element.on('click', null, this, this.open);
 
-    return this.$modal;
-
   }
 
-  iptoolsModal.prototype = {
+  IpToolsModal.prototype = {
 
+    /**
+     * opens the modal window
+     * @param {event} event - jQuery event
+     * @returns {void}
+     */
     open: function(event) {
 
       var self = event.data;
@@ -86,6 +101,11 @@
 
     },
 
+    /**
+     * closes the modal
+     * @param {event} event - jQuery event
+     * @returns void
+     */
     close: function(event) {
 
       var self = event.data;
@@ -94,6 +114,10 @@
 
     },
 
+    /**
+     * shows the modal
+     * @returns void
+     */
     show: function() {
 
       if (this.settings.closeButton) {
@@ -107,13 +131,23 @@
 
     },
 
+    /**
+     * hides the modal
+     * @returns void
+     */
     hide: function() {
 
       this.$modal.removeClass('modal--active');
-      if (this.closeButton) this.closeButton.remove();
+      if (this.closeButton) {
+        this.closeButton.remove();
+      }
 
     },
 
+    /**
+     * shows the spinner if content has to be loaded
+     * @returns void
+     */
     showSpinner: function() {
 
       if (this.settings.showSpinner) {
@@ -125,6 +159,10 @@
 
     },
 
+    /**
+     * hides the spinner
+     * @returns void
+     */
     hideSpinner: function() {
 
       if (this.spinner) {
@@ -134,19 +172,27 @@
 
     },
 
+    /**
+     * centers the modal
+     * @returns void
+     */
     center: function() {
 
       this.$modal.css({
         position: 'fixed',
         top: '50%',
         left: '50%',
-        marginTop: - this.$modal.outerHeight() * 0.5,
-        marginLeft: - this.$modal.outerWidth() * 0.5,
+        marginTop: -this.$modal.outerHeight() * 0.5,
+        marginLeft: -this.$modal.outerWidth() * 0.5,
         zIndex: this.settings.zIndex
       });
 
     },
 
+    /**
+     * bind events to close modal
+     * @returns void
+     */
     bindCloseEvents: function() {
 
       if (this.closeButton) {
@@ -163,19 +209,32 @@
 
     },
 
+    /**
+     * unbind close events
+     * @returns void
+     */
     unbindCloseEvents: function() {
 
       $(document).off('keydown.modal mouseup.body');
 
     },
 
+    /**
+     * handler for keydown event
+     * @returns void
+     */
     handleKeyDown: function(event) {
 
       var self = event.data;
-      if (event.which === 27) self.close(event);
+      if (event.which === 27) {
+        self.close(event);
+      }
 
     },
 
+    /**
+     * handler for @TODO
+     */
     handleBodyClick: function(event) {
 
       var self = event.data;
@@ -192,7 +251,7 @@
     return this.each(function() {
 
       if (!$.data(this, 'plugin_' + pluginName)) {
-        $.data(this, 'plugin_' + pluginName, new iptoolsModal(this, options));
+        $.data(this, 'plugin_' + pluginName, new IpToolsModal(this, options));
       }
 
     });
@@ -200,3 +259,4 @@
   };
 
 })(jQuery, document);
+

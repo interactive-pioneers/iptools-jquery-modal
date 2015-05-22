@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
   // show elapsed time at the end
   require('time-grunt')(grunt);
 
@@ -18,7 +18,7 @@ module.exports = function (grunt) {
           '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
           '* <%= yeoman.pkg.homepage %>\n' +
           '* Copyright © <%= grunt.template.today("yyyy") %> ' +
-          '<%= yeoman.pkg.author.name %>; Licensed <%= yeoman.pkg.licenses[0].type %> */'
+          '<%= yeoman.pkg.author.name %>; Licensed <%= yeoman.pkg.licenses[0].type %> */\n'
       },
     },
     watch: {
