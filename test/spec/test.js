@@ -1,5 +1,6 @@
 'use strict';
-/* jshint undef: false */
+/* jshint undef: false, unused: false */
+/* global $ */
 (function() {
   describe('iptoolsModal', function() {
 
