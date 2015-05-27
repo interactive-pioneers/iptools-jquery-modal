@@ -2,21 +2,19 @@
 
 /* jshint undef: false */
 
-(function($) {
-  describe('iptoolsModal', function() {
+describe('iptoolsModal', function() {
 
-    var modal = null;
+  var modal = null;
 
-    describe('init', function() {
-      
-      beforeEach(function() {
-        modal = $('.js_trigger-modal').iptoolsModal();
-      });
-      
-      it('expected to construct object', function() {
-        return expect(modal).to.exist;
-      });
-
+  describe('init', function() {
+    
+    beforeEach(function() {
+      modal = $('.js_trigger-modal').iptoolsModal();
     });
+    
+    it('expected to construct object', function() {
+      return expect(modal).to.exist;
+    });
+
   });
-})(jQuery);
+});
