@@ -12,11 +12,11 @@ Display static and ajax-loaded content inside an overlay, fully stylable with CS
 ## Example
 
 ```html
-<h2>simple HTML content</h2>
+<h2>Open DOM-Element</h2>
 <a class="js_trigger-modal" data-modal-content="#test" data-modal-effect="scale">trigger modal</a>
 <div id="test" style="display: none;">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
 
-<h2>content via ajax</h2>
+<h2>Load content with AJAX</h2>
 <a class="js_trigger-modal" data-modal-content="/pagecontroller/buttons" data-modal-effect="scale">trigger modal</a>
 
 <script src="src/iptools-jquery-modal.js"></script>
@@ -30,108 +30,9 @@ Display static and ajax-loaded content inside an overlay, fully stylable with CS
 
 ```
 
-```scss
-$timing-function: ease-in-out;
-$animation-speed: 0.25s;
+## CSS3-Effects
 
-.modal {
-  z-index: 102;
-
-  display: none;
-  max-width: 90%;
-  max-height: 90%;
-  padding: 45px;
-  border: 1px solid $black;
-  overflow: auto;
-
-  background: $white;
-  box-shadow: 0 0 0 9999px rgba(0,0,0,0.8);
-  opacity: 0;
-  transition: opacity $animation-speed $timing-function, transform $animation-speed $timing-function;
-
-  &--active {
-    display: block;
-    
-    opacity: 1;
-  }
-
-  &__button-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-
-    display: block;
-    width: 17px;
-    height: 17px;
-
-    cursor: pointer;
-
-    &:before, &:after {
-      position: absolute;
-      left: 8px;
-      content: '';
-      height: 17px;
-      width: 1px;
-      background-color: $black;
-    }
-
-    &:before {
-      transform: rotate(45deg);
-    }
-
-    &:after {
-      transform: rotate(-45deg);
-    }
-  }
-
-  &__spinner {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 101;
-
-    display: none;
-    width: 64px;
-    height: 64px;
-    margin-right: -32px;
-    margin-top: -32px;
-
-    background-color: $black; 
-  }
-
-}
-
-.modal--effect-scale {
-  transform: scale(0.7);
-  opacity: 0;
-}
-
-.modal--active.modal--effect-scale {
-  transform: scale(1);
-  opacity: 1;
-}
-
-.modal--effect-slideinright {
-  transform: translateX(20%);
-  opacity: 0;
-}
-
-.modal--active.modal--effect-slideinright {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.modal--effect-slideinbottom {
-  transform: translateY(20%);
-  opacity: 0;
-}
-
-.modal--active.modal--effect-slideinbottom {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-```
+- scale - slideinbottom - slideinright
 
 ## Contributions
 
