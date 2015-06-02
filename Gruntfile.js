@@ -64,7 +64,8 @@ module.exports = function(grunt) {
       },
       build: {
         tasks: [
-          'uglify'
+          'uglify',
+          'sass'
         ]
       }
     },
@@ -86,6 +87,13 @@ module.exports = function(grunt) {
             '<%= yeoman.dist %>/*'
           ]
         }]
+      }
+    },
+    sass: {
+      dist: {
+        files: {
+          'dist/iptools-jquery-modal.css' : 'src/iptools-jquery-modal.scss'
+        }
       }
     }
   });
