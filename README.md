@@ -19,8 +19,8 @@ Display static and ajax-loaded content inside an overlay, fully stylable with CS
 <h2>Load content with AJAX</h2>
 <a class="js_trigger-modal" data-modal-content="/pagecontroller/buttons" data-modal-effect="scale">trigger modal</a>
 
-<script src="src/iptools-jquery-modal.js"></script>
 <link rel="stylesheet" href="dist/iptools-jquery-modal.css" type="text/css">
+<script src="src/iptools-jquery-modal.js"></script>
 <script type="text/javascript">
    $(document).ready(function() {
       $('.js_trigger-modal').iptModal({
