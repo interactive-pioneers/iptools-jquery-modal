@@ -1,7 +1,7 @@
 {
-  "name": "ipToolsModal",
+  "name": "iptools-jquery-modal",
   "version": "0.0.2",
-  "description": "Simple and customizable jQuery Modal",
+  "description": "Simple and customizable jQuery Modal Plugin",
   "homepage": "https://github.com/interactive-pioneers/iptools-jquery-modal",
   "author": {
     "name": "Interactive Pioneers GmbH",
@@ -51,7 +51,8 @@
   },
   "keywords": [
     "javascript",
-    "menu",
+    "modal",
+    "overlay",
     "jquery",
     "layout"
   ]

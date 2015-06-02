@@ -2,7 +2,7 @@
 
   'use strict';
 
-  var pluginName = 'iptoolsModal';
+  var pluginName = 'iptModal';
   var defaults = {
     width: 'auto',
     height: 'auto',
@@ -16,12 +16,12 @@
   };
 
   /**
-   * IpToolsModal
+   * IPTModal
    * @constructor
    * @param {object} element - jQuery element
    * @param {object} options - plugin options
    */
-  function IpToolsModal(element, options) {
+  function IPTModal(element, options) {
 
     this.element = $(element);
     this.settings = $.extend({}, defaults, options);
@@ -49,7 +49,7 @@
 
   }
 
-  IpToolsModal.prototype = {
+  IPTModal.prototype = {
 
     /**
      * opens the modal window
@@ -233,7 +233,7 @@
     },
 
     /**
-     * handler for @TODO
+     * handler for click outside modal
      */
     handleBodyClick: function(event) {
 
@@ -251,7 +251,7 @@
     return this.each(function() {
 
       if (!$.data(this, 'plugin_' + pluginName)) {
-        $.data(this, 'plugin_' + pluginName, new IpToolsModal(this, options));
+        $.data(this, 'plugin_' + pluginName, new IPTModal(this, options));
       }
 
     });
