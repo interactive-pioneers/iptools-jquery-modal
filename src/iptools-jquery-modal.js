@@ -50,7 +50,7 @@
 
     $('body').append(this.$modal);
 
-    this.element.on('click', null, this, this.open);
+    this.element.on('click' + '.' + this._name, null, this, this.open);
 
   }
 
@@ -126,7 +126,7 @@
     show: function() {
 
       this.center();
-      this.$modal.addClass('modal--active');
+      this.$modal.addClass(this.settings.modalClass + '--active');
 
     },
 
@@ -136,7 +136,7 @@
      */
     hide: function() {
 
-      this.$modal.removeClass('modal--active');
+      this.$modal.removeClass(this.settings.modalClass + '--active');
 
     },
 
@@ -192,15 +192,15 @@
     bindCloseEvents: function() {
 
       if (this.closeButton) {
-        this.closeButton.on('click', null, this, this.close);
+        this.closeButton.on('click' + '.' + this._name, null, this, this.close);
       }
 
       if (this.settings.closeOnESC) {
-        $(document).on('keydown.modal', null, this, this.handleKeyDown);
+        $(document).on('keydown' + '.' + this._name, null, this, this.handleKeyDown);
       }
 
       if (this.settings.closeOnClickOutside) {
-        $(document).on('mouseup.body', null, this, this.handleBodyClick);
+        $(document).on('mouseup' + '.' + this._name, null, this, this.handleBodyClick);
       }
 
     },
@@ -211,7 +211,7 @@
      */
     unbindCloseEvents: function() {
 
-      $(document).off('keydown.modal mouseup.body');
+      $(document).off('keydown' + '.' + this._name + ' mouseup' + '.' + this._name);
 
     },
 
