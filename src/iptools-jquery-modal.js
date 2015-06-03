@@ -15,6 +15,16 @@
     modalClass: 'modal'
   };
 
+  var dataAttributes = {
+    modalContent: 'modal-content',
+    effect: 'modal-effect'
+  };
+
+  var classNames = {
+    activeModifier: '--active',
+    effectModifierPrefix: '--effect-'
+  };
+
   /**
    * IPTModal
    * @constructor
@@ -28,7 +38,7 @@
     this._defaults = defaults;
     this._name = pluginName;
 
-    this.contentLink = this.element.attr('data-modal-content');
+    this.contentLink = this.element.data(dataAttributes.modalContent);
     this.$content = null;
     this.loaded = false;
 
@@ -43,9 +53,9 @@
       this.$modal.append(this.closeButton);
     }
 
-    this.effect = this.element.attr('data-modal-effect');
+    this.effect = this.element.data(dataAttributes.effect);
     if (this.effect) {
-      this.$modal.addClass(this.settings.modalClass + '--effect-' + this.effect);
+      this.$modal.addClass(this.settings.modalClass + classNames.effectModifierPrefix + this.effect);
     }
 
     $('body').append(this.$modal);
@@ -126,7 +136,7 @@
     show: function() {
 
       this.center();
-      this.$modal.addClass(this.settings.modalClass + '--active');
+      this.$modal.addClass(this.settings.modalClass + classNames.activeModifier);
 
     },
 
@@ -136,7 +146,7 @@
      */
     hide: function() {
 
-      this.$modal.removeClass(this.settings.modalClass + '--active');
+      this.$modal.removeClass(this.settings.modalClass + classNames.activeModifier);
 
     },
 
