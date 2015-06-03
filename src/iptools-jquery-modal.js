@@ -48,11 +48,6 @@
       height: this.settings.height
     });
 
-    if (this.settings.closeButton) {
-      this.closeButton = $('<div class="' + this.settings.modalClass + '__button-close"></div>');
-      this.$modal.append(this.closeButton);
-    }
-
     this.effect = this.element.data(dataAttributes.effect);
     if (this.effect) {
       this.$modal.addClass(this.settings.modalClass + classNames.effectModifierPrefix + this.effect);
@@ -87,6 +82,7 @@
           var $template = $(self.contentLink);
           if ($template.length === 1) {
             self.$modal.html($template.html());
+            self.addCloseButton();
             self.loaded = true;
             self.show();
             self.bindCloseEvents();
@@ -99,6 +95,7 @@
           $.get(self.contentLink).done(function(html) {
 
             self.$modal.html(html);
+            self.addCloseButton();
             self.loaded = true;
             self.hideSpinner();
             self.show();
@@ -147,6 +144,18 @@
     hide: function() {
 
       this.$modal.removeClass(this.settings.modalClass + classNames.activeModifier);
+
+    },
+
+    /**
+     * add a close button to the modal
+     * @returns {undefined}
+     */
+    addCloseButton: function() {
+
+      if (this.settings.closeButton) {
+        this.closeButton = $('<div class="' + this.settings.modalClass + '__button-close"></div>').appendTo(this.$modal);
+      }
 
     },
 
