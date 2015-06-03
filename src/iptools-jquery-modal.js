@@ -69,7 +69,7 @@
     /**
      * opens the modal window
      * @param {event} event - jQuery event
-     * @returns {void}
+     * @returns {undefined}
      */
     open: function(event) {
 
@@ -119,7 +119,7 @@
     /**
      * closes the modal
      * @param {event} event - jQuery event
-     * @returns void
+     * @returns {undefined}
      */
     close: function(event) {
 
@@ -131,7 +131,7 @@
 
     /**
      * shows the modal
-     * @returns void
+     * @returns {undefined}
      */
     show: function() {
 
@@ -142,7 +142,7 @@
 
     /**
      * hides the modal
-     * @returns void
+     * @returns {undefined}
      */
     hide: function() {
 
@@ -152,7 +152,7 @@
 
     /**
      * shows the spinner if content has to be loaded
-     * @returns void
+     * @returns {undefined}
      */
     showSpinner: function() {
 
@@ -167,7 +167,7 @@
 
     /**
      * hides the spinner
-     * @returns void
+     * @returns {undefined}
      */
     hideSpinner: function() {
 
@@ -180,7 +180,7 @@
 
     /**
      * centers the modal
-     * @returns void
+     * @returns {undefined}
      */
     center: function() {
 
@@ -197,7 +197,7 @@
 
     /**
      * bind events to close modal
-     * @returns void
+     * @returns {undefined}
      */
     bindCloseEvents: function() {
 
@@ -217,7 +217,7 @@
 
     /**
      * unbind close events
-     * @returns void
+     * @returns {undefined}
      */
     unbindCloseEvents: function() {
 
@@ -227,7 +227,7 @@
 
     /**
      * handler for keydown event
-     * @returns void
+     * @returns {undefined}
      */
     handleKeyDown: function(event) {
 
@@ -240,6 +240,7 @@
 
     /**
      * handle clicks outside modal
+     * @returns {undefined}
      */
     handleBodyClick: function(event) {
 
@@ -274,7 +275,7 @@
 
   };
 
-  $.fn[ pluginName ] = function(options) {
+  $.fn[pluginName] = function(options) {
 
     return this.each(function() {
 
