@@ -40,6 +40,31 @@
         return expect(object.data(pluginName).$modal.hasClass('modal--active')).to.be.ok;
       });
 
+      it('expected to have class tooltip--active', function() {
+        object.trigger('click');
+        return expect(object.data(pluginName).$modal.hasClass('modal--active')).to.be.ok;
+      });
+
     });
+
+    describe('destroy', function() {
+
+      beforeEach(function() {
+        object = $('.js_trigger-modal').iptModal(config);
+      });
+
+      it('expected to remove data', function() {
+        object.data(pluginName).destroy();
+        return expect(object.data(pluginName)).to.not.be.ok;
+      });
+
+      it('expected to remove listeners', function() {
+        object.data(pluginName).destroy();
+        object.trigger('click');
+        return expect(object.data(pluginName).$modal.hasClass('modal--active')).to.not.be.ok;
+      });
+
+    });
+
   });
 })();
