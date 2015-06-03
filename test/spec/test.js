@@ -35,9 +35,8 @@
         return expect(object.data(pluginName).settings.modalClass).to.equal(config.modalClass);
       });
 
-      it('expected to have class tooltip--active', function() {
-        object.trigger('click');
-        return expect(object.data(pluginName).$modal.hasClass('modal--active')).to.be.ok;
+      it('expected to not have class tooltip--active', function() {
+        return expect(object.data(pluginName).$modal.hasClass('modal--active')).to.not.be.ok;
       });
 
       it('expected to have class tooltip--active', function() {
