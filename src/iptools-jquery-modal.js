@@ -239,7 +239,7 @@
     },
 
     /**
-     * handler for click outside modal
+     * handle clicks outside modal
      */
     handleBodyClick: function(event) {
 
@@ -247,6 +247,18 @@
       if (!self.$modal.is(event.target) && self.$modal.has(event.target).length === 0) {
         self.close(event);
       }
+
+    },
+
+    /**
+     * destroy method
+     * @returns {undefined}
+     */
+    destroy: function() {
+
+      this.unbindCloseEvents();
+      this.element.off('click' + '.' + this._name);
+      this.element.removeData('plugin_' + pluginName);
 
     }
 
