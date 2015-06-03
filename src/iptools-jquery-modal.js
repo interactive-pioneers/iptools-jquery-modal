@@ -38,6 +38,11 @@
       height: this.settings.height
     });
 
+    if (this.settings.closeButton) {
+      this.closeButton = $('<div class="' + this.settings.modalClass + '__button-close"></div>');
+      this.$modal.append(this.closeButton);
+    }
+
     this.effect = this.element.attr('data-modal-effect');
     if (this.effect) {
       this.$modal.addClass(this.settings.modalClass + '--effect-' + this.effect);
@@ -120,12 +125,6 @@
      */
     show: function() {
 
-      if (this.settings.closeButton) {
-
-        this.closeButton = $('<div class="' + this.settings.modalClass + '__button-close"></div>');
-        this.$modal.append(this.closeButton);
-
-      }
       this.center();
       this.$modal.addClass('modal--active');
 
@@ -138,9 +137,6 @@
     hide: function() {
 
       this.$modal.removeClass('modal--active');
-      if (this.closeButton) {
-        this.closeButton.remove();
-      }
 
     },
 
