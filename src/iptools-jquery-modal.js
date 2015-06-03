@@ -60,7 +60,7 @@
 
     $('body').append(this.$modal);
 
-    this.element.on('click' + '.' + this._name, null, this, this.open);
+    this.addEventListeners();
 
   }
 
@@ -247,6 +247,16 @@
       if (!self.$modal.is(event.target) && self.$modal.has(event.target).length === 0) {
         self.close(event);
       }
+
+    },
+
+    /**
+     * add event listeners to element
+     * @returns {undefined}
+     */
+    addEventListeners: function() {
+
+      this.element.on('click' + '.' + this._name, null, this, this.open);
 
     },
 
