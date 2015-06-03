@@ -35,13 +35,17 @@
         return expect(object.data(pluginName).settings.modalClass).to.equal(config.modalClass);
       });
 
-      it('expected to not have class tooltip--active', function() {
-        return expect(object.data(pluginName).$modal.hasClass('modal--active')).to.not.be.ok;
+    });
+
+    describe('open', function() {
+
+      beforeEach(function() {
+        object = $('.js_trigger-modal').iptModal(config);
       });
 
-      it('expected to have class tooltip--active', function() {
+      it('expected to have class ' + config.modalClass + '--active', function() {
         object.trigger('click');
-        return expect(object.data(pluginName).$modal.hasClass('modal--active')).to.be.ok;
+        return expect(object.data(pluginName).$modal.hasClass(config.modalClass + '--active')).to.be.ok;
       });
 
     });
@@ -55,12 +59,6 @@
       it('expected to remove data', function() {
         object.data(pluginName).destroy();
         return expect(object.data(pluginName)).to.not.be.ok;
-      });
-
-      it('expected to remove listeners', function() {
-        object.data(pluginName).destroy();
-        object.trigger('click');
-        return expect(object.data(pluginName).$modal.hasClass('modal--active')).to.not.be.ok;
       });
 
     });
