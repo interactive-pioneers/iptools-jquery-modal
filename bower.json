@@ -1,8 +1,8 @@
 {
   "name": "iptools-jquery-modal",
   "description": "Simple jQuery Modal Plugin",
-  "main": "src/iptools-jquery-modal.js",
-  "version": "0.0.2",
+  "main": "dist/iptools-jquery-modal.min.js",
+  "version": "0.0.3",
   "license": "GPL-3.0",
   "ignore": [
     ".git*",
