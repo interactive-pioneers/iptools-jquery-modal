@@ -1,4 +1,4 @@
-(function($, document) {
+(function($, window, document) {
 
   'use strict';
 
@@ -73,7 +73,7 @@
       if (self.loaded) {
 
         self.show();
-        self.bindCloseEvents();
+        self.bindTemporaryEvents();
 
       } else {
 
@@ -85,7 +85,7 @@
             self.addCloseButton();
             self.loaded = true;
             self.show();
-            self.bindCloseEvents();
+            self.bindTemporaryEvents();
           }
 
         } else {
@@ -99,7 +99,7 @@
             self.loaded = true;
             self.hideSpinner();
             self.show();
-            self.bindCloseEvents();
+            self.bindTemporaryEvents();
 
           }).fail(function() {
 
@@ -124,7 +124,7 @@
 
       var self = event.data;
       self.hide();
-      self.unbindCloseEvents();
+      self.unbindTemporaryEvents();
 
     },
 
@@ -215,7 +215,7 @@
      * bind events to close modal
      * @returns {undefined}
      */
-    bindCloseEvents: function() {
+    bindTemporaryEvents: function() {
 
       if (this.closeButton) {
         this.closeButton.on('click' + '.' + this._name, null, this, this.close);
@@ -229,15 +229,18 @@
         $(document).on('mouseup' + '.' + this._name, null, this, this.handleBodyClick);
       }
 
+      $(window).on('resize' + '.' + this._name, null, this, this.handleResize);
+
     },
 
     /**
      * unbind close events
      * @returns {undefined}
      */
-    unbindCloseEvents: function() {
+    unbindTemporaryEvents: function() {
 
       $(document).off('keydown' + '.' + this._name + ' mouseup' + '.' + this._name);
+      $(window).off('resize' + '.' + this._name);
 
     },
 
@@ -268,6 +271,23 @@
     },
 
     /**
+     * handles browser resizing
+     * @param {event} event - jQuery event
+     * @returns {undefined}
+     */
+    handleResize: function(event) {
+
+      var self = event.data;
+      if (typeof(self.resizeTimeout) !== 'undefined') {
+        clearTimeout(self.resizeTimeout);
+      }
+      self.resizeTimeout = setTimeout(function() {
+        self.center();
+      }, 250);
+
+    },
+
+    /**
      * add event listeners to element
      * @returns {undefined}
      */
@@ -283,7 +303,7 @@
      */
     destroy: function() {
 
-      this.unbindCloseEvents();
+      this.unbindTemporaryEvents();
       this.element.off('click' + '.' + this._name);
       this.element.removeData('plugin_' + pluginName);
 
@@ -303,4 +323,4 @@
 
   };
 
-})(jQuery, document);
+})(jQuery, window, document);
