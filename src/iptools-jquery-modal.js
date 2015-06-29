@@ -156,7 +156,9 @@
     addCloseButton: function() {
 
       if (this.settings.closeButton) {
-        this.closeButton = $('<div class="' + this.settings.modalClass + '__button-close"></div>').appendTo(this.$modal);
+        this.closeButton = $('<div/>')
+          .addClass(this.settings.modalClass + '__button-close')
+          .appendTo(this.$modal);
       }
 
     },
@@ -168,8 +170,11 @@
     showSpinner: function() {
 
       if (this.settings.showSpinner) {
-        this.spinner = this.spinner || $('<div class="' + this.settings.modalClass + '__spinner"></div>')
-          .append(this.settings.spinnerHTML);
+        if (!this.spinner) {
+          this.spinner = $('<div/>')
+            .addClass(this.settings.modalClass + '__spinner')
+            .append(this.settings.spinnerHTML);
+        }
         $('body').append(this.spinner);
         this.spinner.show();
       }
