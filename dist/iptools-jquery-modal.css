@@ -6,7 +6,7 @@
   padding: 45px;
   border: 1px solid #000000;
   overflow: auto;
-  background: #FFFFFF;
+  background-color: #FFFFFF;
   box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.8);
   opacity: 0;
   transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out; }
@@ -37,13 +37,33 @@
     top: 50%;
     left: 50%;
     z-index: 101;
-    display: none;
-    width: 64px;
-    height: 64px;
-    margin-right: -32px;
-    margin-top: -32px;
-    background-color: #000000; }
-
+    display: none; }
+    .modal__spinner--default {
+      width: 30px;
+      height: 30px;
+      margin: -15px -15px 0 0;
+      background-color: #000000;
+      animation: spinner-rotating-plane 1.2s infinite ease-in-out; }
+@keyframes spinner-rotating-plane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg); }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg); }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg); } }
+    .modal__spinner--pulse {
+      width: 40px;
+      height: 40px;
+      margin: -20px -20px 0 0;
+      border-radius: 100%;
+      background-color: #000000;
+      animation: spinner-pulse 1.0s infinite ease-in-out; }
+@keyframes spinner-pulse {
+  0% {
+    transform: scale(0); }
+  100% {
+    transform: scale(1);
+    opacity: 0; } }
 .modal--effect-scale {
   transform: scale(0.7);
   opacity: 0; }
