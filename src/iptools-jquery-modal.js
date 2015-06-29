@@ -10,9 +10,10 @@
     closeOnESC: true,
     closeOnClickOutside: true,
     closeButton: true,
+    modalClass: 'modal',
     showSpinner: true,
-    spinnerHTML: '',
-    modalClass: 'modal'
+    spinnerClass: 'modal__spinner--default',
+    spinnerHTML: ''
   };
 
   var dataAttributes = {
@@ -173,6 +174,7 @@
         if (!this.spinner) {
           this.spinner = $('<div/>')
             .addClass(this.settings.modalClass + '__spinner')
+            .addClass(this.settings.spinnerClass)
             .append(this.settings.spinnerHTML);
         }
         $('body').append(this.spinner);
