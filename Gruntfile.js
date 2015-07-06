@@ -12,6 +12,7 @@ module.exports = function(grunt) {
     yeoman: {
       src: 'src',
       dist: 'dist',
+      test: 'test',
       pkg: grunt.file.readJSON('package.json'),
       meta: {
         banner: '/*! <%= yeoman.pkg.name %> - v<%= yeoman.pkg.version %> - ' +
@@ -25,14 +26,15 @@ module.exports = function(grunt) {
       qa: {
         files: [
           '<%= yeoman.src %>/iptools-jquery-modal.js',
-          'test/spec/test.js'
+          '<%= yeoman.test %>/spec/test.js'
         ],
         tasks: ['concurrent:qa']
       },
       bdd: {
         files: [
           '<%= yeoman.src %>/iptools-jquery-modal.js',
-          'test/spec/test.js'
+          '<%= yeoman.test %>/spec/test.js',
+          '<%= yeoman.test %>/index.html'
         ],
         tasks: ['test']
       }
@@ -44,7 +46,7 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         '<%= yeoman.src %>/{,*/}*.js',
-        'test/spec/{,*/}*.js'
+        '<%= yeoman.test %>/spec/{,*/}*.js'
       ]
     },
     mocha: {
@@ -52,7 +54,7 @@ module.exports = function(grunt) {
         options: {
           run: true
         },
-        src: ['test/index.html']
+        src: ['<%= yeoman.test %>/index.html']
       }
     },
     concurrent: {
