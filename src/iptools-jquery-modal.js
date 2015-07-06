@@ -3,17 +3,12 @@
   'use strict';
 
   var pluginName = 'iptModal';
-  var defaults = {
-    width: 'auto',
-    height: 'auto',
-    zIndex: 102,
-    closeOnESC: true,
-    closeOnClickOutside: true,
-    closeButton: true,
-    modalClass: 'modal',
-    showSpinner: true,
-    spinnerClass: 'modal__spinner--default',
-    spinnerHTML: ''
+
+  var classes = {
+    activeModifier: '--active',
+    effectModifierPrefix: '--effect-',
+    modal: 'modal',
+    spinner: 'modal__spinner--default'
   };
 
   var dataAttributes = {
@@ -21,9 +16,17 @@
     effect: 'modal-effect'
   };
 
-  var classNames = {
-    activeModifier: '--active',
-    effectModifierPrefix: '--effect-'
+  var defaults = {
+    width: 'auto',
+    height: 'auto',
+    zIndex: 102,
+    closeOnESC: true,
+    closeOnClickOutside: true,
+    closeButton: true,
+    modalClass: classes.modal,
+    showSpinner: true,
+    spinnerClass: classes.spinner,
+    spinnerHTML: ''
   };
 
   /**
@@ -51,7 +54,7 @@
 
     this.effect = this.element.data(dataAttributes.effect);
     if (this.effect) {
-      this.$modal.addClass(this.settings.modalClass + classNames.effectModifierPrefix + this.effect);
+      this.$modal.addClass(this.settings.modalClass + classes.effectModifierPrefix + this.effect);
     }
 
     $('body').append(this.$modal);
@@ -136,7 +139,7 @@
     show: function() {
 
       this.center();
-      this.$modal.addClass(this.settings.modalClass + classNames.activeModifier);
+      this.$modal.addClass(this.settings.modalClass + classes.activeModifier);
 
     },
 
@@ -146,7 +149,7 @@
      */
     hide: function() {
 
-      this.$modal.removeClass(this.settings.modalClass + classNames.activeModifier);
+      this.$modal.removeClass(this.settings.modalClass + classes.activeModifier);
 
     },
 
