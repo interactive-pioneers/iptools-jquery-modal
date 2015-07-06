@@ -12,7 +12,6 @@
   };
 
   var dataAttributes = {
-    modalContent: 'modal-content',
     effect: 'modal-effect'
   };
 
@@ -42,7 +41,7 @@
     this._defaults = defaults;
     this._name = pluginName;
 
-    this.contentLink = this.element.data(dataAttributes.modalContent);
+    this.contentLink = this.element.attr('href');
     this.$content = null;
     this.loaded = false;
 
