@@ -7,7 +7,7 @@ Display static and ajax-loaded content inside an overlay, fully stylable with CS
 
 ## Requirements
 
-- jQuery (version TBD)
+- jQuery 1.11.3 or greater
 
 ## Example
 
