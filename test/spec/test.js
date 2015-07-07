@@ -11,12 +11,18 @@
 
     var pluginName = 'plugin_iptModal';
 
+    var selector = '.js_trigger-modal';
+
     var object = null;
 
     describe('init', function() {
 
       beforeEach(function() {
-        object = $('.js_trigger-modal').iptModal(config);
+        object = $(selector).iptModal(config);
+      });
+
+      afterEach(function() {
+        object.data(pluginName).destroy();
       });
 
       it('expected to construct object', function() {
@@ -40,8 +46,12 @@
     describe('open', function() {
 
       beforeEach(function() {
-        object = $('.js_trigger-modal').iptModal(config);
+        object = $(selector).iptModal(config);
       });
+
+      afterEach(function() {
+        object.data(pluginName).destroy();
+      })
 
       it('expected to have class ' + config.modalClass + '--active', function() {
         object.trigger('click');
@@ -53,7 +63,7 @@
     describe('destroy', function() {
 
       beforeEach(function() {
-        object = $('.js_trigger-modal').iptModal(config);
+        object = $(selector).iptModal(config);
       });
 
       it('expected to remove data', function() {
