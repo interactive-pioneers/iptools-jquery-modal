@@ -51,7 +51,7 @@
 
       afterEach(function() {
         object.data(pluginName).destroy();
-      })
+      });
 
       it('expected to have class ' + config.modalClass + '--active', function() {
         object.trigger('click');
