@@ -21,6 +21,10 @@
   <script src="spec/test.js"></script>
   <script src="../bower_components/jquery/dist/jquery.min.js"></script>
   <script src="../src/iptools-jquery-modal.js"></script>
-  <script>mocha.run();</script>
+  <script>
+    if (navigator.userAgent.indexOf('PhantomJS') < 0) {
+      mocha.run();
+    }
+  </script>
 </body>
 </html>
