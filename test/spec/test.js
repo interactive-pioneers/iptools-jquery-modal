@@ -37,8 +37,16 @@
         return expect(object.data(pluginName).settings.width).to.equal(config.width);
       });
 
-      it('expected to set modalClass to ' + config.modalClass, function() {
-        return expect(object.data(pluginName).settings.modalClass).to.equal(config.modalClass);
+      it('expected to have static modal reference', function() {
+        object.attr('href', '#hash').trigger('click');
+        var id = $(object.data(pluginName).$modal).attr('id');
+        return expect(id).to.eql('test');
+      });
+
+      it('expected to have dynamic modal reference', function() {
+        object.attr('href', 'http://google.com').trigger('click');
+        var className = $(object.data(pluginName).$modal).attr('class');
+        return expect(className).to.eql(config.modalClass);
       });
 
     });
@@ -53,11 +61,16 @@
         object.data(pluginName).destroy();
       });
 
-      it('expected to have class ' + config.modalClass + '--active', function() {
+      it('expected to toggle static modal with class ' + config.modalClass + '--active', function() {
         object.trigger('click');
-        return expect(object.data(pluginName).$modal.hasClass(config.modalClass + '--active')).to.be.ok;
+        console.log('classes', object.attr('class'));
+        return expect($('#test').hasClass(config.modalClass + '--active')).to.be.ok;
       });
 
+      it('expected to open static visible modal', function() {
+        object.trigger('click');
+        return expect($('#test').visible()).to.be.ok;
+      });
     });
 
     describe('destroy', function() {
