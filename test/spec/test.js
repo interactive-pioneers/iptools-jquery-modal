@@ -12,7 +12,6 @@
     var pluginName = 'plugin_iptModal';
     var selector = '.js_trigger-modal';
     var object = null;
-    var style = null;
 
     // TODO: evaluate necessity
     var hide = function() {
