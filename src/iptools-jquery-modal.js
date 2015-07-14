@@ -83,7 +83,7 @@
 
   IPTModal.prototype.destroy = function() {
     unbindTemporaryEvents();
-    this.element.off('click' + '.' + pluginName).removeData('plugin_' + pluginName);
+    this.element.off(getNamespacedEvent('click')).removeData('plugin_' + pluginName);
   };
 
   IPTModal.prototype.open = function(signatureLink) {
@@ -117,6 +117,10 @@
     unbindTemporaryEvents();
   };
 
+  function getNamespacedEvent(name) {
+    return name + '.' + pluginName;
+  }
+
   function show() {
     center();
     $modal.addClass(settings.modalClass + classes.activeModifier);
@@ -127,7 +131,7 @@
   }
 
   function addEventListeners() {
-    self.element.on('click' + '.' + pluginName, handleModalLinkClicked);
+    self.element.on(getNamespacedEvent('click'), handleModalLinkClicked);
   }
 
   function buildModal(link) {
@@ -190,23 +194,23 @@
 
   function bindTemporaryEvents() {
     if ($closeButton) {
-      $closeButton.on('click' + '.' + pluginName, close);
+      $closeButton.on(getNamespacedEvent('click'), close);
     }
 
     if (settings.closeOnESC) {
-      $(document).on('keydown' + '.' + pluginName, handleKeyDown);
+      $(document).on(getNamespacedEvent('keydown'), handleKeyDown);
     }
 
     if (settings.closeOnClickOutside) {
-      $(document).on('mouseup' + '.' + pluginName, handleBodyClick);
+      $(document).on(getNamespacedEvent('mouseup'), handleBodyClick);
     }
 
-    $(window).on('resize' + '.' + pluginName, handleResize);
+    $(window).on(getNamespacedEvent('resize'), handleResize);
   }
 
   function unbindTemporaryEvents() {
-    $(document).off('keydown' + '.' + pluginName + ' mouseup' + '.' + pluginName);
-    $(window).off('resize' + '.' + pluginName);
+    $(document).off(getNamespacedEvent('keydown') + ' ' + getNamespacedEvent('mouseup'));
+    $(window).off(getNamespacedEvent('resize'));
   }
 
   function handleKeyDown(event) {
