@@ -86,18 +86,16 @@
     this.element.off('click' + '.' + pluginName).removeData('plugin_' + pluginName);
   };
 
-  IPTModal.prototype.open = function(signatureLink, signatureType) {
-    contentLink = signatureLink || contentLink;
-    type = signatureType || type;
+  IPTModal.prototype.open = function(signatureLink) {
+    if (signatureLink) {
+      contentLink = signatureLink;
+      $modal = buildModal(contentLink);
+    }
     switch (type) {
       case TYPES.STATIC:
-        if ($(contentLink).length > 0) {
-          loaded = true;
-          show();
-          bindTemporaryEvents();
-        } else {
-          throw new Error('Static modal not found! Please revise markup.');
-        }
+        loaded = true;
+        show();
+        bindTemporaryEvents();
         break;
       default:
         showSpinner();
@@ -114,7 +112,7 @@
     }
   };
 
-  IPTModal.prototype.close = function(event) {
+  IPTModal.prototype.close = function() {
     hide();
     unbindTemporaryEvents();
   };
@@ -133,7 +131,10 @@
   }
 
   function buildModal(link) {
-    if (link.charAt(0) === '#' && $(link).length > 0) {
+    if (link.charAt(0) === '#') {
+      if ($(link).length === 0) {
+        throw new Error('Static modal not found! Please revise markup.');
+      }
       type = TYPES.STATIC;
       return $(link).addClass(settings.modalClass);
     }

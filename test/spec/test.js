@@ -89,9 +89,9 @@
 
       it('expected to throw error on static modal not in DOM', function() {
         function injectIncorrectHash() {
-          object.data(pluginName).open('#i20395vajdf409394fadfeadfvfwew', 'static');
+          object.data(pluginName).open('#i20395vajdf409394fadfeadfvfwew');
         }
-        return expect(injectIncorrectHash).to.throw(Error);
+        return expect(injectIncorrectHash).to.throw();
       });
     });
 
