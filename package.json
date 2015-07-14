@@ -21,6 +21,7 @@
       "email": "at@interactive-pioneers.de"
     }
   ],
+  "license": "GPL-3.0",
   "bugs": "https://github.com/interactive-pioneers/iptools-jquery-modal/issues",
   "dependencies": {},
   "devDependencies": {
@@ -45,12 +46,6 @@
     "type": "git",
     "url": "https://github.com/interactive-pioneers/iptools-jquery-modal.git"
   },
-  "licenses": [
-    {
-      "type": "GPL",
-      "url": "https://github.com/ain/koodmeeter.js/blob/master/LICENSE"
-    }
-  ],
   "scripts": {
     "test": "grunt travis --verbose"
   },
