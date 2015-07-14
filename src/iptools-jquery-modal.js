@@ -4,6 +4,16 @@
 
   var pluginName = 'iptModal';
 
+  /*
+   * Component handles modals of 2 types:
+   *   - Static. Detect containers by ID of href hash.
+   *   - Dynamic. Create container on the fly for URI href.
+   */
+  var TYPES = {
+    STATIC: 'static',
+    DYNAMIC: 'dynamic'
+  };
+
   var classes = {
     activeModifier: '--active',
     effectModifierPrefix: '--effect-',
@@ -28,8 +38,19 @@
     spinnerHTML: ''
   };
 
+  var $modal = null;
+  var $spinner = null;
+  var $closeButton = null;
+
+  var loaded = false;
+  var settings = null;
+  var contentLink = null;
+  var effect = null;
+  var type = TYPES.STATIC;
+  var self = null;
+
   /**
-   * IPTModal
+   * IPTModal.
    * @constructor
    * @param {object} element - jQuery element
    * @param {object} options - plugin options
@@ -37,294 +58,189 @@
   function IPTModal(element, options) {
 
     this.element = $(element);
-    this.settings = $.extend({}, defaults, options);
-    this._defaults = defaults;
-    this._name = pluginName;
+    self = this;
 
-    this.contentLink = this.element.attr('href');
-    this.$content = null;
-    this.loaded = false;
+    settings = $.extend({}, defaults, options);
 
-    this.$modal = $('<div/>', {
-      class: this.settings.modalClass,
-      width: this.settings.width,
-      height: this.settings.height
-    });
+    contentLink = this.element.attr('href');
+    $modal = buildModal(contentLink);
 
-    this.effect = this.element.data(dataAttributes.effect);
-    if (this.effect) {
-      this.$modal.addClass(this.settings.modalClass + classes.effectModifierPrefix + this.effect);
+    effect = this.element.data(dataAttributes.effect);
+    if (effect) {
+      $modal.addClass(settings.modalClass + classes.effectModifierPrefix + effect);
     }
 
-    $('body').append(this.$modal);
-
-    this.addEventListeners();
-
+    addEventListeners();
   }
 
-  IPTModal.prototype = {
-
-    /**
-     * opens the modal window
-     * @param {event} event - jQuery event
-     * @returns {undefined}
-     */
-    open: function(event) {
-
-      var self = event.data;
-
-      if (self.loaded) {
-
-        self.show();
-        self.bindTemporaryEvents();
-
-      } else {
-
-        if (/^#/.test(self.contentLink)) {
-
-          var $template = $(self.contentLink);
-          if ($template.length === 1) {
-            self.$modal.html($template.html());
-            self.addCloseButton();
-            self.loaded = true;
-            self.show();
-            self.bindTemporaryEvents();
-          }
-
-        } else {
-
-          self.showSpinner();
-
-          $.get(self.contentLink).done(function(html) {
-
-            self.$modal.html(html);
-            self.addCloseButton();
-            self.loaded = true;
-            self.hideSpinner();
-            self.show();
-            self.bindTemporaryEvents();
-
-          }).fail(function() {
-
-            self.hideSpinner();
-
-          });
-
-        }
-
-      }
-
-      event.preventDefault();
-
-    },
-
-    /**
-     * closes the modal
-     * @param {event} event - jQuery event
-     * @returns {undefined}
-     */
-    close: function(event) {
-
-      var self = event.data;
-      self.hide();
-      self.unbindTemporaryEvents();
-
-    },
-
-    /**
-     * shows the modal
-     * @returns {undefined}
-     */
-    show: function() {
-
-      this.center();
-      this.$modal.addClass(this.settings.modalClass + classes.activeModifier);
-
-    },
-
-    /**
-     * hides the modal
-     * @returns {undefined}
-     */
-    hide: function() {
-
-      this.$modal.removeClass(this.settings.modalClass + classes.activeModifier);
-
-    },
-
-    /**
-     * add a close button to the modal
-     * @returns {undefined}
-     */
-    addCloseButton: function() {
-
-      if (this.settings.closeButton) {
-        this.closeButton = $('<div/>')
-          .addClass(this.settings.modalClass + '__button-close')
-          .appendTo(this.$modal);
-      }
-
-    },
-
-    /**
-     * shows the spinner if content has to be loaded
-     * @returns {undefined}
-     */
-    showSpinner: function() {
-
-      if (this.settings.showSpinner) {
-        if (!this.spinner) {
-          this.spinner = $('<div/>')
-            .addClass(this.settings.modalClass + '__spinner')
-            .addClass(this.settings.spinnerClass)
-            .append(this.settings.spinnerHTML);
-        }
-        $('body').append(this.spinner);
-        this.spinner.show();
-      }
-
-    },
-
-    /**
-     * hides the spinner
-     * @returns {undefined}
-     */
-    hideSpinner: function() {
-
-      if (this.spinner) {
-        this.spinner.hide();
-        this.spinner.remove();
-      }
-
-    },
-
-    /**
-     * centers the modal
-     * @returns {undefined}
-     */
-    center: function() {
-
-      this.$modal.css({
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        marginTop: -this.$modal.outerHeight() * 0.5,
-        marginLeft: -this.$modal.outerWidth() * 0.5,
-        zIndex: this.settings.zIndex
-      });
-
-    },
-
-    /**
-     * bind events to close modal
-     * @returns {undefined}
-     */
-    bindTemporaryEvents: function() {
-
-      if (this.closeButton) {
-        this.closeButton.on('click' + '.' + this._name, null, this, this.close);
-      }
-
-      if (this.settings.closeOnESC) {
-        $(document).on('keydown' + '.' + this._name, null, this, this.handleKeyDown);
-      }
-
-      if (this.settings.closeOnClickOutside) {
-        $(document).on('mouseup' + '.' + this._name, null, this, this.handleBodyClick);
-      }
-
-      $(window).on('resize' + '.' + this._name, null, this, this.handleResize);
-
-    },
-
-    /**
-     * unbind close events
-     * @returns {undefined}
-     */
-    unbindTemporaryEvents: function() {
-
-      $(document).off('keydown' + '.' + this._name + ' mouseup' + '.' + this._name);
-      $(window).off('resize' + '.' + this._name);
-
-    },
-
-    /**
-     * handler for keydown event
-     * @returns {undefined}
-     */
-    handleKeyDown: function(event) {
-
-      var self = event.data;
-      if (event.which === 27) {
-        self.close(event);
-      }
-
-    },
-
-    /**
-     * handle clicks outside modal
-     * @returns {undefined}
-     */
-    handleBodyClick: function(event) {
-
-      var self = event.data;
-      if (!self.$modal.is(event.target) && self.$modal.has(event.target).length === 0) {
-        self.close(event);
-      }
-
-    },
-
-    /**
-     * handles browser resizing
-     * @param {event} event - jQuery event
-     * @returns {undefined}
-     */
-    handleResize: function(event) {
-
-      var self = event.data;
-      if (typeof(self.resizeTimeout) !== 'undefined') {
-        clearTimeout(self.resizeTimeout);
-      }
-      self.resizeTimeout = setTimeout(function() {
-        self.center();
-      }, 250);
-
-    },
-
-    /**
-     * add event listeners to element
-     * @returns {undefined}
-     */
-    addEventListeners: function() {
-
-      this.element.on('click' + '.' + this._name, null, this, this.open);
-
-    },
-
-    /**
-     * destroy method
-     * @returns {undefined}
-     */
-    destroy: function() {
-
-      this.unbindTemporaryEvents();
-      this.element.off('click' + '.' + this._name);
-      this.element.removeData('plugin_' + pluginName);
-
-    }
-
+  IPTModal.prototype.getSettings = function() {
+    return settings;
   };
 
+  IPTModal.prototype.getModal = function() {
+    return $modal;
+  };
+
+  IPTModal.prototype.destroy = function() {
+    unbindTemporaryEvents();
+    this.element.off('click' + '.' + pluginName).removeData('plugin_' + pluginName);
+  };
+
+  IPTModal.prototype.open = function(signatureLink, signatureType) {
+    contentLink = signatureLink || contentLink;
+    type = signatureType || type;
+    switch (type) {
+      case TYPES.STATIC:
+        if ($(contentLink).length > 0) {
+          loaded = true;
+          show();
+          bindTemporaryEvents();
+        } else {
+          throw new Error('Static modal not found! Please revise markup.');
+        }
+        break;
+      default:
+        showSpinner();
+        $.get(contentLink).done(function(html) {
+          $modal.html(html);
+          addCloseButton();
+          loaded = true;
+          hideSpinner();
+          show();
+          bindTemporaryEvents();
+        }).fail(function() {
+          hideSpinner();
+        });
+    }
+  };
+
+  IPTModal.prototype.close = function(event) {
+    hide();
+    unbindTemporaryEvents();
+  };
+
+  function show() {
+    center();
+    $modal.addClass(settings.modalClass + classes.activeModifier);
+  }
+
+  function hide() {
+    $modal.removeClass(settings.modalClass + classes.activeModifier);
+  }
+
+  function addEventListeners() {
+    self.element.on('click' + '.' + pluginName, handleModalLinkClicked);
+  }
+
+  function buildModal(link) {
+    if (link.charAt(0) === '#' && $(link).length > 0) {
+      type = TYPES.STATIC;
+      return $(link).addClass(settings.modalClass);
+    }
+    type = TYPES.DYNAMIC;
+    return $('<div/>', {
+        class: settings.modalClass,
+        width: settings.width,
+        height: settings.height
+      })
+      .addClass(settings.modalClass)
+      .appendTo('body');
+  }
+
+  function addCloseButton() {
+    if (settings.closeButton) {
+      $closeButton = $('<div/>')
+        .addClass(settings.modalClass + '__button-close')
+        .appendTo($modal);
+    }
+  }
+
+  function showSpinner() {
+    if (settings.showSpinner) {
+      if (!$spinner) {
+        $spinner = $('<div/>')
+          .addClass(settings.modalClass + '__spinner')
+          .addClass(settings.spinnerClass)
+          .append(settings.spinnerHTML);
+      }
+      $('body').append($spinner);
+      $spinner.show();
+    }
+  }
+
+  function hideSpinner() {
+    if ($spinner) {
+      $spinner.hide();
+      $spinner.remove();
+    }
+  }
+
+  function center() {
+    $modal.css({
+      display: 'block',
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      marginTop: -$modal.outerHeight() * 0.5,
+      marginLeft: -$modal.outerWidth() * 0.5,
+      zIndex: settings.zIndex
+    });
+  }
+
+  function bindTemporaryEvents() {
+    if ($closeButton) {
+      $closeButton.on('click' + '.' + pluginName, close);
+    }
+
+    if (settings.closeOnESC) {
+      $(document).on('keydown' + '.' + pluginName, handleKeyDown);
+    }
+
+    if (settings.closeOnClickOutside) {
+      $(document).on('mouseup' + '.' + pluginName, handleBodyClick);
+    }
+
+    $(window).on('resize' + '.' + pluginName, handleResize);
+  }
+
+  function unbindTemporaryEvents() {
+    $(document).off('keydown' + '.' + pluginName + ' mouseup' + '.' + pluginName);
+    $(window).off('resize' + '.' + pluginName);
+  }
+
+  function handleKeyDown(event) {
+    if (event.which === 27) {
+      event.data.close(event);
+    }
+  }
+
+  function handleBodyClick(event) {
+    if (!$modal.is(event.target) && $modal.has(event.target).length === 0) {
+      event.data.close(event);
+    }
+  }
+
+  function handleResize(event) {
+    var target = event.data;
+    if (typeof(target.resizeTimeout) !== 'undefined') {
+      clearTimeout(target.resizeTimeout);
+    }
+    target.resizeTimeout = setTimeout(function() {
+      center();
+    }, 250);
+  }
+
+  function handleModalLinkClicked(event) {
+    event.preventDefault();
+    self.open();
+  }
+
   $.fn[pluginName] = function(options) {
-
     return this.each(function() {
-
       if (!$.data(this, 'plugin_' + pluginName)) {
         $.data(this, 'plugin_' + pluginName, new IPTModal(this, options));
       }
-
     });
-
   };
 
 })(jQuery, window, document);
