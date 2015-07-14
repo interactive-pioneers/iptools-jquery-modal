@@ -18,7 +18,11 @@
     activeModifier: '--active',
     effectModifierPrefix: '--effect-',
     modal: 'modal',
-    spinner: 'modal__spinner--default'
+    spinnerModifier: '--default',
+    elements: {
+      closeButton: '__button-close',
+      spinner: '__spinner'
+    }
   };
 
   var dataAttributes = {
@@ -34,7 +38,7 @@
     closeButton: true,
     modalClass: classes.modal,
     showSpinner: true,
-    spinnerClass: classes.spinner,
+    spinnerClass: classes.elements.spinner + classes.spinnerModifier,
     spinnerHTML: ''
   };
 
@@ -155,7 +159,7 @@
   function addCloseButton() {
     if (settings.closeButton) {
       $closeButton = $('<div/>')
-        .addClass(settings.modalClass + '__button-close')
+        .addClass(settings.modalClass + classes.elements.closeButton)
         .appendTo($modal);
     }
   }
@@ -164,7 +168,7 @@
     if (settings.showSpinner) {
       if (!$spinner) {
         $spinner = $('<div/>')
-          .addClass(settings.modalClass + '__spinner')
+          .addClass(settings.modalClass + classes.elements.spinner)
           .addClass(settings.spinnerClass)
           .append(settings.spinnerHTML);
       }
