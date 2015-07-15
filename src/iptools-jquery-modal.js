@@ -244,7 +244,7 @@
 
   function handleModalLinkClicked(event) {
     event.preventDefault();
-    contentLink = $(this).attr('href');
+    contentLink = $(event.currentTarget).attr('href');
     self.open(contentLink);
   }
 
