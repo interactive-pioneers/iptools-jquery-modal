@@ -13,11 +13,6 @@
     var selector = '.js_trigger-modal';
     var object = null;
 
-    // TODO: evaluate necessity
-    var hide = function() {
-      $(selector).css('display', 'none');
-    };
-
     describe('init', function() {
 
       beforeEach(function() {
@@ -27,9 +22,6 @@
       afterEach(function() {
         object.data(pluginName).destroy();
       });
-
-      before(hide);
-      after(hide);
 
       it('expected to construct object', function() {
         return expect(object).to.be.an.object;
@@ -43,17 +35,22 @@
         return expect(object.data(pluginName).getSettings().width).to.equal(config.width);
       });
 
-      it('expected to have static modal reference', function() {
+      it('expected to have static modal ID', function() {
         object.attr('href', '#test').trigger('click');
-        var id = $(object.data(pluginName).getModal()).attr('id');
+        var id = object.data(pluginName).getModal().attr('id');
         return expect(id).to.eql('test');
+      });
+
+      it('expected to have static modal type', function() {
+        object.attr('href', '#test').trigger('click');
+        var type = object.data(pluginName).getModal().data('type');
+        return expect(type).to.eql('static');
       });
 
       it('expected to have dynamic modal reference', function() {
         object.attr('href', 'http://google.com').trigger('click');
-        var className = object.data(pluginName).getModal().attr('class');
-        var expectedClassName = 'test test--effect-scale test--active';
-        return expect(className).to.eql(expectedClassName);
+        var type = object.data(pluginName).getModal().data('type');
+        return expect(type).to.eql('dynamic');
       });
 
     });
@@ -69,9 +66,6 @@
         afterEach(function() {
           object.data(pluginName).destroy();
         });
-
-        before(hide);
-        after(hide);
 
         it('expected to have class ' + config.modalClass + '--active', function() {
           object.attr('href', '#test').trigger('click');
@@ -96,18 +90,14 @@
 
         beforeEach(function() {
           object = $(selector).iptModal(config);
+          $('#test').hide();
         });
 
         afterEach(function() {
           object.data(pluginName).destroy();
         });
 
-        before(hide);
-        after(hide);
-
-        // FIXME: URI HREF fails test
-        xit('expected to keep static modal hidden', function() {
-          console.log(object.attr('style'));
+        it('expected to keep static modal hidden', function() {
           object.attr('href', 'http://google.com').trigger('click');
           return expect($('#test').is(':hidden')).to.be.ok;
         });

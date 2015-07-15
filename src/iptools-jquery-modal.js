@@ -93,8 +93,8 @@
   IPTModal.prototype.open = function(signatureLink) {
     if (signatureLink) {
       contentLink = signatureLink;
-      $modal = buildModal(contentLink);
     }
+    $modal = buildModal(contentLink);
     switch (type) {
       case TYPES.STATIC:
         loaded = true;
@@ -144,7 +144,9 @@
         throw new Error('Static modal not found! Please revise markup.');
       }
       type = TYPES.STATIC;
-      return $(link).addClass(settings.modalClass);
+      return $(link)
+        .addClass(settings.modalClass)
+        .data('type', type);
     }
     type = TYPES.DYNAMIC;
     return $('<div/>', {
@@ -153,7 +155,12 @@
         height: settings.height
       })
       .addClass(settings.modalClass)
+      .data('type', type)
       .appendTo('body');
+  }
+
+  function isDynamicModal() {
+    return $modal !== null && type === TYPES.DYNAMIC;
   }
 
   function addCloseButton() {
@@ -241,7 +248,8 @@
 
   function handleModalLinkClicked(event) {
     event.preventDefault();
-    self.open();
+    contentLink = $(this).attr('href');
+    self.open(contentLink);
   }
 
   $.fn[pluginName] = function(options) {
