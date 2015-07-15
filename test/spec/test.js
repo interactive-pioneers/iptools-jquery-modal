@@ -41,18 +41,6 @@
         return expect(id).to.eql('test');
       });
 
-      it('expected to have static modal type', function() {
-        object.attr('href', '#test').trigger('click');
-        var type = object.data(pluginName).getModal().data('type');
-        return expect(type).to.eql('static');
-      });
-
-      it('expected to have dynamic modal reference', function() {
-        object.attr('href', 'http://google.com').trigger('click');
-        var type = object.data(pluginName).getModal().data('type');
-        return expect(type).to.eql('dynamic');
-      });
-
     });
 
     describe('open', function() {
@@ -67,6 +55,11 @@
           object.data(pluginName).destroy();
         });
 
+        it('expected to have correct type', function() {
+          object.attr('href', '#test').trigger('click');
+          return expect(object.data(pluginName).getModal().data('type')).to.eql('static');
+        });
+
         it('expected to have class ' + config.modalClass + '--active', function() {
           object.attr('href', '#test').trigger('click');
           return expect($('#test').hasClass(config.modalClass + '--active')).to.be.ok;
@@ -78,12 +71,46 @@
         });
 
         it('expected to throw error if modal is not in DOM', function() {
-          function injectIncorrectHash() {
+          function test() {
             object.data(pluginName).open('#i20395vajdf409394fadfeadfvfwew');
           }
-          return expect(injectIncorrectHash).to.throw();
+          return expect(test).to.throw();
         });
 
+        it('expected to throw error if modal open receives no data', function() {
+          function test() {
+            object.data(pluginName).open();
+          }
+          return expect(test).to.throw();
+        });
+
+        it('expected to throw error if modal open receives empty object', function() {
+          function test() {
+            object.data(pluginName).open({});
+          }
+          return expect(test).to.throw();
+        });
+
+        it('expected to throw error if modal open receives incorrect object', function() {
+          function test() {
+            object.data(pluginName).open({something: 'something'});
+          }
+          return expect(test).to.throw();
+        });
+
+        it('expected to throw error if modal open receives incorrect link', function() {
+          function test() {
+            object.data(pluginName).open({link: '#34902h0bsifdg5049w45u409-asd'});
+          }
+          return expect(test).to.throw();
+        });
+
+        it('expected to not throw error if modal open receives correct link', function() {
+          function test() {
+            object.data(pluginName).open({link: '#test'});
+          }
+          return expect(test).to.not.throw();
+        });
       });
 
       context('with dynamic modal', function() {
@@ -95,6 +122,39 @@
 
         afterEach(function() {
           object.data(pluginName).destroy();
+        });
+
+        it('expected to have correct type', function() {
+          object.attr('href', 'http://google.com').trigger('click');
+          return expect(object.data(pluginName).getModal().data('type')).to.eql('dynamic');
+        });
+
+        it('expected to keep static modal hidden', function() {
+          object.attr('href', 'http://google.com').trigger('click');
+          return expect($('#test').is(':hidden')).to.be.ok;
+        });
+
+        it('expected to display spinner', function() {
+          object.attr('href', 'http://google.com').trigger('click');
+          return expect($('.test__spinner').is(':visible')).to.be.ok;
+        });
+
+      });
+
+      context('with unobtrusive modal', function() {
+
+        beforeEach(function() {
+          object = $(selector).iptModal(config).data('remote', true);
+          $('#test').hide();
+        });
+
+        afterEach(function() {
+          object.data('remote', null).data(pluginName).destroy();
+        });
+
+        it('expected to have correct type', function() {
+          object.attr('href', 'http://google.com').trigger('click');
+          return expect(object.data(pluginName).getModal().data('type')).to.eql('unobtrusive');
         });
 
         it('expected to keep static modal hidden', function() {

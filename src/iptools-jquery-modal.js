@@ -6,12 +6,14 @@
 
   /*
    * Component handles modals of 2 types:
-   *   - Static. Detect containers by ID of href hash.
+   *   - Static. Detect container by ID of href hash.
    *   - Dynamic. Create container on the fly for URI href.
+   *   - Unobtrusive. Create container on the fly for jquery-ujs.
    */
   var TYPES = {
     STATIC: 'static',
-    DYNAMIC: 'dynamic'
+    DYNAMIC: 'dynamic',
+    UNOBTRUSIVE: 'unobtrusive'
   };
 
   var classes = {
@@ -67,7 +69,7 @@
     settings = $.extend({}, defaults, options);
 
     contentLink = this.element.attr('href');
-    $modal = buildModal(contentLink);
+    $modal = buildModal({link: contentLink});
 
     effect = this.element.data(dataAttributes.effect);
     if (effect) {
@@ -90,18 +92,20 @@
     this.element.off(getNamespacedEvent('click')).removeData('plugin_' + pluginName);
   };
 
-  IPTModal.prototype.open = function(signatureLink) {
-    if (signatureLink) {
-      contentLink = signatureLink;
+  IPTModal.prototype.open = function(data) {
+    if (!data) {
+      throw new Error('Data for modal launch missing!');
+    } else if (!data.link) {
+      throw new Error('Link for modal content missing!');
     }
-    $modal = buildModal(contentLink);
+    $modal = buildModal(data);
     switch (type) {
       case TYPES.STATIC:
         loaded = true;
         show();
         bindTemporaryEvents();
         break;
-      default:
+      case TYPES.DYNAMIC:
         showSpinner();
         $.get(contentLink).done(function(html) {
           $modal.html(html);
@@ -113,6 +117,9 @@
         }).fail(function() {
           hideSpinner();
         });
+        break;
+      default:
+        showSpinner();
     }
   };
 
@@ -138,17 +145,17 @@
     self.element.on(getNamespacedEvent('click'), handleModalLinkClicked);
   }
 
-  function buildModal(link) {
-    if (link.charAt(0) === '#') {
-      if ($(link).length === 0) {
-        throw new Error('Static modal not found! Please revise markup.');
+  function buildModal(data) {
+    if (isStaticModalRequest(data)) {
+      if ($(data.link).length === 0) {
+        throw new Error('Modal content not found!');
       }
       type = TYPES.STATIC;
-      return $(link)
+      return $(data.link)
         .addClass(settings.modalClass)
         .data('type', type);
     }
-    type = TYPES.DYNAMIC;
+    type = isUnobtrusiveModalRequest(data) ? TYPES.UNOBTRUSIVE : TYPES.DYNAMIC;
     return $('<div/>', {
         class: settings.modalClass,
         width: settings.width,
@@ -157,6 +164,14 @@
       .addClass(settings.modalClass)
       .data('type', type)
       .appendTo('body');
+  }
+
+  function isStaticModalRequest(data) {
+    return data.link.charAt(0) === '#' && !data.unobtrusive;
+  }
+
+  function isUnobtrusiveModalRequest(data) {
+    return data.unobtrusive ? true : false;
   }
 
   function addCloseButton() {
@@ -244,8 +259,12 @@
 
   function handleModalLinkClicked(event) {
     event.preventDefault();
-    contentLink = $(event.currentTarget).attr('href');
-    self.open(contentLink);
+    // FIXME: IE8 support
+    var $trigger = $(event.currentTarget);
+    self.open({
+      link: $trigger.attr('href'),
+      unobtrusive: $trigger.data('remote')
+    });
   }
 
   $.fn[pluginName] = function(options) {
