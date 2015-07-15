@@ -35,12 +35,6 @@
         return expect(object.data(pluginName).getSettings().width).to.equal(config.width);
       });
 
-      it('expected to have static modal ID', function() {
-        object.attr('href', '#test').trigger('click');
-        var id = object.data(pluginName).getModal().attr('id');
-        return expect(id).to.eql('test');
-      });
-
     });
 
     describe('open', function() {
@@ -53,6 +47,11 @@
 
         afterEach(function() {
           object.data(pluginName).destroy();
+        });
+
+        it('expected to have static modal ID', function() {
+          object.attr('href', '#test').trigger('click');
+          return expect(object.data(pluginName).getModal().attr('id')).to.eql('test');
         });
 
         it('expected to have correct type', function() {
@@ -134,6 +133,19 @@
           return expect($('#test').is(':hidden')).to.be.ok;
         });
 
+        it('expected to have single modal instance', function() {
+          object.attr('href', 'http://google.com').trigger('click');
+          return expect($('.' + object.data(pluginName).getSettings().modalClass).length).to.eql(1);
+        });
+
+        // FIXME running twice for whatever reason
+        xit('expected to have complete AJAX request', function(done) {
+          object.attr('href', 'index.html').on('complete.iptModal', function() {
+            done();
+          });
+            object.trigger('click');
+        });
+
         it('expected to display spinner', function() {
           object.attr('href', 'http://google.com').trigger('click');
           return expect($('.test__spinner').is(':visible')).to.be.ok;
@@ -165,6 +177,16 @@
         it('expected to display spinner', function() {
           object.attr('href', 'http://google.com').trigger('click');
           return expect($('.test__spinner').is(':visible')).to.be.ok;
+        });
+
+        it('expected to have single instance on multiple clicks', function() {
+          object.attr('href', 'http://google.com').trigger('click').trigger('click');
+          return expect($('.test').length).to.eql(1);
+        });
+
+        it('expected to have single spinner on multiple clicks', function() {
+          object.attr('href', 'http://google.com').trigger('click').trigger('click');
+          return expect($('.test__spinner').length).to.eql(1);
         });
 
       });

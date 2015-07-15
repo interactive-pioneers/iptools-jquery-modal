@@ -89,7 +89,9 @@
 
   IPTModal.prototype.destroy = function() {
     unbindTemporaryEvents();
+    unbindUnobtrusiveEvents();
     this.element.off(getNamespacedEvent('click')).removeData('plugin_' + pluginName);
+
   };
 
   IPTModal.prototype.open = function(data) {
@@ -101,25 +103,23 @@
     $modal = buildModal(data);
     switch (type) {
       case TYPES.STATIC:
-        loaded = true;
-        show();
-        bindTemporaryEvents();
+        triggerSuccess();
         break;
       case TYPES.DYNAMIC:
         showSpinner();
         $.get(contentLink).done(function(html) {
           $modal.html(html);
-          addCloseButton();
-          loaded = true;
-          hideSpinner();
-          show();
-          bindTemporaryEvents();
+          triggerSuccess();
         }).fail(function() {
-          hideSpinner();
+          triggerError();
         });
         break;
-      default:
+      case TYPES.UNOBTRUSIVE:
         showSpinner();
+        bindUnobtrusiveEvents();
+        break;
+      default:
+        throw new Error('Erroneous modal type!');
     }
   };
 
@@ -127,6 +127,25 @@
     hide();
     unbindTemporaryEvents();
   };
+
+  function triggerComplete() {
+    hideSpinner();
+    self.element.trigger(getNamespacedEvent('complete'));
+  }
+
+  function triggerSuccess() {
+    loaded = true;
+    show();
+    bindTemporaryEvents();
+    addCloseButton();
+    triggerComplete();
+    self.element.trigger(getNamespacedEvent('success'));
+  }
+
+  function triggerError() {
+    triggerComplete();
+    self.element.trigger(getNamespacedEvent('error'));
+  }
 
   function getNamespacedEvent(name) {
     return name + '.' + pluginName;
@@ -146,6 +165,7 @@
   }
 
   function buildModal(data) {
+    removeAllModals();
     if (isStaticModalRequest(data)) {
       if ($(data.link).length === 0) {
         throw new Error('Modal content not found!');
@@ -164,6 +184,18 @@
       .addClass(settings.modalClass)
       .data('type', type)
       .appendTo('body');
+  }
+
+  function removeAllModals() {
+    $('.' + settings.modalClass).each(function(index, element) {
+      switch ($(element).data('type')) {
+        case TYPES.STATIC:
+          $(element).removeClass(settings.modalClass);
+          break;
+        default:
+          $(element).remove();
+      }
+    });
   }
 
   function isStaticModalRequest(data) {
@@ -233,6 +265,28 @@
   function unbindTemporaryEvents() {
     $(document).off(getNamespacedEvent('keydown') + ' ' + getNamespacedEvent('mouseup'));
     $(window).off(getNamespacedEvent('resize'));
+  }
+
+  function bindUnobtrusiveEvents() {
+    self.element.on('ajax:complete', handleUnobtrusiveAjaxComplete)
+      .on('ajax:success', handleUnobtrusiveAjaxSuccess)
+      .on('ajax:error', handleUnobtrusiveAjaxError);
+  }
+
+  function unbindUnobtrusiveEvents() {
+    self.element.off('ajax:complete ajax:success ajax:error');
+  }
+
+  function handleUnobtrusiveAjaxComplete(event) {
+    triggerComplete();
+  }
+
+  function handleUnobtrusiveAjaxSuccess(event) {
+    triggerSuccess();
+  }
+
+  function handleUnobtrusiveAjaxError(event) {
+    triggerError();
   }
 
   function handleKeyDown(event) {
