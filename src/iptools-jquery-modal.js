@@ -159,10 +159,6 @@
       .appendTo('body');
   }
 
-  function isDynamicModal() {
-    return $modal !== null && type === TYPES.DYNAMIC;
-  }
-
   function addCloseButton() {
     if (settings.closeButton) {
       $closeButton = $('<div/>')
