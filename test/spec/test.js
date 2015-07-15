@@ -102,6 +102,11 @@
           return expect($('#test').is(':hidden')).to.be.ok;
         });
 
+        it('expected to display spinner', function() {
+          object.attr('href', 'http://google.com').trigger('click');
+          return expect($('.test__spinner').is(':visible')).to.be.ok;
+        });
+
       });
 
     });
