@@ -3,22 +3,22 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Mocha Spec Runner</title>
-  <link rel="stylesheet" href="lib/mocha/mocha.css">
+  <link rel="stylesheet" href="../bower_components/mocha/mocha.css">
 </head>
 <body>
+  <div id="mocha"></div>
   <a href="#test" class="js_trigger-modal" data-modal-effect="scale"></a>
-
   <div id="test" style="display: none;">
     <div class="modal__button-close"></div>
     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
   </div>
 
-  <script src="lib/mocha/mocha.js"></script>
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/mocha/mocha.js"></script>
+  <script src="../bower_components/chai/chai.js"></script>
   <script>mocha.setup('bdd');</script>
-  <script src="lib/chai.js"></script>
   <script>var expect = chai.expect;</script>
   <script src="spec/test.js"></script>
-  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
   <script src="../src/iptools-jquery-modal.js"></script>
   <script>
     if (navigator.userAgent.indexOf('PhantomJS') < 0) {
