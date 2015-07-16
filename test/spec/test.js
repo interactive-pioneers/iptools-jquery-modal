@@ -6,7 +6,8 @@
     var config = {
       height: 500,
       width: 500,
-      modalClass: 'test'
+      modalClass: 'test',
+      modalId: 'test'
     };
 
     var pluginName = 'plugin_iptModal';
@@ -49,7 +50,7 @@
           object.off().data(pluginName).destroy();
         });
 
-        it('expected to have static modal ID', function() {
+        it('expected to have ID', function() {
           object.attr('href', '#test').trigger('click');
           return expect(object.data(pluginName).getModal().attr('id')).to.eql('test');
         });
@@ -157,6 +158,14 @@
           object.off().data(pluginName).destroy();
         });
 
+        it('expected to have correct ID', function(done) {
+          object.on('complete.iptModal', function() {
+            //console.log($('.' + config.modalClass).length, 'modals');
+            expect(object.data(pluginName).getModal().attr('id')).to.eql(config.modalId);
+            done();
+          }).trigger('click');
+        });
+
         it('expected to display spinner on modal ready', function(done) {
           object.on('ready.iptModal', function() {
             expect($('.' + config.modalClass + '__spinner').is(':visible')).to.eql(true);
@@ -229,6 +238,13 @@
             expect($('.' + config.modalClass + '__spinner').is(':visible')).to.eql(true);
           }).on('complete.iptModal', function() {
             // XXX: Consider done only on complete event to prevent conflicts in further tests.
+            done();
+          }).trigger('click').trigger('ajax:complete');
+        });
+
+        it('expected to have correct ID', function(done) {
+          object.on('complete.iptModal', function() {
+            expect(object.data(pluginName).getModal().attr('id')).to.eql(config.modalId);
             done();
           }).trigger('click').trigger('ajax:complete');
         });

@@ -54,7 +54,7 @@
   var effect = null;
   var type = TYPES.STATIC;
 
-  // FIXME bind() instead
+  // FIXME: bind() instead
   var self = null;
 
   /**
@@ -67,7 +67,7 @@
 
     this.element = $(element);
 
-    // FIXME bind() instead
+    // FIXME: bind() instead
     self = this;
 
     settings = $.extend({}, defaults, options);
@@ -75,6 +75,7 @@
     contentLink = this.element.attr('href');
     $modal = buildModal({link: contentLink});
 
+    // FIXME: effects flattened on multiple instances
     effect = this.element.data(dataAttributes.effect);
     if (effect) {
       $modal.addClass(settings.modalClass + classes.effectModifierPrefix + effect);
@@ -191,11 +192,11 @@
     }
     type = isUnobtrusiveModalRequest(data) ? TYPES.UNOBTRUSIVE : TYPES.DYNAMIC;
     return $('<div/>', {
-        class: settings.modalClass,
+        id: settings.modalId,
         width: settings.width,
-        height: settings.height
+        height: settings.height,
+        class: settings.modalClass
       })
-      .addClass(settings.modalClass)
       .data('type', type)
       .appendTo('body');
   }
