@@ -129,6 +129,21 @@
           }).trigger('click');
         });
 
+        it('expected to have close button', function(done) {
+          object.on('success.iptModal', function() {
+            expect($('.modal__button-close:visible').length).to.eql(1);
+            done();
+          }).trigger('click');
+        });
+
+        it('expected to have functional close button', function(done) {
+          object.on('success.iptModal', function() {
+            $('.modal__button-close').trigger('click.iptModal');
+            done();
+            return expect(object.data(pluginName).active()).to.not.be.ok;
+          }).trigger('click');
+        });
+
       });
 
       describe('with dynamic modal', function() {
@@ -180,6 +195,21 @@
           }).trigger('click');
         });
 
+        it('expected to have close button', function(done) {
+          object.on('success.iptModal', function() {
+            expect($('.' + config.modalClass +  '__button-close:visible').length).to.eql(1);
+            done();
+          }).trigger('click');
+        });
+
+        it('expected to have functional close button', function(done) {
+          object.on('success.iptModal', function() {
+            $('.' + config.modalClass + '__button-close').trigger('click.iptModal');
+            done();
+            return expect(object.data(pluginName).active()).to.not.be.ok;
+          }).trigger('click');
+        });
+
       });
 
       context('with unobtrusive modal', function() {
@@ -228,6 +258,21 @@
         it('expected to emit success event', function(done) {
           object.on('success.iptModal', function() {
             done();
+          }).trigger('click').trigger('ajax:success');
+        });
+
+        it('expected to have close button', function(done) {
+          object.on('success.iptModal', function() {
+            expect($('.' + config.modalClass +  '__button-close:visible').length).to.eql(1);
+            done();
+          }).trigger('click').trigger('ajax:success');
+        });
+
+        it('expected to have functional close button', function(done) {
+          object.on('success.iptModal', function() {
+            $('.' + config.modalClass + '__button-close').trigger('click.iptModal');
+            done();
+            return expect(object.data(pluginName).active()).to.not.be.ok;
           }).trigger('click').trigger('ajax:success');
         });
 

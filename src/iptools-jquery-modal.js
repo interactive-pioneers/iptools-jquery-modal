@@ -91,6 +91,10 @@
     return $modal;
   };
 
+  IPTModal.prototype.active = function() {
+    return $modal.hasClass(classes.modal + classes.activeModifier);
+  };
+
   IPTModal.prototype.destroy = function() {
     unbindTemporaryEvents();
     unbindUnobtrusiveEvents();
@@ -144,11 +148,11 @@
   }
 
   function triggerSuccess() {
-    loaded = true;
-    show();
-    bindTemporaryEvents();
-    addCloseButton();
     triggerComplete();
+    loaded = true;
+    addCloseButton();
+    bindTemporaryEvents();
+    show();
     self.element.trigger(getNamespacedEvent('success'));
   }
 
@@ -258,7 +262,7 @@
 
   function bindTemporaryEvents() {
     if ($closeButton) {
-      $closeButton.on(getNamespacedEvent('click'), close);
+      $closeButton.on(getNamespacedEvent('click'), self.close);
     }
 
     if (settings.closeOnESC) {
@@ -301,13 +305,13 @@
 
   function handleKeyDown(event) {
     if (event.which === 27) {
-      event.data.close(event);
+      self.close();
     }
   }
 
   function handleBodyClick(event) {
     if (!$modal.is(event.target) && $modal.has(event.target).length === 0) {
-      event.data.close(event);
+      self.close();
     }
   }
 
