@@ -124,9 +124,9 @@
         });
 
         it('expected to display spinner on modal ready', function(done) {
-          object.attr('href', 'dummy.html').on('ready.iptModal', function(event) {
-            expect($('.' + config.modalClass + '__spinner').is(':visible')).to.be.ok;
-          }).on('complete.iptModal', function(event) {
+          object.attr('href', 'dummy.html').on('ready.iptModal', function() {
+            expect($('.' + config.modalClass + '__spinner').is(':visible')).to.eql(true);
+          }).on('complete.iptModal', function() {
             // Consider done only on complete event, not sooner.
             // Otherwise conflicts with following test.
             done();
@@ -134,27 +134,27 @@
         });
 
         it('expected to have complete AJAX request', function(done) {
-          object.attr('href', 'dummy.html').on('complete.iptModal', function(event) {
+          object.attr('href', 'dummy.html').on('complete.iptModal', function() {
             done();
           }).trigger('click');
         });
 
         it('expected to have correct type', function(done) {
-          object.attr('href', 'dummy.html').on('complete.iptModal', function(event) {
+          object.attr('href', 'dummy.html').on('complete.iptModal', function() {
             expect(object.data(pluginName).getModal().data('type')).to.eql('dynamic');
             done();
           }).trigger('click');
         });
 
         it('expected to keep static modal hidden', function(done) {
-          object.attr('href', 'dummy.html').on('complete.iptModal', function(event) {
-            expect($('#test').is(':hidden')).to.be.ok;
+          object.attr('href', 'dummy.html').on('complete.iptModal', function() {
+            expect($('#test').is(':hidden')).to.eql(true);
             done();
           }).trigger('click');
         });
 
         it('expected to have single modal instance', function(done) {
-          object.attr('href', 'dummy.html').on('complete.iptModal', function(event) {
+          object.attr('href', 'dummy.html').on('complete.iptModal', function() {
             expect($('.' + config.modalClass).length).to.eql(1);
             done();
           }).trigger('click');
