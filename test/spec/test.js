@@ -133,12 +133,6 @@
           }).trigger('click');
         });
 
-        it('expected to have complete AJAX request', function(done) {
-          object.on('complete.iptModal', function() {
-            done();
-          }).trigger('click');
-        });
-
         it('expected to have correct type', function(done) {
           object.on('complete.iptModal', function() {
             expect(object.data(pluginName).getModal().data('type')).to.eql('dynamic');
@@ -179,12 +173,6 @@
             expect($('.' + config.modalClass + '__spinner').is(':visible')).to.eql(true);
           }).on('complete.iptModal', function() {
             // XXX: Consider done only on complete event to prevent conflicts in further tests.
-            done();
-          }).trigger('click').trigger('ajax:complete');
-        });
-
-        it('expected to have complete AJAX request', function(done) {
-          object.on('complete.iptModal', function() {
             done();
           }).trigger('click').trigger('ajax:complete');
         });
