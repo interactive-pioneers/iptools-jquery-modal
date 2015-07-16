@@ -46,7 +46,7 @@
         });
 
         afterEach(function() {
-          object.data(pluginName).destroy();
+          object.off().data(pluginName).destroy();
         });
 
         it('expected to have static modal ID', function() {
@@ -110,6 +110,25 @@
           }
           return expect(test).to.not.throw();
         });
+
+        it('expected to emit ready event', function(done) {
+          object.on('ready.iptModal', function() {
+            done();
+          }).trigger('click');
+        });
+
+        it('expected to emit complete event', function(done) {
+          object.on('complete.iptModal', function() {
+            done();
+          }).trigger('click');
+        });
+
+        it('expected to emit success event', function(done) {
+          object.on('success.iptModal', function() {
+            done();
+          }).trigger('click');
+        });
+
       });
 
       describe('with dynamic modal', function() {
