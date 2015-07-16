@@ -119,7 +119,7 @@
         });
         break;
       case TYPES.UNOBTRUSIVE:
-        showSpinner();
+        triggerReady();
         bindUnobtrusiveEvents();
         break;
       default:
@@ -292,6 +292,7 @@
   }
 
   function handleUnobtrusiveAjaxSuccess() {
+    // TODO: publish content to modal
     triggerSuccess();
   }
 

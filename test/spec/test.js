@@ -170,32 +170,44 @@
         });
 
         afterEach(function() {
-          object.data('remote', null).data(pluginName).destroy();
+          object.off().data('remote', null).data(pluginName).destroy();
         });
 
-        it('expected to have correct type', function() {
-          object.attr('href', 'http://google.com').trigger('click');
-          return expect(object.data(pluginName).getModal().data('type')).to.eql('unobtrusive');
+        it('expected to display spinner on modal ready', function(done) {
+          // XXX: mock-trigger jquery-ujs ajax:complete at the end
+          object.attr('href', 'dummy.html').on('ready.iptModal', function() {
+            expect($('.' + config.modalClass + '__spinner').is(':visible')).to.eql(true);
+          }).on('complete.iptModal', function() {
+            // XXX: Consider done only on complete event to prevent conflicts in further tests.
+            done();
+          }).trigger('click').trigger('ajax:complete');
         });
 
-        it('expected to keep static modal hidden', function() {
-          object.attr('href', 'http://google.com').trigger('click');
-          return expect($('#test').is(':hidden')).to.be.ok;
+        it('expected to have complete AJAX request', function(done) {
+          object.attr('href', 'dummy.html').on('complete.iptModal', function() {
+            done();
+          }).trigger('click').trigger('ajax:complete');
         });
 
-        it('expected to display spinner', function() {
-          object.attr('href', 'http://google.com').trigger('click');
-          return expect($('.test__spinner').is(':visible')).to.be.ok;
+        it('expected to have correct type', function(done) {
+          object.attr('href', 'dummy.html').on('complete.iptModal', function() {
+            expect(object.data(pluginName).getModal().data('type')).to.eql('unobtrusive');
+            done();
+          }).trigger('click').trigger('ajax:complete');
         });
 
-        it('expected to have single instance on multiple clicks', function() {
-          object.attr('href', 'http://google.com').trigger('click').trigger('click');
-          return expect($('.test').length).to.eql(1);
+        it('expected to keep static modal hidden', function(done) {
+          object.attr('href', 'dummy.html').on('complete.iptModal', function() {
+            expect($('#test').is(':hidden')).to.eql(true);
+            done();
+          }).trigger('click').trigger('ajax:complete');
         });
 
-        it('expected to have single spinner on multiple clicks', function() {
-          object.attr('href', 'http://google.com').trigger('click').trigger('click');
-          return expect($('.test__spinner').length).to.eql(1);
+        it('expected to have single modal instance', function(done) {
+          object.attr('href', 'dummy.html').on('complete.iptModal', function() {
+            expect($('.' + config.modalClass).length).to.eql(1);
+            done();
+          }).trigger('click').trigger('ajax:complete');
         });
 
       });
