@@ -53,6 +53,8 @@
   var contentLink = null;
   var effect = null;
   var type = TYPES.STATIC;
+
+  // FIXME bind() instead
   var self = null;
 
   /**
@@ -64,6 +66,8 @@
   function IPTModal(element, options) {
 
     this.element = $(element);
+
+    // FIXME bind() instead
     self = this;
 
     settings = $.extend({}, defaults, options);
@@ -91,7 +95,7 @@
     unbindTemporaryEvents();
     unbindUnobtrusiveEvents();
     this.element.off(getNamespacedEvent('click')).removeData('plugin_' + pluginName);
-
+    removeAllModals();
   };
 
   IPTModal.prototype.open = function(data) {
@@ -101,12 +105,12 @@
       throw new Error('Link for modal content missing!');
     }
     $modal = buildModal(data);
+    triggerReady();
     switch (type) {
       case TYPES.STATIC:
         triggerSuccess();
         break;
       case TYPES.DYNAMIC:
-        showSpinner();
         $.get(contentLink).done(function(html) {
           $modal.html(html);
           triggerSuccess();
@@ -127,6 +131,12 @@
     hide();
     unbindTemporaryEvents();
   };
+
+  function triggerReady() {
+    loaded = false;
+    showSpinner();
+    self.element.trigger(getNamespacedEvent('ready'));
+  }
 
   function triggerComplete() {
     hideSpinner();
@@ -313,7 +323,6 @@
 
   function handleModalLinkClicked(event) {
     event.preventDefault();
-    // FIXME: IE8 support
     var $trigger = $(event.currentTarget);
     self.open({
       link: $trigger.attr('href'),
