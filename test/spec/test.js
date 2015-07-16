@@ -158,9 +158,21 @@
           object.off().data(pluginName).destroy();
         });
 
+        it('expected to have class name for ID by default', function(done) {
+          var mockConfig = {
+            height: 500,
+            width: 500,
+            modalClass: 'test'
+          };
+          object = $(selector).iptModal(mockConfig).attr('href', 'dummy.html');
+          object.on('complete.iptModal', function() {
+            expect(object.data(pluginName).getModal().attr('id')).to.eql(config.modalClass);
+            done();
+          }).trigger('click');
+        });
+
         it('expected to have correct ID', function(done) {
           object.on('complete.iptModal', function() {
-            //console.log($('.' + config.modalClass).length, 'modals');
             expect(object.data(pluginName).getModal().attr('id')).to.eql(config.modalId);
             done();
           }).trigger('click');
@@ -238,6 +250,19 @@
             expect($('.' + config.modalClass + '__spinner').is(':visible')).to.eql(true);
           }).on('complete.iptModal', function() {
             // XXX: Consider done only on complete event to prevent conflicts in further tests.
+            done();
+          }).trigger('click').trigger('ajax:complete');
+        });
+
+        it('expected to have class name for ID by default', function(done) {
+          var mockConfig = {
+            height: 500,
+            width: 500,
+            modalClass: 'test'
+          };
+          object = $(selector).iptModal(mockConfig).attr('href', 'dummy.html');
+          object.on('complete.iptModal', function() {
+            expect(object.data(pluginName).getModal().attr('id')).to.eql(config.modalClass);
             done();
           }).trigger('click').trigger('ajax:complete');
         });

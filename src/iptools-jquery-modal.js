@@ -41,7 +41,8 @@
     modalClass: classes.modal,
     showSpinner: true,
     spinnerClass: classes.elements.spinner + classes.spinnerModifier,
-    spinnerHTML: ''
+    spinnerHTML: '',
+    modalId: classes.modal
   };
 
   var $modal = null;
