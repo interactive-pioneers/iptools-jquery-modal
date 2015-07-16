@@ -277,15 +277,15 @@
     self.element.off('ajax:complete ajax:success ajax:error');
   }
 
-  function handleUnobtrusiveAjaxComplete(event) {
+  function handleUnobtrusiveAjaxComplete() {
     triggerComplete();
   }
 
-  function handleUnobtrusiveAjaxSuccess(event) {
+  function handleUnobtrusiveAjaxSuccess() {
     triggerSuccess();
   }
 
-  function handleUnobtrusiveAjaxError(event) {
+  function handleUnobtrusiveAjaxError() {
     triggerError();
   }
 

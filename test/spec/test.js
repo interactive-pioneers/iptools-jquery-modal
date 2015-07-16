@@ -143,7 +143,7 @@
           object.attr('href', 'index.html').on('complete.iptModal', function() {
             done();
           });
-            object.trigger('click');
+          object.trigger('click');
         });
 
         it('expected to display spinner', function() {
