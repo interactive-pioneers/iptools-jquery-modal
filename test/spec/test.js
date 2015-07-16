@@ -173,6 +173,13 @@
           }).trigger('click');
         });
 
+        it('expected to have content post success event', function(done) {
+          object.on('success.iptModal', function() {
+            expect($('.' + config.modalClass).html()).to.match(/<h1>Dummy content<\/h1>/);
+            done();
+          }).trigger('click');
+        });
+
       });
 
       context('with unobtrusive modal', function() {
@@ -215,6 +222,13 @@
             expect($('.' + config.modalClass).length).to.eql(1);
             done();
           }).trigger('click').trigger('ajax:complete');
+        });
+
+        // XXX: content not tested as it's being injected externally by jquery-ujs
+        it('expected to emit success event', function(done) {
+          object.on('success.iptModal', function() {
+            done();
+          }).trigger('click').trigger('ajax:success');
         });
 
       });

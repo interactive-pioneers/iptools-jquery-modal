@@ -292,7 +292,6 @@
   }
 
   function handleUnobtrusiveAjaxSuccess() {
-    // TODO: publish content to modal
     triggerSuccess();
   }
 
