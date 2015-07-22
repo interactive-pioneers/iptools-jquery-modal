@@ -33,7 +33,7 @@ module.exports = function(grunt) {
       bdd: {
         files: [
           '<%= yeoman.src %>/iptools-jquery-modal.js',
-          '<%= yeoman.test %>/spec/test.js',
+          '<%= yeoman.test %>/spec/*.js',
           '<%= yeoman.test %>/index.html'
         ],
         tasks: ['test']

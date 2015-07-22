@@ -77,9 +77,9 @@
 
     this.destroy = function() {
       unbindTemporaryEvents();
-      unbindUnobtrusiveEvents();
+      unbindElementEvents();
       this.element.off(getNamespacedEvent('click')).removeData('plugin_' + pluginName);
-      removeAllModals();
+      removeModal();
     };
 
     this.open = function(data) {
@@ -88,10 +88,11 @@
       } else if (!data.link) {
         throw new Error('Link for modal content missing!');
       }
-      $modal = buildModal(data);
+      $modal = buildModal(data).appendTo('body');
       triggerReady();
       switch (type) {
         case TYPES.STATIC:
+          $modal.html($(contentLink).html());
           triggerSuccess();
           break;
         case TYPES.DYNAMIC:
@@ -116,8 +117,14 @@
       unbindTemporaryEvents();
     };
 
-    function unbindUnobtrusiveEvents() {
-      self.element.off('ajax:complete ajax:success ajax:error');
+    function removeModal() {
+      if ($modal) {
+        $modal.remove();
+      }
+    }
+
+    function unbindElementEvents() {
+      self.element.off();
     }
 
     function unbindTemporaryEvents() {
@@ -138,38 +145,16 @@
       });
     }
 
-    function removeAllModals() {
-      $('.' + settings.modalClass).each(function(index, element) {
-        switch ($(element).data('type')) {
-          case TYPES.STATIC:
-            $(element).removeClass(settings.modalClass);
-            break;
-          default:
-            $(element).remove();
-        }
-      });
-    }
-
     function buildModal(data) {
-      removeAllModals();
-      if (isStaticModalRequest(data)) {
-        if ($(data.link).length === 0) {
-          throw new Error('Modal content not found!');
-        }
-        type = TYPES.STATIC;
-        return $(data.link)
-          .addClass(settings.modalClass)
-          .data('type', type);
-      }
-      type = isUnobtrusiveModalRequest(data) ? TYPES.UNOBTRUSIVE : TYPES.DYNAMIC;
+      removeModal();
+      type = detectModalType(data);
       return $('<div/>', {
           id: settings.modalId,
           width: settings.width,
           height: settings.height,
           class: settings.modalClass
         })
-        .data('type', type)
-        .appendTo('body');
+        .data('type', type);
     }
 
     function triggerReady() {
@@ -202,6 +187,9 @@
     }
 
     function show() {
+      if (effect) {
+        $modal.addClass(settings.modalClass + classes.effectModifierPrefix + effect);
+      }
       center();
       $modal.addClass(settings.modalClass + classes.activeModifier);
     }
@@ -210,15 +198,23 @@
       $modal.removeClass(settings.modalClass + classes.activeModifier);
     }
 
-    function isStaticModalRequest(data) {
-      return data.link && data.link.charAt(0) === '#' && !data.unobtrusive;
-    }
-
-    function isUnobtrusiveModalRequest(data) {
-      return data.unobtrusive ? true : false;
+    function detectModalType(data) {
+      if (data.unobtrusive) {
+        return TYPES.UNOBTRUSIVE;
+      } else if (data.link && data.link.charAt(0) === '#' && !data.unobtrusive) {
+        if ($(data.link).length === 0) {
+          throw new Error('Modal content not found!');
+        }
+        return TYPES.STATIC;
+      } else {
+        return TYPES.DYNAMIC;
+      }
     }
 
     function addCloseButton() {
+      if ($modal.has($closeButton)) {
+        //$closeButton.remove();
+      }
       if (settings.closeButton) {
         $closeButton = $('<div/>')
           .addClass(settings.modalClass + classes.elements.closeButton)
@@ -248,7 +244,7 @@
 
     function center() {
       $modal.css({
-        display: 'block',
+        //display: 'block',
         position: 'fixed',
         top: '50%',
         left: '50%',
@@ -317,10 +313,6 @@
     function init() {
       effect = self.element.data(dataAttributes.effect);
       contentLink = self.element.attr('href');
-      $modal = buildModal({link: contentLink});
-      if (effect) {
-        $modal.addClass(settings.modalClass + classes.effectModifierPrefix + effect);
-      }
       addEventListeners();
     }
 
