@@ -33,7 +33,9 @@ Display static and ajax-loaded content inside an overlay, fully stylable with CS
 
 ## CSS3-Effects
 
-- scale - slideinbottom - slideinright
+- scale
+- slideinbottom
+- slideinright
 
 ## Contributions
 
