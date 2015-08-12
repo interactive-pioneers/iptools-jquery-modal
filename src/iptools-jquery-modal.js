@@ -77,7 +77,7 @@
 
     this.destroy = function() {
       unbindTemporaryEvents();
-      unbindElementEvents();
+      unbindUnobtrusiveEvents();
       removeModal();
       this.element.off(getNamespacedEvent('click')).removeData('plugin_' + pluginName);
     };
@@ -115,7 +115,7 @@
     this.close = function() {
       hide();
       unbindTemporaryEvents();
-      unbindElementEvents();
+      unbindUnobtrusiveEvents();
       removeModal();
     };
 
@@ -126,8 +126,8 @@
       }
     }
 
-    function unbindElementEvents() {
-      self.element.off();
+    function unbindUnobtrusiveEvents() {
+      self.element.off('ajax:complete').off('ajax:success').off('ajax:error');
     }
 
     function unbindTemporaryEvents() {

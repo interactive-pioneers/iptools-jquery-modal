@@ -131,6 +131,34 @@
           }).data(pluginName).open(data);
         });
 
+        context('when called consequently', function() {
+
+          beforeEach(function() {
+            object.on('success.iptModal', function() {
+              $('.' + config.modalClass + '__button-close').trigger('click');
+            }).data(pluginName).open(data);
+          });
+
+          context('with direct method call', function() {
+            it('expected to recreate modal', function(done) {
+              object.on('success.iptModal', function() {
+                expect(object.data(pluginName).getModal()).to.exist;
+                done();
+              }).data(pluginName).open(data);
+            });
+          });
+
+          context('with click handler', function() {
+            it.only('expected to recreate modal', function(done) {
+              object.on('success.iptModal', function() {
+                expect(object.data(pluginName).getModal()).to.exist;
+                done();
+              }).trigger('click');
+            });
+          });
+
+        });
+
         context('with default effect', function() {
 
           var defaultEffect = 'scale';
