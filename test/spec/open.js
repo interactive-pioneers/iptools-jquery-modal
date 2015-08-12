@@ -38,7 +38,7 @@
 
         it('expected to have correct type', function() {
           object.attr('href', '#test').trigger('click');
-          return expect(object.data(pluginName).getModal().data('type')).to.eql('static');
+          return expect(object.data(pluginName).getModal().data('type')).to.equal('static');
         });
 
         it('expected to have class ' + config.modalClass + '--active', function() {
@@ -101,8 +101,7 @@
           .on('complete.iptModal', function() {
             expect(ready).to.be.ok;
             done();
-          })
-          .data(pluginName).open(data);
+          }).trigger('click');
         });
 
         it('expected to emit complete event', function(done) {
@@ -119,25 +118,25 @@
 
         it('expected to have single close button', function(done) {
           object.on('success.iptModal', function() {
-            expect($('.' + config.modalClass +  '__button-close:visible').length).to.equal(1);
+            expect($('.' + config.modalClass +  '__button-close:visible')).to.have.length(1);
             done();
           }).data(pluginName).open(data);
         });
 
         it('expected to have functional close button', function(done) {
           object.on('success.iptModal', function() {
-            $('.' + config.modalClass + '__button-close').trigger('click.iptModal');
-            expect(object.data(pluginName).active()).to.not.be.ok;
+            $('.' + config.modalClass + '__button-close').trigger('click');
+            expect(object.data(pluginName).getModal()).to.not.exist;
             done();
           }).data(pluginName).open(data);
         });
 
         it('expected to have single defined effect', function(done) {
           object.on('success.iptModal', function() {
-            done();
             var effectClass = config.modalClass + '--effect-' + $(selector).data('modal-effect');
             var modalClasses = object.data(pluginName).getModal().attr('class');
-            return expect(modalClasses).to.include(effectClass) && expect(modalClasses.match(/\w+--effect-\w+/g).length).to.eql(1);
+            expect(modalClasses).to.include(effectClass) && expect(modalClasses.match(/\w+--effect-\w+/g)).to.have.length(1);
+            done();
           }).data(pluginName).open(data);
         });
 
@@ -154,10 +153,10 @@
 
           it('expected to have single effect', function(done) {
             object.on('success.iptModal', function() {
-              done();
               var effectClass = config.modalClass + '--effect-' + $(selector).data('modal-effect');
               var modalClasses = object.data(pluginName).getModal().attr('class');
-              return expect(modalClasses).to.include(effectClass) && expect(modalClasses.match(/\w+--effect-\w+/g).length).to.eql(1);
+              expect(modalClasses).to.include(effectClass) && expect(modalClasses.match(/\w+--effect-\w+/g)).to.have.length(1);
+              done();
             }).data(pluginName).open(data);
           });
 
@@ -184,8 +183,8 @@
           };
           object = $(selector).iptModal(mockConfig).attr('href', 'dummy.html');
           object.on('complete.iptModal', function() {
-            done();
             expect(object.data(pluginName).getModal().attr('id')).to.equal(mockConfig.modalClass);
+            done();
           }).trigger('click');
         });
 
@@ -236,27 +235,21 @@
           object = $(selector).attr('href', 'dummy.html').iptModal(mockConfig);
           object.on('success.iptModal', function() {
             expect($('.' + mockConfig.modalClass).html()).to.match(/<h1>Dummy content<\/h1>/);
-          })
-          .on('complete.iptModal', function() {
             done();
           }).trigger('click');
         });
 
         it('expected to have close button', function(done) {
           object.on('success.iptModal', function() {
-            expect($('.' + config.modalClass +  '__button-close:visible').length).to.eql(1);
-          })
-          .on('complete.iptModal', function() {
+            expect($('.' + config.modalClass +  '__button-close:visible')).to.have.length(1);
             done();
           }).trigger('click');
         });
 
         it('expected to have functional close button', function(done) {
           object.on('success.iptModal', function() {
-            $('.' + config.modalClass + '__button-close').trigger('click.iptModal');
-            expect(object.data(pluginName).active()).to.not.be.ok;
-          })
-          .on('complete.iptModal', function() {
+            $('.' + config.modalClass + '__button-close').trigger('click');
+            expect(object.data(pluginName).getModal()).to.not.exist;
             done();
           }).trigger('click');
         });
@@ -269,9 +262,9 @@
           $('#test').hide();
           $(selector).attr('href', 'dummy.html').data('remote', true);
           object = $(selector).iptModal(config);
-          // XXX: do not trigger AJAX Complete directly after click.
+          // XXX: Fake success for UJS. Do not trigger AJAX Complete directly after click.
           setTimeout(function() {
-            object.trigger('ajax:complete');
+            object.trigger('ajax:success');
           }, 0);
         });
 
@@ -281,11 +274,13 @@
         });
 
         it('expected to display spinner on modal ready', function(done) {
+          var visible = false;
           // XXX: mock-trigger jquery-ujs ajax:complete at the end
           object.on('ready.iptModal', function() {
-            expect($('.' + config.modalClass + '__spinner').is(':visible')).to.eql(true);
+            visible = $('.' + config.modalClass + '__spinner').is(':visible');
           }).on('complete.iptModal', function() {
             // XXX: Consider done only on complete event to prevent conflicts in further tests.
+            expect(visible).to.be.ok;
             done();
           }).trigger('click');
         });
@@ -331,30 +326,24 @@
           }).trigger('click');
         });
 
-        // XXX: content not tested as it's being injected externally by jquery-ujs
         it('expected to emit success event', function(done) {
-          var emission = false;
           object.on('success.iptModal', function() {
-            emission = true;
-          })
-          .on('complete.iptModal', function() {
             done();
-            expect(emission).to.be.ok;
           }).trigger('click');
         });
 
         it('expected to have close button', function(done) {
-          object.on('complete.iptModal', function() {
-            done();
+          object.on('success.iptModal', function() {
             expect($('.' + config.modalClass +  '__button-close:visible')).to.have.length(1);
+            done();
           }).trigger('click');
         });
 
         it('expected to have functional close button', function(done) {
-          object.on('complete.iptModal', function() {
-            $('.' + config.modalClass + '__button-close').trigger('click.iptModal');
+          object.on('success.iptModal', function() {
+            $('.' + config.modalClass + '__button-close').trigger('click');
+            expect(object.data(pluginName).getModal()).to.not.exist;
             done();
-            expect(object.data(pluginName).active()).to.not.be.ok;
           }).trigger('click');
         });
 

@@ -78,8 +78,8 @@
     this.destroy = function() {
       unbindTemporaryEvents();
       unbindElementEvents();
-      this.element.off(getNamespacedEvent('click')).removeData('plugin_' + pluginName);
       removeModal();
+      this.element.off(getNamespacedEvent('click')).removeData('plugin_' + pluginName);
     };
 
     this.open = function(data) {
@@ -115,11 +115,14 @@
     this.close = function() {
       hide();
       unbindTemporaryEvents();
+      unbindElementEvents();
+      removeModal();
     };
 
     function removeModal() {
       if ($modal) {
         $modal.remove();
+        $modal = null;
       }
     }
 
@@ -212,9 +215,6 @@
     }
 
     function addCloseButton() {
-      if ($modal.has($closeButton)) {
-        //$closeButton.remove();
-      }
       if (settings.closeButton) {
         $closeButton = $('<div/>')
           .addClass(settings.modalClass + classes.elements.closeButton)

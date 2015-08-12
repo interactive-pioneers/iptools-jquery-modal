@@ -38,11 +38,11 @@
         $(selector).on('complete.iptModal success.iptModal error.iptModal', function() {
           done();
           emission = true;
-          return expect(emission).to.not.be.ok;
+          expect(emission).to.not.be.ok;
         }).trigger('click');
         setTimeout(function() {
           done();
-          return expect(emission).to.not.be.ok;
+          expect(emission).to.not.be.ok;
         }, 1500);
       });
 
