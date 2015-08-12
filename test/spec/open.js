@@ -131,13 +131,19 @@
           }).data(pluginName).open(data);
         });
 
-        it('expected to have single defined effect', function(done) {
-          object.on('success.iptModal', function() {
-            var effectClass = config.modalClass + '--effect-' + $(selector).data('modal-effect');
-            var modalClasses = object.data(pluginName).getModal().attr('class');
-            expect(modalClasses).to.include(effectClass) && expect(modalClasses.match(/\w+--effect-\w+/g)).to.have.length(1);
-            done();
-          }).data(pluginName).open(data);
+        context('with default effect', function() {
+
+          var defaultEffect = 'scale';
+
+          it('expected to have single defined effect', function(done) {
+            object.on('success.iptModal', function() {
+              var effectClass = config.modalClass + '--effect-' + defaultEffect;
+              var modalClasses = object.data(pluginName).getModal().attr('class');
+              expect(modalClasses).to.include(effectClass) && expect(modalClasses.match(/\w+--effect-\w+/g)).to.have.length(1);
+              done();
+            }).data(pluginName).open(data);
+          });
+
         });
 
         context('with slideinright effect', function() {
@@ -154,6 +160,30 @@
           it('expected to have single effect', function(done) {
             object.on('success.iptModal', function() {
               var effectClass = config.modalClass + '--effect-' + $(selector).data('modal-effect');
+              var modalClasses = object.data(pluginName).getModal().attr('class');
+              expect(modalClasses).to.include(effectClass) && expect(modalClasses.match(/\w+--effect-\w+/g)).to.have.length(1);
+              done();
+            }).data(pluginName).open(data);
+          });
+
+        });
+
+        context('with slideinbottom effect', function() {
+
+          var effect = 'slideinbottom';
+
+          before(function() {
+            $(selector).data('modal-effect', effect);
+            object = $(selector).iptModal(config);
+          });
+
+          after(function() {
+            $(selector).data('modal-effect', 'scale');
+          });
+
+          it('expected to have single effect', function(done) {
+            object.on('success.iptModal', function() {
+              var effectClass = config.modalClass + '--effect-' + effect;
               var modalClasses = object.data(pluginName).getModal().attr('class');
               expect(modalClasses).to.include(effectClass) && expect(modalClasses.match(/\w+--effect-\w+/g)).to.have.length(1);
               done();
