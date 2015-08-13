@@ -13,6 +13,10 @@ Multifunctional jQuery modal component.
   - `ESC` key
   - Click outside the modal
 
+## Options
+
+See inline comments in [Example](#example).
+
 ## Requirements
 
 - jQuery 1.11.3 or greater
