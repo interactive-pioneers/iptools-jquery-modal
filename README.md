@@ -15,7 +15,7 @@ Multifunctional jQuery modal component.
 
 ## Options
 
-See inline comments in [Example](#example).
+See inline comments in [Example](#example). All options are optional.
 
 ## Requirements
 
@@ -37,20 +37,20 @@ See inline comments in [Example](#example).
 <link rel="stylesheet" href="dist/iptools-jquery-modal.css" type="text/css">
 <script src="src/iptools-jquery-modal.js"></script>
 <script type="text/javascript">
-   $(document).ready(function() {
-      $('.js_trigger-modal').iptModal({
-        width: 'auto', // Modal width
-        height: 'auto', // Modal height
-        zIndex: 102, // z-index for CSS
-        closeOnESC: true, // Modal closed on Esc key
-        closeOnClickOutside: true, // Modal closed if clicked outside.
-        closeButton: true, // Close button for modal. Optional.
-        modalClass: 'modal-test', // CSS class for modal styling. Optional.
-        showSpinner: true, // Loader animation. Optional.
-        spinnerHTML: '', // Loader HTML. Optional.
-        modalId: 'modal-test' // ID assigned to modal
-      });
-   });
+  $(document).ready(function() {
+    $('.js_trigger-modal').iptModal({
+      width: 'auto', // Modal width
+      height: 'auto', // Modal height
+      zIndex: 102, // z-index for CSS
+      closeOnESC: true, // Modal closed on Esc key
+      closeOnClickOutside: true, // Modal closed if clicked outside
+      closeButton: true, // Close button for modal
+      modalClass: 'modal-test', // CSS class for modal styling
+      showSpinner: true, // Loader animation
+      spinnerHTML: '', // Loader HTML
+      modalId: 'modal-test' // ID assigned to modal
+    });
+  });
 </script>
 
 ```
