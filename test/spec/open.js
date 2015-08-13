@@ -28,6 +28,7 @@
         });
 
         afterEach(function() {
+          object.off('success.iptModal').off('complete.iptModal').off('error.iptModal');
           object.data(pluginName).destroy();
         });
 
@@ -131,39 +132,9 @@
           }).data(pluginName).open(data);
         });
 
-        context('when called consequently', function() {
-
-          beforeEach(function() {
-            object.on('success.iptModal', function() {
-              $('.' + config.modalClass + '__button-close').trigger('click');
-            }).data(pluginName).open(data);
-          });
-
-          context('with direct method call', function() {
-            it('expected to recreate modal', function(done) {
-              object.on('success.iptModal', function() {
-                expect(object.data(pluginName).getModal()).to.exist;
-                done();
-              }).data(pluginName).open(data);
-            });
-          });
-
-          context('with click handler', function() {
-            it.only('expected to recreate modal', function(done) {
-              object.on('success.iptModal', function() {
-                expect(object.data(pluginName).getModal()).to.exist;
-                done();
-              }).trigger('click');
-            });
-          });
-
-        });
-
         context('with default effect', function() {
-
-          var defaultEffect = 'scale';
-
           it('expected to have single defined effect', function(done) {
+            var defaultEffect = 'scale';
             object.on('success.iptModal', function() {
               var effectClass = config.modalClass + '--effect-' + defaultEffect;
               var modalClasses = object.data(pluginName).getModal().attr('class');
@@ -171,7 +142,6 @@
               done();
             }).data(pluginName).open(data);
           });
-
         });
 
         context('with slideinright effect', function() {
@@ -186,8 +156,9 @@
           });
 
           it('expected to have single effect', function(done) {
+            var effect = 'slideinright';
             object.on('success.iptModal', function() {
-              var effectClass = config.modalClass + '--effect-' + $(selector).data('modal-effect');
+              var effectClass = config.modalClass + '--effect-' + effect;
               var modalClasses = object.data(pluginName).getModal().attr('class');
               expect(modalClasses).to.include(effectClass) && expect(modalClasses.match(/\w+--effect-\w+/g)).to.have.length(1);
               done();
@@ -230,6 +201,7 @@
         });
 
         afterEach(function() {
+          object.off('success.iptModal').off('complete.iptModal').off('error.iptModal');
           object.data(pluginName).destroy();
         });
 
@@ -327,7 +299,7 @@
         });
 
         afterEach(function() {
-          object.data(pluginName).destroy();
+          object.off('success.iptModal').off('complete.iptModal').off('error.iptModal').data(pluginName).destroy();
           $(selector).data('remote', null);
         });
 
