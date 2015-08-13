@@ -12,17 +12,23 @@ $animation-speed: 0.25s;
   max-height: 90%;
   padding: 45px;
   border: 1px solid $black;
-  overflow: auto;
 
   background-color: $white;
   box-shadow: 0 0 0 9999px rgba(0,0,0,0.8);
   opacity: 0;
+  overflow: hidden;
   transition: opacity $animation-speed $easing, transform $animation-speed $easing;
 
   &--active {
     display: block;
-    
+
     opacity: 1;
+  }
+
+  &__content {
+    height: 100%;
+
+    overflow: auto;
   }
 
   &__button-close {
@@ -86,7 +92,7 @@ $animation-speed: 0.25s;
       height: 40px;
       margin: -20px -20px 0 0;
       border-radius: 100%;
-      
+
       background-color: $black;
       animation: spinner-pulse 1.0s infinite ease-in-out;
     }

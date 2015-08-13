@@ -25,8 +25,9 @@
       spinnerModifier: '--default',
       elements: {
         closeButton: '__button-close',
-        spinner: '__spinner'
-      }
+        spinner: '__spinner',
+        content: '__content'
+      },
     };
 
     var dataAttributes = {
@@ -89,15 +90,16 @@
         throw new Error('Link for modal content missing!');
       }
       $modal = buildModal(data).appendTo('body');
+      setTimeout(setContentHeight, 0);
       triggerReady();
       switch (type) {
         case TYPES.STATIC:
-          $modal.html($(contentLink).html());
+          self.setContent($(contentLink).html());
           triggerSuccess();
           break;
         case TYPES.DYNAMIC:
           $.get(contentLink).done(function(html) {
-            $modal.html(html);
+            self.setContent(html);
             triggerSuccess();
           }).fail(function() {
             triggerError();
@@ -118,6 +120,14 @@
       unbindUnobtrusiveEvents();
       removeModal();
     };
+
+    this.setContent = function(content) {
+      $modal.find('.' + settings.modalClass + classes.elements.content).html(content);
+    };
+
+    function getModalContentContainer() {
+      return $modal.find('.' + settings.modalClass + classes.elements.content);
+    }
 
     function removeModal() {
       if ($modal) {
@@ -151,13 +161,16 @@
     function buildModal(data) {
       removeModal();
       type = detectModalType(data);
+      var $modalContent = $('<div/>')
+        .addClass(settings.modalClass + classes.elements.content);
       return $('<div/>', {
           id: settings.modalId,
           width: settings.width,
           height: settings.height,
           class: settings.modalClass
         })
-        .data('type', type);
+        .data('type', type)
+        .append($modalContent);
     }
 
     function triggerReady() {
@@ -244,7 +257,6 @@
 
     function center() {
       $modal.css({
-        //display: 'block',
         position: 'fixed',
         top: '50%',
         left: '50%',
@@ -252,6 +264,16 @@
         marginLeft: -$modal.outerWidth() * 0.5,
         zIndex: settings.zIndex
       });
+    }
+
+    function setContentHeight() {
+      var $content = getModalContentContainer().css('height', 'auto');
+      var modalHeight = $modal.height();
+      var contentHeight = $content.innerHeight();
+      var padding = $modal.innerHeight() - $modal.height();
+      var height = modalHeight < contentHeight ? $modal.innerHeight() - padding + 'px' : 'auto';
+      $content.css('height', height);
+      center();
     }
 
     function bindTemporaryEvents() {
@@ -307,6 +329,7 @@
       }
       target.resizeTimeout = setTimeout(function() {
         center();
+        setContentHeight();
       }, 250);
     }
 

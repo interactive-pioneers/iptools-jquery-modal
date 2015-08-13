@@ -264,7 +264,8 @@
           };
           object = $(selector).attr('href', 'dummy.html').iptModal(mockConfig);
           object.on('success.iptModal', function() {
-            expect($('.' + mockConfig.modalClass).html()).to.match(/<h1>Dummy content<\/h1>/);
+            var actual = $('.' + mockConfig.modalClass).find('.' + mockConfig.modalClass + '__content').html();
+            expect(actual).to.match(/<h1>Dummy content<\/h1>/);
             done();
           }).trigger('click');
         });

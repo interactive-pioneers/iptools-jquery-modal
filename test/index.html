@@ -11,11 +11,13 @@
   <a href="#test" class="js_trigger-modal2" data-modal-effect="slideinright"></a>
   <div id="test" style="display: none;">
     <div class="modal__button-close"></div>
-    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    <div class="modal__content">
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    </div>
   </div>
   <div id="test2" style="display: none;">
     <div class="modal__button-close"></div>
-    Second test modal for multiple modal testing.
+    <div class="modal__content">Second test modal for multiple modal testing.</div>
   </div>
 
   <script src="../bower_components/jquery/dist/jquery.min.js"></script>
@@ -28,6 +30,7 @@
   <script src="spec/destroy.js"></script>
   <script src="spec/open.js"></script>
   <script src="spec/consequent.js"></script>
+  <script src="spec/setContent.js"></script>
   <script>
     if (navigator.userAgent.indexOf('PhantomJS') < 0) {
       mocha.run();
