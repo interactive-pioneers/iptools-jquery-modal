@@ -1,9 +1,17 @@
 # iptools-jquery-modal [![Build Status](http://img.shields.io/travis/interactive-pioneers/iptools-jquery-modal.svg)](https://travis-ci.org/interactive-pioneers/iptools-jquery-modal)
 
-Simple jQuery Modal
+Multifunctional jQuery modal component.
 
 ## Features
-Display static and ajax-loaded content inside an overlay, fully stylable with CSS, using CSS3 tranisitions and animations. Modal closes on keydown ESC and click outside.
+
+- Display content inside overlay from:
+  - static container in DOM by ID
+  - AJAX endpoint that delivers markup
+  - Rails UJS-driven AJAX that delivers a partial
+- CSS3 transitions and animations
+- Exit by:
+  - `ESC` key
+  - Click outside the modal
 
 ## Requirements
 
@@ -12,19 +20,31 @@ Display static and ajax-loaded content inside an overlay, fully stylable with CS
 ## Example
 
 ```html
-<h2>Open DOM-Element</h2>
-<a class="js_trigger-modal" data-modal-content="#test" data-modal-effect="scale">trigger modal</a>
-<div id="test" style="display: none;">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
+<h2>Content from DOM-Element</h2>
+<a href="#container-id" class="js_trigger-modal" data-modal-effect="scale">trigger modal</a>
+<div id="container-id" style="display: none;">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
 
-<h2>Load content with AJAX</h2>
-<a class="js_trigger-modal" data-modal-content="/pagecontroller/buttons" data-modal-effect="scale">trigger modal</a>
+<h2>Content from AJAX endpoint</h2>
+<a href="/ajax/modal" class="js_trigger-modal" data-modal-effect="scale">trigger modal</a>
+
+<h2>Content from Rails UJS AJAX endpoint</h2>
+<a href="/ajax/modal" class="js_trigger-modal" data-modal-effect="scale" data-remote="true">trigger modal</a>
 
 <link rel="stylesheet" href="dist/iptools-jquery-modal.css" type="text/css">
 <script src="src/iptools-jquery-modal.js"></script>
 <script type="text/javascript">
    $(document).ready(function() {
       $('.js_trigger-modal').iptModal({
-         // options
+        width: 'auto', // Modal width
+        height: 'auto', // Modal height
+        zIndex: 102, // z-index for CSS
+        closeOnESC: true, // Modal closed on Esc key
+        closeOnClickOutside: true, // Modal closed if clicked outside.
+        closeButton: true, // Close button for modal. Optional.
+        modalClass: 'modal-test', // CSS class for modal styling. Optional.
+        showSpinner: true, // Loader animation. Optional.
+        spinnerHTML: '', // Loader HTML. Optional.
+        modalId: 'modal-test' // ID assigned to modal
       });
    });
 </script>
