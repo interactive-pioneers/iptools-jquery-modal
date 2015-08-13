@@ -267,7 +267,7 @@
         $(document).on(getNamespacedEvent('mouseup'), handleBodyClick);
       }
 
-      $(window).on(getNamespacedEvent('resize'), handleResize);
+      $(window).on(getNamespacedEvent('resize'), self, handleResize);
     }
 
     function bindUnobtrusiveEvents() {
