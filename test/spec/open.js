@@ -10,7 +10,8 @@
       height: 500,
       width: 500,
       modalClass: 'modal-test',
-      modalId: 'modal-test'
+      modalId: 'modal-test',
+      modifiers: 'modal--without-padding'
     };
 
     var pluginName = 'plugin_iptModal';
@@ -45,6 +46,12 @@
         it('expected to have class ' + config.modalClass + '--active', function() {
           object.attr('href', '#test').trigger('click');
           return expect(object.data(pluginName).getModal().hasClass(config.modalClass + '--active')).to.be.ok;
+        });
+
+        it('expected to have modifier classes "' + config.modifiers + '"', function() {
+          object.attr('href', '#test').trigger('click');
+          var modifiers = config.modifiers.split(' ');
+          return expect(object.data(pluginName).getModal().is('.' + modifiers.join(', .'))).to.be.ok;
         });
 
         it('expected to toggle visibility', function() {

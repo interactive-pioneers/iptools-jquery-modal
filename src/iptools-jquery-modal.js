@@ -45,7 +45,8 @@
       showSpinner: true,
       spinnerClass: classes.modal + classes.elements.spinner + classes.spinnerModifier,
       spinnerHTML: '',
-      modalId: classes.modal
+      modalId: classes.modal,
+      modifiers: ''
     };
 
     this.element = $(element);
@@ -128,6 +129,10 @@
       return $modal.find('.' + settings.modalClass + classes.elements.content);
     }
 
+    function getModifiers() {
+      return settings.modifiers.length > 0 ? ' ' + settings.modifiers : '';
+    }
+
     function removeModal() {
       if ($modal) {
         $modal.remove();
@@ -166,7 +171,7 @@
           id: settings.modalId,
           width: settings.width,
           height: settings.height,
-          class: settings.modalClass
+          class: settings.modalClass + getModifiers()
         })
         .data('type', type)
         .append($modalContent);

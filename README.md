@@ -48,7 +48,8 @@ See inline comments in [Example](#example). All options are optional.
       modalClass: 'modal-test', // CSS class for modal styling
       showSpinner: true, // Loader animation
       spinnerHTML: '', // Loader HTML
-      modalId: 'modal-test' // ID assigned to modal
+      modalId: 'modal-test', // ID assigned to modal
+      modifiers: 'modal--modifier1 modal--modifier2' // Modifier classes
     });
   });
 </script>
