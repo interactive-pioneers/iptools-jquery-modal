@@ -94,9 +94,12 @@ module.exports = function(grunt) {
       }
     },
     sass: {
+      options: {
+        map: false
+      },
       dist: {
         files: {
-          'dist/iptools-jquery-modal.css' : 'src/iptools-jquery-modal.scss'
+          '<%= yeoman.dist %>/iptools-jquery-modal.css' : '<%= yeoman.src %>/iptools-jquery-modal.scss'
         }
       }
     },
