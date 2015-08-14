@@ -106,7 +106,6 @@
           });
           break;
         case TYPES.UNOBTRUSIVE:
-          triggerReady();
           bindUnobtrusiveEvents();
           break;
         default:
