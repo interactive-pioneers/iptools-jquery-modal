@@ -28,7 +28,7 @@
         });
 
         afterEach(function() {
-          object.off('success.iptModal').off('complete.iptModal').off('error.iptModal');
+          object.off('success.iptModal').off('complete.iptModal').off('error.iptModal').off('ready.iptModal');
           object.data(pluginName).destroy();
         });
 
@@ -201,7 +201,7 @@
         });
 
         afterEach(function() {
-          object.off('success.iptModal').off('complete.iptModal').off('error.iptModal');
+          object.off('success.iptModal').off('complete.iptModal').off('error.iptModal').off('ready.iptModal');
           object.data(pluginName).destroy();
         });
 
@@ -226,11 +226,13 @@
         });
 
         it('expected to display spinner on modal ready', function(done) {
+          var displayed = false;
           object.on('ready.iptModal', function() {
-            expect($('.' + config.modalClass + '__spinner').is(':visible')).to.be.ok;
+            displayed = $('.' + object.data(pluginName).getSettings().spinnerClass).is(':visible');
           }).on('complete.iptModal', function() {
             // Consider done only on complete event, not sooner.
             // Otherwise conflicts with following test.
+            expect(displayed).to.be.ok;
             done();
           }).trigger('click');
         });
@@ -296,24 +298,41 @@
           // XXX: Fake success for UJS. Do not trigger AJAX Complete directly after click.
           setTimeout(function() {
             object.trigger('ajax:success');
-          }, 0);
+          }, 100);
         });
 
         afterEach(function() {
-          object.off('success.iptModal').off('complete.iptModal').off('error.iptModal').data(pluginName).destroy();
+          object.off('success.iptModal')
+            .off('complete.iptModal')
+            .off('error.iptModal')
+            .off('ready.iptModal')
+            .data(pluginName).destroy();
           $(selector).data('remote', null);
         });
 
-        it('expected to display spinner on modal ready', function(done) {
-          var visible = false;
-          // XXX: mock-trigger jquery-ujs ajax:complete at the end
-          object.on('ready.iptModal', function() {
-            visible = $('.' + config.modalClass + '__spinner').is(':visible');
-          }).on('complete.iptModal', function() {
-            // XXX: Consider done only on complete event to prevent conflicts in further tests.
-            expect(visible).to.be.ok;
-            done();
-          }).trigger('click');
+        context('when loader enabled', function() {
+          it('expected to display loader on ready', function(done) {
+            var displayed = false;
+            object.on('ready.iptModal', function() {
+              displayed = $('.' + object.data(pluginName).getSettings().spinnerClass).is(':visible');
+            }).on('success.iptModal', function() {
+              expect(displayed).to.be.ok;
+              done();
+            }).trigger('click');
+          });
+        });
+
+        context('when loader disabled', function() {
+          it('expected to not to display loader', function(done) {
+            var displayed = false;
+            object.data(pluginName).getSettings().showSpinner = false;
+            object.on('ready.iptModal', function() {
+              displayed = $('.' + object.data(pluginName).getSettings().spinnerClass).is(':visible');
+            }).on('success.iptModal', function() {
+              expect(displayed).to.not.be.ok;
+              done();
+            }).trigger('click');
+          });
         });
 
         it('expected to have class name for ID by default', function(done) {

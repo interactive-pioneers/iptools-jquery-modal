@@ -43,7 +43,7 @@
       closeButton: true,
       modalClass: classes.modal,
       showSpinner: true,
-      spinnerClass: classes.elements.spinner + classes.spinnerModifier,
+      spinnerClass: classes.modal + classes.elements.spinner + classes.spinnerModifier,
       spinnerHTML: '',
       modalId: classes.modal
     };
@@ -174,7 +174,9 @@
 
     function triggerReady() {
       loaded = false;
-      showSpinner();
+      if (settings.showSpinner) {
+        showSpinner();
+      }
       self.element.trigger(getNamespacedEvent('ready'));
     }
 
@@ -235,16 +237,14 @@
     }
 
     function showSpinner() {
-      if (settings.showSpinner) {
-        if (!$spinner) {
-          $spinner = $('<div/>')
-            .addClass(settings.modalClass + classes.elements.spinner)
-            .addClass(settings.spinnerClass)
-            .append(settings.spinnerHTML);
-        }
-        $('body').append($spinner);
-        $spinner.show();
+      if (!$spinner) {
+        $spinner = $('<div/>')
+          .addClass(settings.modalClass + classes.elements.spinner)
+          .addClass(settings.spinnerClass)
+          .append(settings.spinnerHTML);
       }
+      $('body').append($spinner);
+      $spinner.show();
     }
 
     function hideSpinner() {
