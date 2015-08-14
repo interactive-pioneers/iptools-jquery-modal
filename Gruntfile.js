@@ -19,7 +19,7 @@ module.exports = function(grunt) {
           '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
           '* <%= yeoman.pkg.homepage %>\n' +
           '* Copyright © <%= grunt.template.today("yyyy") %> ' +
-          '<%= yeoman.pkg.author.name %>; Licensed <%= yeoman.pkg.licenses[0].type %> */\n'
+          '<%= yeoman.pkg.author.name %>; Licensed <%= yeoman.pkg.license %> */\n'
       },
     },
     watch: {
@@ -79,7 +79,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'dist/iptools-jquery-modal.min.js': 'src/iptools-jquery-modal.js'
+          '<%= yeoman.dist %>/iptools-jquery-modal.min.js': ['<%= yeoman.src %>/iptools-jquery-modal.js']
         }
       }
     },
