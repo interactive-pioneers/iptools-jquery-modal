@@ -5,14 +5,17 @@
   max-height: 90%;
   padding: 45px;
   border: 1px solid #000000;
-  overflow: auto;
   background-color: #FFFFFF;
   box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.8);
   opacity: 0;
+  overflow: hidden;
   transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out; }
   .modal--active {
     display: block;
     opacity: 1; }
+  .modal__content {
+    height: 100%;
+    overflow: auto; }
   .modal__button-close {
     position: absolute;
     top: 15px;
