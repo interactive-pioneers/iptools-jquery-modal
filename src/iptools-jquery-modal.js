@@ -22,6 +22,7 @@
       activeModifier: '--active',
       effectModifierPrefix: '--effect-',
       modal: 'modal',
+      overlay: 'overlay',
       spinnerModifier: '--default',
       elements: {
         closeButton: '__button-close',
@@ -46,7 +47,10 @@
       spinnerClass: classes.modal + classes.elements.spinner + classes.spinnerModifier,
       spinnerHTML: '',
       modalId: classes.modal,
-      modifiers: ''
+      modifiers: '',
+      overlay: true,
+      overlayClass: classes.overlay,
+      animationDuration: 500
     };
 
     this.element = $(element);
@@ -56,6 +60,7 @@
     var $spinner = null;
     var $closeButton = null;
     var $modal = null;
+    var $overlay = null;
     var effect = null;
     var loaded = false;
     var type = TYPES.STATIC;
@@ -81,6 +86,7 @@
       unbindTemporaryEvents();
       unbindUnobtrusiveEvents();
       removeModal();
+      removeOverlay();
       this.element.off(getNamespacedEvent('click')).removeData('plugin_' + pluginName);
     };
 
@@ -90,6 +96,7 @@
       } else if (!data.link) {
         throw new Error('Link for modal content missing!');
       }
+      addOverlay();
       $modal = buildModal(data).appendTo('body');
       setTimeout(setContentHeight, 0);
       triggerReady();
@@ -115,9 +122,10 @@
     };
 
     this.close = function() {
-      hide();
+      hideModal();
       unbindTemporaryEvents();
       unbindUnobtrusiveEvents();
+      hideOverlay();
       removeModal();
     };
 
@@ -179,6 +187,7 @@
 
     function triggerReady() {
       loaded = false;
+      showOverlay();
       if (settings.showSpinner) {
         showSpinner();
       }
@@ -195,12 +204,13 @@
       loaded = true;
       addCloseButton();
       bindTemporaryEvents();
-      show();
+      showModal();
       self.element.trigger(getNamespacedEvent('success'));
     }
 
     function triggerError() {
       triggerComplete();
+      hideOverlay();
       self.element.trigger(getNamespacedEvent('error'));
     }
 
@@ -208,7 +218,7 @@
       return name + '.' + pluginName;
     }
 
-    function show() {
+    function showModal() {
       if (effect) {
         $modal.addClass(settings.modalClass + classes.effectModifierPrefix + effect);
       }
@@ -216,7 +226,7 @@
       $modal.addClass(settings.modalClass + classes.activeModifier);
     }
 
-    function hide() {
+    function hideModal() {
       $modal.removeClass(settings.modalClass + classes.activeModifier);
     }
 
@@ -238,6 +248,36 @@
         $closeButton = $('<div/>')
           .addClass(settings.modalClass + classes.elements.closeButton)
           .appendTo($modal);
+      }
+    }
+
+    function addOverlay() {
+      if (settings.overlay && !$overlay) {
+        $overlay = $('<div/>')
+          .addClass(settings.overlayClass)
+          .appendTo('body');
+      }
+    }
+
+    function removeOverlay() {
+      if ($overlay) {
+        $overlay.remove();
+        $overlay = null;
+      }
+    }
+
+    function showOverlay() {
+      if (settings.overlay) {
+        if (!$overlay) {
+          addOverlay();
+        }
+        $overlay.fadeIn(settings.animationDuration);
+      }
+    }
+
+    function hideOverlay() {
+      if (settings.overlay && $overlay) {
+        $overlay.fadeOut(settings.animationDuration);
       }
     }
 
