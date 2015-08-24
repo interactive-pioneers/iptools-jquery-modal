@@ -11,7 +11,9 @@
       width: 500,
       modalClass: 'modal-test',
       modalId: 'modal-test',
-      modifiers: 'modal--without-padding'
+      modifiers: 'modal-test--without-padding',
+      overlay: true,
+      overlayClass: 'overlay-test'
     };
 
     var pluginName = 'plugin_iptModal';
@@ -52,6 +54,11 @@
           object.attr('href', '#test').trigger('click');
           var modifiers = config.modifiers.split(' ');
           return expect(object.data(pluginName).getModal().is('.' + modifiers.join(', .'))).to.be.ok;
+        });
+
+        it('expected to generate overlay', function() {
+          object.attr('href', '#test').trigger('click');
+          return expect(object.data(pluginName).getOverlay().hasClass(config.overlayClass)).to.be.ok;
         });
 
         it('expected to toggle visibility', function() {

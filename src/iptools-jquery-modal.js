@@ -74,6 +74,10 @@
       return $modal;
     };
 
+    this.getOverlay = function() {
+      return $overlay;
+    };
+
     this.getEffect = function() {
       return effect;
     };
