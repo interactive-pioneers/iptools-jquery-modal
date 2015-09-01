@@ -258,7 +258,7 @@
     }
 
     function addOverlay() {
-      if (settings.overlay && !$overlay) {
+      if (!$overlay) {
         $overlay = $('<div/>')
           .addClass(settings.overlayClass)
           .appendTo('body');
@@ -273,18 +273,20 @@
     }
 
     function showOverlay() {
-      if (settings.overlay) {
-        if (!$overlay) {
-          addOverlay();
-        }
-        $overlay.fadeIn(settings.animationDuration);
+      active = true;
+      $('body').css('overflow', 'hidden');
+      if (!$overlay) {
+        addOverlay();
       }
+      $overlay.stop().fadeIn(settings.animationDuration);
     }
 
     function hideOverlay() {
-      if (settings.overlay && $overlay) {
-        $overlay.fadeOut(settings.animationDuration);
+      if ($overlay) {
+        $overlay.stop().fadeOut(settings.animationDuration);
       }
+      $('body').css('overflow', 'auto');
+      active = false;
     }
 
     function showSpinner() {
