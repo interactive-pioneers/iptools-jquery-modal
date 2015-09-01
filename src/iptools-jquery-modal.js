@@ -295,8 +295,7 @@
           .addClass(settings.spinnerClass)
           .append(settings.spinnerHTML);
       }
-      $('body').append($spinner);
-      $spinner.show();
+      $spinner.appendTo($overlay).show();
     }
 
     function hideSpinner() {
