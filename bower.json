@@ -2,7 +2,7 @@
   "name": "iptools-jquery-modal",
   "description": "Multifunctional jQuery modal component",
   "main": "dist/iptools-jquery-modal.min.js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "GPL-3.0",
   "ignore": [
     ".git*",
