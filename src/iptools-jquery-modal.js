@@ -99,11 +99,10 @@
       if (!data) {
         throw new Error('Data for modal launch missing!');
       } else if (!data.link) {
-        throw new Error('Link for modal content missing!');
+        throw new Error('Link to modal content missing!');
       }
       addOverlay();
-      $modal = buildModal(data).appendTo('body');
-      setTimeout(setContentHeight, 0);
+      $modal = buildModal(data).appendTo($overlay);
       triggerReady();
       switch (type) {
         case TYPES.STATIC:
