@@ -121,15 +121,15 @@
           bindUnobtrusiveEvents();
           break;
         default:
-          throw new Error('Erroneous modal type!');
+          throw new Error('Invalid modal type!');
       }
     };
 
     this.close = function() {
       hideModal();
+      hideOverlay();
       unbindTemporaryEvents();
       unbindUnobtrusiveEvents();
-      hideOverlay();
       removeModal();
     };
 
