@@ -150,6 +150,7 @@
       if ($modal) {
         $modal.remove();
         $modal = null;
+        loaded = false;
       }
     }
 
