@@ -36,21 +36,20 @@
     };
 
     var defaults = {
-      width: 'auto',
-      height: 'auto',
-      zIndex: 102,
+      animationDuration: 500,
       closeOnESC: true,
       closeOnClickOutside: true,
       closeButton: true,
+      height: 'auto',
       modalClass: classes.modal,
+      modalId: classes.modal,
+      modifiers: '',
+      overlayClass: classes.overlay,
       showSpinner: true,
       spinnerClass: classes.modal + classes.elements.spinner + classes.spinnerModifier,
       spinnerHTML: '',
-      modalId: classes.modal,
-      modifiers: '',
-      overlay: true,
-      overlayClass: classes.overlay,
-      animationDuration: 500
+      width: 'auto',
+      zIndex: 102
     };
 
     this.element = $(element);
