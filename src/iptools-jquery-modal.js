@@ -181,11 +181,12 @@
       var $modalContent = $('<div/>')
         .addClass(settings.modalClass + classes.elements.content);
       return $('<div/>', {
+          class: settings.modalClass + getModifiers(),
           id: settings.modalId,
           width: settings.width,
-          height: settings.height,
-          class: settings.modalClass + getModifiers()
+          height: settings.height
         })
+        .css('z-index', settings.zIndex)
         .data('type', type)
         .append($modalContent);
     }
