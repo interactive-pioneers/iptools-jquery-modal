@@ -12,7 +12,6 @@
       modalClass: 'modal-test',
       modalId: 'modal-test',
       modifiers: 'modal-test--without-padding',
-      overlay: true,
       overlayClass: 'overlay-test'
     };
 
