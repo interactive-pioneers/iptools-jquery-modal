@@ -4,17 +4,27 @@ $black: #000000;
 $easing: ease-in-out;
 $animation-speed: 0.25s;
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: auto;
+}
+
 .modal {
   z-index: 102;
 
   display: none;
   max-width: 90%;
-  max-height: 90%;
-  padding: 45px;
   border: 1px solid $black;
 
   background-color: $white;
-  box-shadow: 0 0 0 9999px rgba(0,0,0,0.8);
   opacity: 0;
   overflow: hidden;
   transition: opacity $animation-speed $easing, transform $animation-speed $easing;
@@ -26,9 +36,7 @@ $animation-speed: 0.25s;
   }
 
   &__content {
-    height: 100%;
-
-    overflow: auto;
+    padding: 45px;
   }
 
   &__button-close {
