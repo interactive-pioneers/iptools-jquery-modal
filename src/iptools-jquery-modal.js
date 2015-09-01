@@ -28,7 +28,7 @@
         closeButton: '__button-close',
         spinner: '__spinner',
         content: '__content'
-      },
+      }
     };
 
     var dataAttributes = {
