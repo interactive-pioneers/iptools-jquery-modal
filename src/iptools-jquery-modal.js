@@ -305,24 +305,23 @@
     }
 
     function center() {
-      $modal.css({
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        marginTop: -$modal.outerHeight() * 0.5,
-        marginLeft: -$modal.outerWidth() * 0.5,
-        zIndex: settings.zIndex
-      });
-    }
-
-    function setContentHeight() {
-      var $content = getModalContentContainer().css('height', 'auto');
-      var modalHeight = $modal.height();
-      var contentHeight = $content.innerHeight();
-      var padding = $modal.innerHeight() - $modal.height();
-      var height = modalHeight < contentHeight ? $modal.innerHeight() - padding + 'px' : 'auto';
-      $content.css('height', height);
-      center();
+      var modalOuterHeight = $modal.outerHeight();
+      var overlayHeight = $overlay.height();
+      if (modalOuterHeight > overlayHeight) {
+        $modal.css({
+          top: '50px',
+          left: '50%',
+          marginBottom: '50px',
+          transform: 'translateX(-50%)'
+        });
+      } else {
+        $modal.css({
+          top: '50%',
+          left: '50%',
+          marginBottom: 0,
+          transform: 'translate(-50%, -50%)'
+        });
+      }
     }
 
     function bindTemporaryEvents() {
@@ -338,7 +337,7 @@
         $(document).on(getNamespacedEvent('mouseup'), handleBodyClick);
       }
 
-      $(window).on(getNamespacedEvent('resize'), self, handleResize);
+      $(window).on(getNamespacedEvent('resize'), handleResize);
     }
 
     function bindUnobtrusiveEvents() {
@@ -360,25 +359,21 @@
     }
 
     function handleKeyDown(event) {
-      if (event.which === 27) {
+      if (active && event.which === 27) {
         self.close();
       }
     }
 
     function handleBodyClick(event) {
-      if (!$modal.is(event.target) && $modal.has(event.target).length === 0) {
+      if (active && !$modal.is(event.target) && $modal.has(event.target).length === 0) {
         self.close();
       }
     }
 
-    function handleResize(event) {
-      var target = event.data;
-      if (typeof(target.resizeTimeout) !== 'undefined') {
-        clearTimeout(target.resizeTimeout);
-      }
-      target.resizeTimeout = setTimeout(function() {
+    function handleResize() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(function() {
         center();
-        setContentHeight();
       }, 250);
     }
 
