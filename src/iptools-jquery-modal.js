@@ -57,11 +57,13 @@
     var settings = $.extend({}, defaults, options);
     var contentLink = null;
     var $spinner = null;
-    var $closeButton = null;
-    var $modal = null;
     var $overlay = null;
+    var $modal = null;
+    var $closeButton = null;
     var effect = null;
     var loaded = false;
+    var active = false;
+    var resizeTimeout = 0;
     var type = TYPES.STATIC;
     var self = this;
 
