@@ -137,10 +137,6 @@
       $modal.find('.' + settings.modalClass + classes.elements.content).html(content);
     };
 
-    function getModalContentContainer() {
-      return $modal.find('.' + settings.modalClass + classes.elements.content);
-    }
-
     function getModifiers() {
       return settings.modifiers.length > 0 ? ' ' + settings.modifiers : '';
     }
