@@ -39,17 +39,19 @@ See inline comments in [Example](#example). All options are optional.
 <script type="text/javascript">
   $(document).ready(function() {
     $('.js_trigger-modal').iptModal({
-      width: 'auto', // Modal width
-      height: 'auto', // Modal height
-      zIndex: 102, // z-index for CSS
-      closeOnESC: true, // Modal closed on Esc key
+      animationDuration: 500, // Animation duration in ms
+      closeOnESC: true, // Modal closed on ESC key
       closeOnClickOutside: true, // Modal closed if clicked outside
       closeButton: true, // Close button for modal
-      modalClass: 'modal-test', // CSS class for modal styling
+      height: 'auto', // Modal height
+      modalClass: 'modal', // CSS class for modal styling
+      modalId: 'modal', // ID assigned to modal
+      modifiers: '', // Modifier classes e.g. modal--no-padding
+      overlayClass: 'overlay'
       showSpinner: true, // Loader animation
       spinnerHTML: '', // Loader HTML
-      modalId: 'modal-test', // ID assigned to modal
-      modifiers: 'modal--modifier1 modal--modifier2' // Modifier classes
+      width: 'auto', // Modal width
+      zIndex: 102 // z-index for CSS
     });
   });
 </script>
