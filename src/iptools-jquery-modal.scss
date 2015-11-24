@@ -152,13 +152,13 @@ $animation-speed: 0.25s;
 .modal--active.modal--vertical-align-top {
   top: 50px;
   left: 50%;
-  marginBottom: 50px;
+  margin-bottom: 50px;
   transform: translateX(-50%);
 }
 
 .modal--active.modal--vertical-align-center {
   top: 50%;
   left: 50%;
-  marginBottom: 0;
+  margin-bottom: 0;
   transform: translate(-50%, -50%);
 }
