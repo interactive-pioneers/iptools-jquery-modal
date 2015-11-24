@@ -21,9 +21,13 @@
     var classes = {
       activeModifier: '--active',
       effectModifierPrefix: '--effect-',
-      modal: 'modal',
       overlay: 'overlay',
       spinnerModifier: '--default',
+      modal: {
+        name: 'modal',
+        verticalAlignTop: 'modal--vertical-align-top',
+        verticalAlignCenter: 'modal--vertical-align-center'
+      },
       elements: {
         closeButton: '__button-close',
         spinner: '__spinner',
@@ -41,12 +45,14 @@
       closeOnClickOutside: true,
       closeButton: true,
       height: 'auto',
-      modalClass: classes.modal,
-      modalId: classes.modal,
+      modalClass: classes.modal.name,
+      modalId: classes.modal.name,
+      modalVAlignTopClass: classes.modal.verticalAlignTop,
+      modalVAlignCenterClass: classes.modal.verticalAlignCenter,
       modifiers: '',
       overlayClass: classes.overlay,
       showSpinner: true,
-      spinnerClass: classes.modal + classes.elements.spinner + classes.spinnerModifier,
+      spinnerClass: classes.modal.name + classes.elements.spinner + classes.spinnerModifier,
       spinnerHTML: '',
       width: 'auto',
       zIndex: 102
@@ -84,7 +90,7 @@
     };
 
     this.active = function() {
-      return $modal.hasClass(classes.modal + classes.activeModifier);
+      return $modal.hasClass(settings.modalClass + classes.activeModifier);
     };
 
     this.destroy = function() {
@@ -306,19 +312,9 @@
       var modalOuterHeight = $modal.outerHeight();
       var overlayHeight = $overlay.height();
       if (modalOuterHeight > overlayHeight) {
-        $modal.css({
-          top: '50px',
-          left: '50%',
-          marginBottom: '50px',
-          transform: 'translateX(-50%)'
-        });
+        $modal.addClass(settings.modalVAlignTopClass);
       } else {
-        $modal.css({
-          top: '50%',
-          left: '50%',
-          marginBottom: 0,
-          transform: 'translate(-50%, -50%)'
-        });
+        $modal.addClass(settings.modalVAlignCenterClass);
       }
     }
 
