@@ -46,6 +46,8 @@ See inline comments in [Example](#example). All options are optional.
       height: 'auto', // Modal height
       modalClass: 'modal', // CSS class for modal styling
       modalId: 'modal', // ID assigned to modal
+      modalVAlignTopClass: 'modal--vertical-align-top', // CSS rules setting vertical alignment of the modal
+      modalVAlignCenterClass: 'modal--vertical-align-center', // CSS rules setting vertical alignment of the modal
       modifiers: '', // Modifier classes e.g. modal--no-padding
       overlayClass: 'overlay'
       showSpinner: true, // Loader animation
