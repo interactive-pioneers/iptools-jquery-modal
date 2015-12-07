@@ -1,5 +1,5 @@
-$white: #FFFFFF;
-$black: #000000;
+$white: #fff;
+$black: #000;
 
 $easing: ease-in-out;
 $animation-speed: 0.25s;
@@ -14,17 +14,19 @@ $animation-speed: 0.25s;
   height: 100%;
 
   background-color: rgba(0, 0, 0, 0.8);
+
   overflow: auto;
 }
 
 .modal {
+  position: absolute;
   z-index: 102;
 
   display: none;
   max-width: 90%;
-  border: 1px solid $black;
 
   background-color: $white;
+
   opacity: 0;
   overflow: hidden;
   transition: opacity $animation-speed $easing, transform $animation-speed $easing;
@@ -35,8 +37,16 @@ $animation-speed: 0.25s;
     opacity: 1;
   }
 
+  &--transparent {
+    background: transparent;
+  }
+
   &__content {
     padding: 45px;
+  }
+
+  &--no-padding &__content {
+    padding: 0;
   }
 
   &__button-close {
@@ -50,13 +60,17 @@ $animation-speed: 0.25s;
 
     cursor: pointer;
 
-    &:before, &:after {
+    &:before,
+    &:after {
       position: absolute;
       left: 8px;
-      content: '';
-      height: 17px;
+
       width: 1px;
+      height: 17px;
+
       background-color: $black;
+
+      content: '';
     }
 
     &:before {
@@ -77,39 +91,48 @@ $animation-speed: 0.25s;
     display: none;
 
     &--default {
+      margin: -15px -15px 0 0;
       width: 30px;
       height: 30px;
-      margin: -15px -15px 0 0;
 
       background-color: $black;
+
       animation: spinner-rotating-plane 1.2s infinite ease-in-out;
     }
 
     @keyframes spinner-rotating-plane {
       0% {
         transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-      } 50% {
+      }
+
+      50% {
         transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-      } 100% {
+      }
+
+      100% {
         transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
       }
     }
 
     &--pulse {
+      margin: -20px -20px 0 0;
       width: 40px;
       height: 40px;
-      margin: -20px -20px 0 0;
       border-radius: 100%;
 
       background-color: $black;
-      animation: spinner-pulse 1.0s infinite ease-in-out;
+
+      animation: spinner-pulse 1s infinite ease-in-out;
     }
 
     @keyframes spinner-pulse {
       0% {
-        transform: scale(0.0);
-      } 100% {
-        transform: scale(1.0);
+        transform: scale(0.5);
+      }
+
+      100% {
+        transform: scale(1);
+
         opacity: 0;
       }
     }
@@ -120,45 +143,52 @@ $animation-speed: 0.25s;
 
 .modal--effect-scale {
   transform: scale(0.7);
+
   opacity: 0;
 }
 
 .modal--active.modal--effect-scale {
   transform: scale(1);
+
   opacity: 1;
 }
 
 .modal--effect-slideinright {
   transform: translateX(20%);
+
   opacity: 0;
 }
 
 .modal--active.modal--effect-slideinright {
   transform: translateX(0);
+
   opacity: 1;
 }
 
 .modal--effect-slideinbottom {
   transform: translateY(20%);
+
   opacity: 0;
 }
 
 .modal--active.modal--effect-slideinbottom {
   transform: translateY(0);
+
   opacity: 1;
 }
 
-/* Vertical alignment classes */
 .modal--active.modal--vertical-align-top {
   top: 50px;
   left: 50%;
+
   margin-bottom: 50px;
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 0);
 }
 
 .modal--active.modal--vertical-align-center {
   top: 50%;
   left: 50%;
+
   margin-bottom: 0;
-  transform: translate(-50%, -50%);
+  transform: translate3d(-50%, -50%, 0);
 }
