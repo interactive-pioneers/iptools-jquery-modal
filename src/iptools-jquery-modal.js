@@ -54,7 +54,7 @@
       showSpinner: true,
       spinnerClass: classes.modal.name + classes.elements.spinner + classes.spinnerModifier,
       spinnerHTML: '',
-      width: 'auto',
+      width: '80%',
       zIndex: 102
     };
 
