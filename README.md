@@ -4,7 +4,7 @@ Multifunctional jQuery modal component.
 
 ## Features
 
-- Display content inside overlay from:
+- Display content inside modal overlay from:
   - static container in DOM by ID
   - AJAX endpoint that delivers markup
   - Rails UJS-driven AJAX that delivers a partial
@@ -19,7 +19,7 @@ See inline comments in [Example](#example). All options are optional.
 
 ## Requirements
 
-- jQuery 1.11.3 or greater
+- jQuery 2.1.4 or greater
 
 ## Example
 
@@ -41,8 +41,8 @@ See inline comments in [Example](#example). All options are optional.
     $('.js_trigger-modal').iptModal({
       animationDuration: 500, // Animation duration in ms
       closeOnESC: true, // Modal closed on ESC key
-      closeOnClickOutside: true, // Modal closed if clicked outside
-      closeButton: true, // Close button for modal
+      closeOnClickOutside: true, // Modal closed if clicked outside / on overlay
+      closeButton: true, // Add close button to modal
       height: 'auto', // Modal height
       modalClass: 'modal', // CSS class for modal styling
       modalId: 'modal', // ID assigned to modal
@@ -50,10 +50,10 @@ See inline comments in [Example](#example). All options are optional.
       modalVAlignCenterClass: 'modal--vertical-align-center', // CSS rules setting vertical alignment of the modal
       modifiers: '', // Modifier classes e.g. modal--no-padding
       overlayClass: 'overlay'
-      showSpinner: true, // Loader animation
+      showSpinner: true, // Enable/disable loader animation
       spinnerHTML: '', // Loader HTML
-      width: 'auto', // Modal width
-      zIndex: 102 // z-index for CSS
+      width: '80%', // Modal width
+      zIndex: 102 // CSS z-index
     });
   });
 </script>
