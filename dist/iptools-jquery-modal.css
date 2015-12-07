@@ -9,19 +9,23 @@
   overflow: auto; }
 
 .modal {
+  position: absolute;
   z-index: 102;
   display: none;
   max-width: 90%;
-  border: 1px solid #000000;
-  background-color: #FFFFFF;
+  background-color: #fff;
   opacity: 0;
   overflow: hidden;
   transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out; }
   .modal--active {
     display: block;
     opacity: 1; }
+  .modal--transparent {
+    background: transparent; }
   .modal__content {
     padding: 45px; }
+  .modal--no-padding .modal__content {
+    padding: 0; }
   .modal__button-close {
     position: absolute;
     top: 15px;
@@ -33,10 +37,10 @@
     .modal__button-close:before, .modal__button-close:after {
       position: absolute;
       left: 8px;
-      content: '';
-      height: 17px;
       width: 1px;
-      background-color: #000000; }
+      height: 17px;
+      background-color: #000;
+      content: ''; }
     .modal__button-close:before {
       transform: rotate(45deg); }
     .modal__button-close:after {
@@ -48,10 +52,10 @@
     z-index: 101;
     display: none; }
     .modal__spinner--default {
+      margin: -15px -15px 0 0;
       width: 30px;
       height: 30px;
-      margin: -15px -15px 0 0;
-      background-color: #000000;
+      background-color: #000;
       animation: spinner-rotating-plane 1.2s infinite ease-in-out; }
 
 @keyframes spinner-rotating-plane {
@@ -62,16 +66,16 @@
   100% {
     transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg); } }
     .modal__spinner--pulse {
+      margin: -20px -20px 0 0;
       width: 40px;
       height: 40px;
-      margin: -20px -20px 0 0;
       border-radius: 100%;
-      background-color: #000000;
-      animation: spinner-pulse 1.0s infinite ease-in-out; }
+      background-color: #000;
+      animation: spinner-pulse 1s infinite ease-in-out; }
 
 @keyframes spinner-pulse {
   0% {
-    transform: scale(0); }
+    transform: scale(0.5); }
   100% {
     transform: scale(1);
     opacity: 0; } }
@@ -100,15 +104,14 @@
   transform: translateY(0);
   opacity: 1; }
 
-/* Vertical alignment classes */
 .modal--active.modal--vertical-align-top {
   top: 50px;
   left: 50%;
   margin-bottom: 50px;
-  transform: translateX(-50%); }
+  transform: translate3d(-50%, 0, 0); }
 
 .modal--active.modal--vertical-align-center {
   top: 50%;
   left: 50%;
   margin-bottom: 0;
-  transform: translate(-50%, -50%); }
+  transform: translate3d(-50%, -50%, 0); }
