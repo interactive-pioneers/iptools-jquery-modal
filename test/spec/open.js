@@ -12,7 +12,8 @@
       modalClass: 'modal-test',
       modalId: 'modal-test',
       modifiers: 'modal-test--without-padding',
-      overlayClass: 'overlay-test'
+      overlayClass: 'overlay-test',
+      closeOnClickOutside: false
     };
 
     var pluginName = 'plugin_iptModal';
@@ -141,6 +142,14 @@
           object.on('success.iptModal', function() {
             $('.' + config.modalClass + '__button-close').trigger('click');
             expect(object.data(pluginName).getModal()).to.not.exist;
+            done();
+          }).data(pluginName).open(data);
+        });
+
+        it('expected to not close the modal when click outside occurs', function(done) {
+          object.on('success.iptModal', function() {
+            $(document).trigger('mouseup');
+            expect(object.data(pluginName).getModal()).to.exist;
             done();
           }).data(pluginName).open(data);
         });
