@@ -1,6 +1,6 @@
 {
   "name": "iptools-jquery-modal",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Multifunctional jQuery modal component",
   "homepage": "https://github.com/interactive-pioneers/iptools-jquery-modal",
   "author": {
@@ -19,6 +19,10 @@
     {
       "name": "Ain Tohvri",
       "email": "at@interactive-pioneers.de"
+    },
+    {
+      "name": "Dimitar Sumerski",
+      "email": "dsu@interactive-pioneers.de"
     }
   ],
   "license": "GPL-3.0",
