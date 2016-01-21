@@ -312,9 +312,11 @@
       var modalOuterHeight = $modal.outerHeight();
       var overlayHeight = $overlay.height();
       if (modalOuterHeight > overlayHeight) {
-        $modal.addClass(settings.modalVAlignTopClass);
+        $modal.removeClass(settings.modalVAlignCenterClass)
+          .addClass(settings.modalVAlignTopClass);
       } else {
-        $modal.addClass(settings.modalVAlignCenterClass);
+        $modal.removeClass(settings.modalVAlignTopClass)
+          .addClass(settings.modalVAlignCenterClass);
       }
     }
 
