@@ -154,6 +154,21 @@
           }).data(pluginName).open(data);
         });
 
+        it('expected to close the modal when touch on body occurs', function(done) {
+          var mockConfig = {
+            height: 500,
+            width: 500,
+            modalClass: config.modalClass,
+            modalId: config.modalId
+          };
+          object = $(selector).iptModal(mockConfig);
+          object.on('success.iptModal', function() {
+            $(document).trigger('touchstart');
+            expect(object.data(pluginName).getModal()).to.not.exist;
+            done();
+          }).data(pluginName).open(data);
+        });
+
         context('with default effect', function() {
           it('expected to have single defined effect', function(done) {
             var defaultEffect = 'scale';
