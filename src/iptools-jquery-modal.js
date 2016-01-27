@@ -160,7 +160,10 @@
     }
 
     function unbindTemporaryEvents() {
-      $(document).off(getNamespacedEvent('keydown') + ' ' + getNamespacedEvent('mouseup'));
+      $(document)
+        .off(getNamespacedEvent('keydown'))
+        .off(getNamespacedEvent('mouseup'))
+        .off(getNamespacedEvent('touchstart'));
       $(window).off(getNamespacedEvent('resize'));
     }
 
@@ -330,7 +333,9 @@
       }
 
       if (settings.closeOnClickOutside) {
-        $(document).on(getNamespacedEvent('mouseup'), handleBodyClick);
+        $(document)
+          .on(getNamespacedEvent('mouseup'), handleBodyClick)
+          .on(getNamespacedEvent('touchstart'), handleBodyClick);
       }
 
       $(window).on(getNamespacedEvent('resize'), handleResize);
