@@ -159,12 +159,15 @@
             height: 500,
             width: 500,
             modalClass: config.modalClass,
-            modalId: config.modalId
+            modalId: config.modalId,
+            closeOnClickOutside: true
           };
           object = $(selector).iptModal(mockConfig);
           object.on('success.iptModal', function() {
             $(document).trigger('touchstart');
-            expect(object.data(pluginName).getModal()).to.not.exist;
+            setTimeout(function() {
+              expect(object.data(pluginName).getModal()).to.not.exist;
+            }, 0);
             done();
           }).data(pluginName).open(data);
         });
