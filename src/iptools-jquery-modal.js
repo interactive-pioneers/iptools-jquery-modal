@@ -44,17 +44,18 @@
       closeOnESC: true,
       closeOnClickOutside: true,
       closeButton: true,
-      height: 'auto',
+      addCloseButtonToOverlay: false,
+      overlayClass: classes.overlay,
       modalClass: classes.modal.name,
       modalId: classes.modal.name,
       modalVAlignTopClass: classes.modal.verticalAlignTop,
       modalVAlignCenterClass: classes.modal.verticalAlignCenter,
       modifiers: '',
-      overlayClass: classes.overlay,
       showSpinner: true,
       spinnerClass: classes.modal.name + classes.elements.spinner + classes.spinnerModifier,
       spinnerHTML: '',
       width: '80%',
+      height: 'auto',
       zIndex: 102
     };
 
@@ -258,7 +259,7 @@
       if (settings.closeButton) {
         $closeButton = $('<div/>')
           .addClass(settings.modalClass + classes.elements.closeButton)
-          .appendTo($modal);
+          .appendTo(settings.addCloseButtonToOverlay ? $overlay : $modal);
       }
     }
 
