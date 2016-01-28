@@ -155,19 +155,28 @@
           }).data(pluginName).open(data);
         });
 
-        it('expected to close the modal when touch on body occurs', function(done) {
+        context('when on mobile', function() {
+
           var mockConfig = {
             modalClass: 'close-on-body-touch-test-modal',
             modalId: 'close-on-body-touch-test-modal',
             closeOnClickOutside: true
           };
-          object = $(selector).iptModal(mockConfig);
-          object.on('success.iptModal', function() {
-            $(document).on('touchstart', function() {
-              expect(object.data(pluginName).getModal()).to.not.exist;
-            }).trigger('touchstart').off('touchstart');
-            done();
-          }).data(pluginName).open(data);
+          var mobileObject = null;
+
+          before(function() {
+            mobileObject = $(selector).iptModal(mockConfig);
+          });
+
+          it('expected to close the modal when touch on body occurs', function(done) {
+            mobileObject.on('success.iptModal', function() {
+              $(document).on('touchstart', function() {
+                expect(mobileObject.data(pluginName).getModal()).to.not.exist;
+                done();
+              }).trigger('touchstart');
+            }).data(pluginName).open(data);
+          });
+
         });
 
         context('with default effect', function() {
