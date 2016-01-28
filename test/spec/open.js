@@ -9,6 +9,7 @@
     var config = {
       height: 500,
       width: 500,
+      closeButtonClass: 'modal-test__button-close',
       modalClass: 'modal-test',
       modalId: 'modal-test',
       modifiers: 'modal-test--without-padding',
@@ -133,14 +134,14 @@
 
         it('expected to have single close button', function(done) {
           object.on('success.iptModal', function() {
-            expect($('.' + config.modalClass +  '__button-close:visible')).to.have.length(1);
+            expect($('.' + config.closeButtonClass + ':visible')).to.have.length(1);
             done();
           }).data(pluginName).open(data);
         });
 
         it('expected to have functional close button', function(done) {
           object.on('success.iptModal', function() {
-            $('.' + config.modalClass + '__button-close').trigger('click');
+            $('.' + config.closeButtonClass).trigger('click');
             expect(object.data(pluginName).getModal()).to.not.exist;
             done();
           }).data(pluginName).open(data);
@@ -156,18 +157,15 @@
 
         it('expected to close the modal when touch on body occurs', function(done) {
           var mockConfig = {
-            height: 500,
-            width: 500,
-            modalClass: config.modalClass,
-            modalId: config.modalId,
+            modalClass: 'close-on-body-touch-test-modal',
+            modalId: 'close-on-body-touch-test-modal',
             closeOnClickOutside: true
           };
           object = $(selector).iptModal(mockConfig);
           object.on('success.iptModal', function() {
-            $(document).trigger('touchstart');
-            setTimeout(function() {
+            $(document).on('touchstart', function() {
               expect(object.data(pluginName).getModal()).to.not.exist;
-            }, 0);
+            }).trigger('touchstart').off('touchstart');
             done();
           }).data(pluginName).open(data);
         });
@@ -314,14 +312,14 @@
 
         it('expected to have close button', function(done) {
           object.on('success.iptModal', function() {
-            expect($('.' + config.modalClass +  '__button-close:visible')).to.have.length(1);
+            expect($('.' + config.closeButtonClass + ':visible')).to.have.length(1);
             done();
           }).trigger('click');
         });
 
         it('expected to have functional close button', function(done) {
           object.on('success.iptModal', function() {
-            $('.' + config.modalClass + '__button-close').trigger('click');
+            $('.' + config.closeButtonClass).trigger('click');
             expect(object.data(pluginName).getModal()).to.not.exist;
             done();
           }).trigger('click');
@@ -424,14 +422,14 @@
 
         it('expected to have close button', function(done) {
           object.on('success.iptModal', function() {
-            expect($('.' + config.modalClass +  '__button-close:visible')).to.have.length(1);
+            expect($('.' + config.closeButtonClass + ':visible')).to.have.length(1);
             done();
           }).trigger('click');
         });
 
         it('expected to have functional close button', function(done) {
           object.on('success.iptModal', function() {
-            $('.' + config.modalClass + '__button-close').trigger('click');
+            $('.' + config.closeButtonClass).trigger('click');
             expect(object.data(pluginName).getModal()).to.not.exist;
             done();
           }).trigger('click');

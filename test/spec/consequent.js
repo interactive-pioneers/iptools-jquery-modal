@@ -9,6 +9,7 @@
     var config = {
       height: 500,
       width: 500,
+      closeButtonClass: 'modal-test__button-close',
       modalClass: 'modal-test',
       modalId: 'modal-test'
     };
@@ -37,7 +38,7 @@
         it('expected to create initial modal', function(done) {
           object.on('success.iptModal', function() {
             expect(object.data(pluginName).getModal()).to.exist;
-            $('.' + config.modalClass + '__button-close').trigger('click');
+            $('.' + config.closeButtonClass).trigger('click');
             done();
           }).trigger('click');
         });
