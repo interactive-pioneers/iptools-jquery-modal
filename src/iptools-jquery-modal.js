@@ -44,6 +44,7 @@
       closeOnESC: true,
       closeOnClickOutside: true,
       closeButton: true,
+      closeButtonClass: classes.modal.name + classes.elements.closeButton,
       addCloseButtonToOverlay: false,
       overlayClass: classes.overlay,
       modalClass: classes.modal.name,
@@ -258,7 +259,7 @@
     function addCloseButton() {
       if (settings.closeButton) {
         $closeButton = $('<div/>')
-          .addClass(settings.modalClass + classes.elements.closeButton)
+          .addClass(settings.closeButtonClass)
           .appendTo(settings.addCloseButtonToOverlay ? $overlay : $modal);
       }
     }
