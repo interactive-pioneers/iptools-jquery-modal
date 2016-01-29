@@ -44,19 +44,17 @@
       closeOnESC: true,
       closeOnClickOutside: true,
       closeButton: true,
-      closeButtonClass: classes.modal.name + classes.elements.closeButton,
-      addCloseButtonToOverlay: false,
-      overlayClass: classes.overlay,
+      height: 'auto',
       modalClass: classes.modal.name,
       modalId: classes.modal.name,
       modalVAlignTopClass: classes.modal.verticalAlignTop,
       modalVAlignCenterClass: classes.modal.verticalAlignCenter,
       modifiers: '',
+      overlayClass: classes.overlay,
       showSpinner: true,
       spinnerClass: classes.modal.name + classes.elements.spinner + classes.spinnerModifier,
       spinnerHTML: '',
-      width: '80%',
-      height: 'auto',
+      width: 'auto',
       zIndex: 102
     };
 
@@ -64,6 +62,7 @@
 
     var settings = $.extend({}, defaults, options);
     var contentLink = null;
+    var dynamicContentLink = null;
     var $spinner = null;
     var $overlay = null;
     var $modal = null;
@@ -114,11 +113,11 @@
       triggerReady();
       switch (type) {
         case TYPES.STATIC:
-          self.setContent($(contentLink).html());
+          self.setContent($(contentLink).html()); //NOTE: usecase: href attribute contains a jquery selector
           triggerSuccess();
           break;
         case TYPES.DYNAMIC:
-          $.get(contentLink).done(function(html) {
+          $.get(dynamicContentLink).done(function(html) {
             self.setContent(html);
             triggerSuccess();
           }).fail(function() {
@@ -162,10 +161,7 @@
     }
 
     function unbindTemporaryEvents() {
-      $(document)
-        .off(getNamespacedEvent('keydown'))
-        .off(getNamespacedEvent('mouseup'))
-        .off(getNamespacedEvent('touchstart'));
+      $(document).off(getNamespacedEvent('keydown') + ' ' + getNamespacedEvent('mouseup'));
       $(window).off(getNamespacedEvent('resize'));
     }
 
@@ -176,8 +172,9 @@
     function handleModalLinkClicked(event) {
       event.preventDefault();
       var $trigger = $(event.currentTarget);
+
       self.open({
-        link: $trigger.attr('href'),
+        link: link($trigger),
         unobtrusive: $trigger.data('remote')
       });
     }
@@ -259,8 +256,8 @@
     function addCloseButton() {
       if (settings.closeButton) {
         $closeButton = $('<div/>')
-          .addClass(settings.closeButtonClass)
-          .appendTo(settings.addCloseButtonToOverlay ? $overlay : $modal);
+          .addClass(settings.modalClass + classes.elements.closeButton)
+          .appendTo($modal);
       }
     }
 
@@ -317,11 +314,9 @@
       var modalOuterHeight = $modal.outerHeight();
       var overlayHeight = $overlay.height();
       if (modalOuterHeight > overlayHeight) {
-        $modal.removeClass(settings.modalVAlignCenterClass)
-          .addClass(settings.modalVAlignTopClass);
+        $modal.addClass(settings.modalVAlignTopClass);
       } else {
-        $modal.removeClass(settings.modalVAlignTopClass)
-          .addClass(settings.modalVAlignCenterClass);
+        $modal.addClass(settings.modalVAlignCenterClass);
       }
     }
 
@@ -335,9 +330,7 @@
       }
 
       if (settings.closeOnClickOutside) {
-        $(document)
-          .on(getNamespacedEvent('mouseup'), handleBodyClick)
-          .on(getNamespacedEvent('touchstart'), handleBodyClick);
+        $(document).on(getNamespacedEvent('mouseup'), handleBodyClick);
       }
 
       $(window).on(getNamespacedEvent('resize'), handleResize);
@@ -380,9 +373,23 @@
       }, 250);
     }
 
+    function link(element){
+      var tag_name = element.prop('tagName').toLowerCase();
+
+      if (tag_name === "a"){
+        return element.attr('href');
+      }
+      if (tag_name === "button"){
+        // satisfy jquery ujs usecase buttonClickSelector
+        // https://github.com/rails/jquery-ujs/blob/master/src/rails.js#L132
+        return element.data('url');
+      }
+    }
+
     function init() {
       effect = self.element.data(dataAttributes.effect);
       contentLink = self.element.attr('href');
+      dynamicContentLink = link(self.element);
       addEventListeners();
     }
 
