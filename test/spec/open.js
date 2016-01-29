@@ -9,6 +9,7 @@
     var config = {
       height: 500,
       width: 500,
+      closeButtonClass: 'modal-test__button-close',
       modalClass: 'modal-test',
       modalId: 'modal-test',
       modifiers: 'modal-test--without-padding',
@@ -133,14 +134,14 @@
 
         it('expected to have single close button', function(done) {
           object.on('success.iptModal', function() {
-            expect($('.' + config.modalClass +  '__button-close:visible')).to.have.length(1);
+            expect($('.' + config.closeButtonClass + ':visible')).to.have.length(1);
             done();
           }).data(pluginName).open(data);
         });
 
         it('expected to have functional close button', function(done) {
           object.on('success.iptModal', function() {
-            $('.' + config.modalClass + '__button-close').trigger('click');
+            $('.' + config.closeButtonClass).trigger('click');
             expect(object.data(pluginName).getModal()).to.not.exist;
             done();
           }).data(pluginName).open(data);
@@ -152,6 +153,30 @@
             expect(object.data(pluginName).getModal()).to.exist;
             done();
           }).data(pluginName).open(data);
+        });
+
+        context('when on mobile', function() {
+
+          var mockConfig = {
+            modalClass: 'close-on-body-touch-test-modal',
+            modalId: 'close-on-body-touch-test-modal',
+            closeOnClickOutside: true
+          };
+          var mobileObject = null;
+
+          before(function() {
+            mobileObject = $(selector).iptModal(mockConfig);
+          });
+
+          it('expected to close the modal when touch on body occurs', function(done) {
+            mobileObject.on('success.iptModal', function() {
+              $(document).on('touchstart', function() {
+                expect(mobileObject.data(pluginName).getModal()).to.not.exist;
+                done();
+              }).trigger('touchstart');
+            }).data(pluginName).open(data);
+          });
+
         });
 
         context('with default effect', function() {
@@ -296,14 +321,14 @@
 
         it('expected to have close button', function(done) {
           object.on('success.iptModal', function() {
-            expect($('.' + config.modalClass +  '__button-close:visible')).to.have.length(1);
+            expect($('.' + config.closeButtonClass + ':visible')).to.have.length(1);
             done();
           }).trigger('click');
         });
 
         it('expected to have functional close button', function(done) {
           object.on('success.iptModal', function() {
-            $('.' + config.modalClass + '__button-close').trigger('click');
+            $('.' + config.closeButtonClass).trigger('click');
             expect(object.data(pluginName).getModal()).to.not.exist;
             done();
           }).trigger('click');
@@ -406,14 +431,14 @@
 
         it('expected to have close button', function(done) {
           object.on('success.iptModal', function() {
-            expect($('.' + config.modalClass +  '__button-close:visible')).to.have.length(1);
+            expect($('.' + config.closeButtonClass + ':visible')).to.have.length(1);
             done();
           }).trigger('click');
         });
 
         it('expected to have functional close button', function(done) {
           object.on('success.iptModal', function() {
-            $('.' + config.modalClass + '__button-close').trigger('click');
+            $('.' + config.closeButtonClass).trigger('click');
             expect(object.data(pluginName).getModal()).to.not.exist;
             done();
           }).trigger('click');

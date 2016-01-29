@@ -44,17 +44,19 @@
       closeOnESC: true,
       closeOnClickOutside: true,
       closeButton: true,
-      height: 'auto',
+      closeButtonClass: classes.modal.name + classes.elements.closeButton,
+      addCloseButtonToOverlay: false,
+      overlayClass: classes.overlay,
       modalClass: classes.modal.name,
       modalId: classes.modal.name,
       modalVAlignTopClass: classes.modal.verticalAlignTop,
       modalVAlignCenterClass: classes.modal.verticalAlignCenter,
       modifiers: '',
-      overlayClass: classes.overlay,
       showSpinner: true,
       spinnerClass: classes.modal.name + classes.elements.spinner + classes.spinnerModifier,
       spinnerHTML: '',
       width: '80%',
+      height: 'auto',
       zIndex: 102
     };
 
@@ -160,7 +162,10 @@
     }
 
     function unbindTemporaryEvents() {
-      $(document).off(getNamespacedEvent('keydown') + ' ' + getNamespacedEvent('mouseup'));
+      $(document)
+        .off(getNamespacedEvent('keydown'))
+        .off(getNamespacedEvent('mouseup'))
+        .off(getNamespacedEvent('touchstart'));
       $(window).off(getNamespacedEvent('resize'));
     }
 
@@ -254,8 +259,8 @@
     function addCloseButton() {
       if (settings.closeButton) {
         $closeButton = $('<div/>')
-          .addClass(settings.modalClass + classes.elements.closeButton)
-          .appendTo($modal);
+          .addClass(settings.closeButtonClass)
+          .appendTo(settings.addCloseButtonToOverlay ? $overlay : $modal);
       }
     }
 
@@ -330,7 +335,9 @@
       }
 
       if (settings.closeOnClickOutside) {
-        $(document).on(getNamespacedEvent('mouseup'), handleBodyClick);
+        $(document)
+          .on(getNamespacedEvent('mouseup'), handleBodyClick)
+          .on(getNamespacedEvent('touchstart'), handleBodyClick);
       }
 
       $(window).on(getNamespacedEvent('resize'), handleResize);
