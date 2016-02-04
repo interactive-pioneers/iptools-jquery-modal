@@ -64,6 +64,7 @@
 
     var settings = $.extend({}, defaults, options);
     var contentLink = null;
+    var dynamicContentLink = null;
     var $spinner = null;
     var $overlay = null;
     var $modal = null;
@@ -114,11 +115,11 @@
       triggerReady();
       switch (type) {
         case TYPES.STATIC:
-          self.setContent($(contentLink).html());
+          self.setContent($(contentLink).html()); //NOTE: usecase: href attribute contains a jquery selector
           triggerSuccess();
           break;
         case TYPES.DYNAMIC:
-          $.get(contentLink).done(function(html) {
+          $.get(dynamicContentLink).done(function(html) {
             self.setContent(html);
             triggerSuccess();
           }).fail(function() {
@@ -177,7 +178,7 @@
       event.preventDefault();
       var $trigger = $(event.currentTarget);
       self.open({
-        link: $trigger.attr('href'),
+        link: detectAjaxUrl($trigger),
         unobtrusive: $trigger.data('remote')
       });
     }
@@ -253,6 +254,19 @@
         return TYPES.STATIC;
       } else {
         return TYPES.DYNAMIC;
+      }
+    }
+
+    function detectAjaxUrl(element){
+      var tagName = element.prop('tagName').toLowerCase();
+
+      if (tagName === 'a'){
+        return element.attr('href');
+      }
+      if (tagName === 'button'){
+        // satisfy jquery ujs usecase buttonClickSelector
+        // https://github.com/rails/jquery-ujs/blob/master/src/rails.js#L132
+        return element.data('url');
       }
     }
 
@@ -383,6 +397,7 @@
     function init() {
       effect = self.element.data(dataAttributes.effect);
       contentLink = self.element.attr('href');
+      dynamicContentLink = detectAjaxUrl(self.element);
       addEventListeners();
     }
 
