@@ -142,7 +142,9 @@
     };
 
     this.setContent = function(content) {
+      console.log(pluginName, 'setContent');
       $modal.find('.' + settings.modalClass + classes.elements.content).html(content);
+      center();
     };
 
     function getModifiers() {
@@ -325,6 +327,7 @@
     }
 
     function center() {
+      console.log(pluginName, 'center');
       var modalOuterHeight = $modal.outerHeight();
       var overlayHeight = $overlay.height();
       if (modalOuterHeight > overlayHeight) {
