@@ -64,7 +64,6 @@
 
     var settings = $.extend({}, defaults, options);
     var contentLink = null;
-    //var dynamicContentLink = null;
     var $spinner = null;
     var $overlay = null;
     var $modal = null;
