@@ -385,9 +385,7 @@
 
     function handleResize() {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(function() {
-        center();
-      }, 250);
+      resizeTimeout = setTimeout(center, 250);
     }
 
     function init() {
