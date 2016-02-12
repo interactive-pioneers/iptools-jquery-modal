@@ -57,6 +57,11 @@
           return expect(object.data(pluginName).getModal().is('.' + modifiers.join(', .'))).to.be.ok;
         });
 
+        it('expected to have plugin instance backreference', function() {
+          object.attr('href', '#test').trigger('click');
+          return expect(object.data(pluginName).getModal().data('instance')).to.be.instanceof(Object);
+        });
+
         it('expected to generate overlay', function() {
           object.attr('href', '#test').trigger('click');
           return expect(object.data(pluginName).getOverlay().hasClass(config.overlayClass)).to.be.ok;
@@ -272,6 +277,13 @@
           }).trigger('click');
         });
 
+        it('expected to have plugin instance backreference', function(done) {
+          object.on('complete.iptModal', function() {
+            expect(object.data(pluginName).getModal().data('instance')).to.be.instanceof(Object);
+            done();
+          }).trigger('click');
+        });
+
         it('expected to display spinner on modal ready', function(done) {
           var displayed = false;
           object.on('ready.iptModal', function() {
@@ -419,6 +431,13 @@
         it('expected to have single modal instance', function(done) {
           object.on('complete.iptModal', function() {
             expect($('.' + config.modalClass)).to.have.length(1);
+            done();
+          }).trigger('click');
+        });
+
+        it('expected to have plugin instance backreference', function(done) {
+          object.on('complete.iptModal', function() {
+            expect(object.data(pluginName).getModal().data('instance')).to.be.instanceof(Object);
             done();
           }).trigger('click');
         });

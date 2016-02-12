@@ -195,6 +195,7 @@
         })
         .css('z-index', settings.zIndex)
         .data('type', type)
+        .data('instance', self)
         .append($modalContent);
     }
 
