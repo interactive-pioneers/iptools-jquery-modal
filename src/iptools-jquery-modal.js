@@ -143,6 +143,7 @@
 
     this.setContent = function(content) {
       $modal.find('.' + settings.modalClass + classes.elements.content).html(content);
+      center();
     };
 
     function getModifiers() {
@@ -177,7 +178,7 @@
       event.preventDefault();
       var $trigger = $(event.currentTarget);
       self.open({
-        link: $trigger.attr('href'),
+        link: contentLink,
         unobtrusive: $trigger.data('remote')
       });
     }
@@ -195,6 +196,7 @@
         })
         .css('z-index', settings.zIndex)
         .data('type', type)
+        .data('instance', self)
         .append($modalContent);
     }
 
@@ -253,6 +255,16 @@
         return TYPES.STATIC;
       } else {
         return TYPES.DYNAMIC;
+      }
+    }
+
+    function detectLink(element) {
+      if (element.data('remote') && element.data('url')) {
+        return element.data('url');
+      } else if (element.attr('href')) {
+        return element.attr('href');
+      } else {
+        throw new Error('Link undefined!');
       }
     }
 
@@ -375,14 +387,12 @@
 
     function handleResize() {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(function() {
-        center();
-      }, 250);
+      resizeTimeout = setTimeout(center, 250);
     }
 
     function init() {
       effect = self.element.data(dataAttributes.effect);
-      contentLink = self.element.attr('href');
+      contentLink = detectLink(self.element);
       addEventListeners();
     }
 
