@@ -34,8 +34,11 @@ Component is maintained for both, jQuery 1 and 2:
 <h2>Content from AJAX endpoint</h2>
 <a href="/ajax/modal" class="js_trigger-modal" data-modal-effect="scale">trigger modal</a>
 
-<h2>Content from Rails UJS AJAX endpoint</h2>
-<a href="/ajax/modal" class="js_trigger-modal" data-modal-effect="scale" data-remote="true">trigger modal</a>
+<h2>Content from Rails UJS AJAX endpoint using</h2>
+<ul>
+  <li>anchor: <a href="/ajax/modal" class="js_trigger-modal" data-modal-effect="scale" data-remote="true">trigger modal</a>
+  <li>button: <button data-url="/ajax/modal" class="js_trigger-modal" data-modal-effect="scale" data-remote="true">trigger modal</button>
+</ul>
 
 <link rel="stylesheet" href="dist/iptools-jquery-modal.css" type="text/css">
 <script src="src/iptools-jquery-modal.js"></script>
