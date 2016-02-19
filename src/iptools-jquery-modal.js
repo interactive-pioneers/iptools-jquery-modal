@@ -95,6 +95,37 @@
       return $modal.hasClass(settings.modalClass + classes.activeModifier);
     };
 
+    function removeOverlay() {
+      if ($overlay) {
+        $overlay.remove();
+        $overlay = null;
+      }
+    }
+
+    function getNamespacedEvent(name) {
+      return name + '.' + pluginName;
+    }
+
+    function unbindTemporaryEvents() {
+      $(document)
+        .off(getNamespacedEvent('keydown'))
+        .off(getNamespacedEvent('mouseup'))
+        .off(getNamespacedEvent('touchstart'));
+      $(window).off(getNamespacedEvent('resize'));
+    }
+
+    function unbindUnobtrusiveEvents() {
+      self.element.off('ajax:complete').off('ajax:success').off('ajax:error');
+    }
+
+    function removeModal() {
+      if ($modal) {
+        $modal.remove();
+        $modal = null;
+        loaded = false;
+      }
+    }
+
     this.destroy = function() {
       unbindTemporaryEvents();
       unbindUnobtrusiveEvents();
@@ -102,6 +133,192 @@
       removeOverlay();
       this.element.off(getNamespacedEvent('click')).removeData('plugin_' + pluginName);
     };
+
+    function hideSpinner() {
+      if ($spinner) {
+        $spinner.hide();
+        $spinner.remove();
+      }
+    }
+
+    function triggerComplete() {
+      hideSpinner();
+      self.element.trigger(getNamespacedEvent('complete'));
+    }
+
+    function handleUnobtrusiveAjaxComplete() {
+      triggerComplete();
+    }
+
+    function center() {
+      var modalOuterHeight = $modal.outerHeight();
+      var overlayHeight = $overlay.height();
+      if (modalOuterHeight > overlayHeight) {
+        $modal.removeClass(settings.modalVAlignCenterClass)
+          .addClass(settings.modalVAlignTopClass);
+      } else {
+        $modal.removeClass(settings.modalVAlignTopClass)
+          .addClass(settings.modalVAlignCenterClass);
+      }
+    }
+
+    function handleResize() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(center, 250);
+    }
+
+    function handleBodyClick(event) {
+      if (active && !$modal.is(event.target) && $modal.has(event.target).length === 0) {
+        self.close();
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (active && event.which === 27) {
+        self.close();
+      }
+    }
+
+    function bindTemporaryEvents() {
+      if ($closeButton) {
+        $closeButton.on(getNamespacedEvent('click'), self.close);
+      }
+
+      if (settings.closeOnESC) {
+        $(document).on(getNamespacedEvent('keydown'), handleKeyDown);
+      }
+
+      if (settings.closeOnClickOutside) {
+        $(document)
+          .on(getNamespacedEvent('mouseup'), handleBodyClick)
+          .on(getNamespacedEvent('touchstart'), handleBodyClick);
+      }
+
+      $(window).on(getNamespacedEvent('resize'), handleResize);
+    }
+
+    function addCloseButton() {
+      if (settings.closeButton) {
+        $closeButton = $('<div/>')
+          .addClass(settings.closeButtonClass)
+          .appendTo(settings.addCloseButtonToOverlay ? $overlay : $modal);
+      }
+    }
+
+    function showModal() {
+      if (effect) {
+        $modal.addClass(settings.modalClass + classes.effectModifierPrefix + effect);
+      }
+      center();
+      $modal.addClass(settings.modalClass + classes.activeModifier);
+    }
+
+    function triggerSuccess() {
+      triggerComplete();
+      loaded = true;
+      addCloseButton();
+      bindTemporaryEvents();
+      showModal();
+      self.element.trigger(getNamespacedEvent('success'));
+    }
+
+    function handleUnobtrusiveAjaxSuccess() {
+      triggerSuccess();
+    }
+
+    function hideOverlay() {
+      if ($overlay) {
+        $overlay.stop().fadeOut(settings.animationDuration);
+      }
+      $('body').css('overflow', 'auto');
+      active = false;
+    }
+
+    function triggerError() {
+      triggerComplete();
+      hideOverlay();
+      self.element.trigger(getNamespacedEvent('error'));
+    }
+
+    function handleUnobtrusiveAjaxError() {
+      triggerError();
+    }
+
+    function bindUnobtrusiveEvents() {
+      self.element.on('ajax:complete', handleUnobtrusiveAjaxComplete)
+        .on('ajax:success', handleUnobtrusiveAjaxSuccess)
+        .on('ajax:error', handleUnobtrusiveAjaxError);
+    }
+
+    function addOverlay() {
+      if (!$overlay) {
+        $overlay = $('<div/>')
+          .addClass(settings.overlayClass)
+          .appendTo('body');
+      }
+    }
+
+    function showOverlay() {
+      active = true;
+      $('body').css('overflow', 'hidden');
+      if (!$overlay) {
+        addOverlay();
+      }
+      $overlay.stop().fadeIn(settings.animationDuration);
+    }
+
+    function showSpinner() {
+      if (!$spinner) {
+        $spinner = $('<div/>')
+          .addClass(settings.modalClass + classes.elements.spinner)
+          .addClass(settings.spinnerClass)
+          .append(settings.spinnerHTML);
+      }
+      $spinner.appendTo($overlay).show();
+    }
+
+    function triggerReady() {
+      loaded = false;
+      showOverlay();
+      if (settings.showSpinner) {
+        showSpinner();
+      }
+      self.element.trigger(getNamespacedEvent('ready'));
+    }
+
+    function detectModalType(data) {
+      if (data.unobtrusive) {
+        return TYPES.UNOBTRUSIVE;
+      } else if (data.link && data.link.charAt(0) === '#' && !data.unobtrusive) {
+        if ($(data.link).length === 0) {
+          throw new Error('Modal content not found!');
+        }
+        return TYPES.STATIC;
+      } else {
+        return TYPES.DYNAMIC;
+      }
+    }
+
+    function getModifiers() {
+      return settings.modifiers.length > 0 ? ' ' + settings.modifiers : '';
+    }
+
+    function buildModal(data) {
+      removeModal();
+      type = detectModalType(data);
+      var $modalContent = $('<div/>')
+        .addClass(settings.modalClass + classes.elements.content);
+      return $('<div/>', {
+          class: settings.modalClass + getModifiers(),
+          id: settings.modalId,
+          width: settings.width,
+          height: settings.height
+        })
+        .css('z-index', settings.zIndex)
+        .data('type', type)
+        .data('instance', self)
+        .append($modalContent);
+    }
 
     this.open = function(data) {
       if (!data) {
@@ -133,6 +350,10 @@
       }
     };
 
+    function hideModal() {
+      $modal.removeClass(settings.modalClass + classes.activeModifier);
+    }
+
     this.close = function() {
       hideModal();
       hideOverlay();
@@ -146,34 +367,6 @@
       center();
     };
 
-    function getModifiers() {
-      return settings.modifiers.length > 0 ? ' ' + settings.modifiers : '';
-    }
-
-    function removeModal() {
-      if ($modal) {
-        $modal.remove();
-        $modal = null;
-        loaded = false;
-      }
-    }
-
-    function unbindUnobtrusiveEvents() {
-      self.element.off('ajax:complete').off('ajax:success').off('ajax:error');
-    }
-
-    function unbindTemporaryEvents() {
-      $(document)
-        .off(getNamespacedEvent('keydown'))
-        .off(getNamespacedEvent('mouseup'))
-        .off(getNamespacedEvent('touchstart'));
-      $(window).off(getNamespacedEvent('resize'));
-    }
-
-    function addEventListeners() {
-      self.element.on(getNamespacedEvent('click'), handleModalLinkClicked);
-    }
-
     function handleModalLinkClicked(event) {
       event.preventDefault();
       var $trigger = $(event.currentTarget);
@@ -183,79 +376,8 @@
       });
     }
 
-    function buildModal(data) {
-      removeModal();
-      type = detectModalType(data);
-      var $modalContent = $('<div/>')
-        .addClass(settings.modalClass + classes.elements.content);
-      return $('<div/>', {
-          class: settings.modalClass + getModifiers(),
-          id: settings.modalId,
-          width: settings.width,
-          height: settings.height
-        })
-        .css('z-index', settings.zIndex)
-        .data('type', type)
-        .data('instance', self)
-        .append($modalContent);
-    }
-
-    function triggerReady() {
-      loaded = false;
-      showOverlay();
-      if (settings.showSpinner) {
-        showSpinner();
-      }
-      self.element.trigger(getNamespacedEvent('ready'));
-    }
-
-    function triggerComplete() {
-      hideSpinner();
-      self.element.trigger(getNamespacedEvent('complete'));
-    }
-
-    function triggerSuccess() {
-      triggerComplete();
-      loaded = true;
-      addCloseButton();
-      bindTemporaryEvents();
-      showModal();
-      self.element.trigger(getNamespacedEvent('success'));
-    }
-
-    function triggerError() {
-      triggerComplete();
-      hideOverlay();
-      self.element.trigger(getNamespacedEvent('error'));
-    }
-
-    function getNamespacedEvent(name) {
-      return name + '.' + pluginName;
-    }
-
-    function showModal() {
-      if (effect) {
-        $modal.addClass(settings.modalClass + classes.effectModifierPrefix + effect);
-      }
-      center();
-      $modal.addClass(settings.modalClass + classes.activeModifier);
-    }
-
-    function hideModal() {
-      $modal.removeClass(settings.modalClass + classes.activeModifier);
-    }
-
-    function detectModalType(data) {
-      if (data.unobtrusive) {
-        return TYPES.UNOBTRUSIVE;
-      } else if (data.link && data.link.charAt(0) === '#' && !data.unobtrusive) {
-        if ($(data.link).length === 0) {
-          throw new Error('Modal content not found!');
-        }
-        return TYPES.STATIC;
-      } else {
-        return TYPES.DYNAMIC;
-      }
+    function addEventListeners() {
+      self.element.on(getNamespacedEvent('click'), handleModalLinkClicked);
     }
 
     function detectLink(element) {
@@ -266,128 +388,6 @@
       } else {
         throw new Error('Link undefined!');
       }
-    }
-
-    function addCloseButton() {
-      if (settings.closeButton) {
-        $closeButton = $('<div/>')
-          .addClass(settings.closeButtonClass)
-          .appendTo(settings.addCloseButtonToOverlay ? $overlay : $modal);
-      }
-    }
-
-    function addOverlay() {
-      if (!$overlay) {
-        $overlay = $('<div/>')
-          .addClass(settings.overlayClass)
-          .appendTo('body');
-      }
-    }
-
-    function removeOverlay() {
-      if ($overlay) {
-        $overlay.remove();
-        $overlay = null;
-      }
-    }
-
-    function showOverlay() {
-      active = true;
-      $('body').css('overflow', 'hidden');
-      if (!$overlay) {
-        addOverlay();
-      }
-      $overlay.stop().fadeIn(settings.animationDuration);
-    }
-
-    function hideOverlay() {
-      if ($overlay) {
-        $overlay.stop().fadeOut(settings.animationDuration);
-      }
-      $('body').css('overflow', 'auto');
-      active = false;
-    }
-
-    function showSpinner() {
-      if (!$spinner) {
-        $spinner = $('<div/>')
-          .addClass(settings.modalClass + classes.elements.spinner)
-          .addClass(settings.spinnerClass)
-          .append(settings.spinnerHTML);
-      }
-      $spinner.appendTo($overlay).show();
-    }
-
-    function hideSpinner() {
-      if ($spinner) {
-        $spinner.hide();
-        $spinner.remove();
-      }
-    }
-
-    function center() {
-      var modalOuterHeight = $modal.outerHeight();
-      var overlayHeight = $overlay.height();
-      if (modalOuterHeight > overlayHeight) {
-        $modal.removeClass(settings.modalVAlignCenterClass)
-          .addClass(settings.modalVAlignTopClass);
-      } else {
-        $modal.removeClass(settings.modalVAlignTopClass)
-          .addClass(settings.modalVAlignCenterClass);
-      }
-    }
-
-    function bindTemporaryEvents() {
-      if ($closeButton) {
-        $closeButton.on(getNamespacedEvent('click'), self.close);
-      }
-
-      if (settings.closeOnESC) {
-        $(document).on(getNamespacedEvent('keydown'), handleKeyDown);
-      }
-
-      if (settings.closeOnClickOutside) {
-        $(document)
-          .on(getNamespacedEvent('mouseup'), handleBodyClick)
-          .on(getNamespacedEvent('touchstart'), handleBodyClick);
-      }
-
-      $(window).on(getNamespacedEvent('resize'), handleResize);
-    }
-
-    function bindUnobtrusiveEvents() {
-      self.element.on('ajax:complete', handleUnobtrusiveAjaxComplete)
-        .on('ajax:success', handleUnobtrusiveAjaxSuccess)
-        .on('ajax:error', handleUnobtrusiveAjaxError);
-    }
-
-    function handleUnobtrusiveAjaxComplete() {
-      triggerComplete();
-    }
-
-    function handleUnobtrusiveAjaxSuccess() {
-      triggerSuccess();
-    }
-
-    function handleUnobtrusiveAjaxError() {
-      triggerError();
-    }
-
-    function handleKeyDown(event) {
-      if (active && event.which === 27) {
-        self.close();
-      }
-    }
-
-    function handleBodyClick(event) {
-      if (active && !$modal.is(event.target) && $modal.has(event.target).length === 0) {
-        self.close();
-      }
-    }
-
-    function handleResize() {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(center, 250);
     }
 
     function init() {

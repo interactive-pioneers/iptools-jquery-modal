@@ -1,6 +1,7 @@
 'use strict';
 
 /* jshint undef: false */
+/* global expect */
 
 (function() {
 
