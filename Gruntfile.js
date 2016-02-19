@@ -26,7 +26,7 @@ module.exports = function(grunt) {
       qa: {
         files: [
           '<%= yeoman.src %>/iptools-jquery-modal.js',
-          '<%= yeoman.test %>/spec/test.js'
+          '<%= yeoman.test %>/spec/*.js'
         ],
         tasks: ['concurrent:qa']
       },
