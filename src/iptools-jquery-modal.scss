@@ -141,19 +141,6 @@ $animation-speed: 0.25s;
 
 }
 
-/* Effects */
-.modal--effect-scale {
-  transform: scale(0.7);
-}
-
-.modal--effect-slideinright {
-  transform: translateX(20%);
-}
-
-.modal--effect-slideinbottom {
-  transform: translateY(20%);
-}
-
 /* Vertical alignment classes */
 .modal--active.modal--vertical-align-top {
   top: 50px;
