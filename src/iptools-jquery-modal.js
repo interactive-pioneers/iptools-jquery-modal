@@ -209,8 +209,8 @@
       if (effect) {
         $modal.addClass(settings.modalClass + classes.effectModifierPrefix + effect);
       }
-      center();
       $modal.addClass(settings.modalClass + classes.activeModifier);
+      center();
     }
 
     function triggerSuccess() {
