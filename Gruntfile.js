@@ -6,6 +6,7 @@ module.exports = function(grunt) {
 
   // load tasks on demand (speeds up dev)
   require('jit-grunt')(grunt, {
+    scsslint: 'grunt-scss-lint'
   });
 
   grunt.initConfig({
@@ -49,6 +50,17 @@ module.exports = function(grunt) {
         '<%= yeoman.test %>/spec/{,*/}*.js'
       ]
     },
+    scsslint: {
+      allFiles: [
+        '<%= yeoman.src %>/{,*/}*.scss',
+      ],
+      options: {
+        bundleExec: true,
+        config: '.scss-lint.yml',
+        reporterOutput: 'scss-lint-report.xml',
+        colorizeOutput: true
+      }
+    },
     mocha: {
       all: {
         options: {
@@ -63,6 +75,7 @@ module.exports = function(grunt) {
         tasks: [
           'jshint',
           'jscs',
+          'scsslint',
           'mocha'
         ]
       },
