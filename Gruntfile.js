@@ -27,7 +27,8 @@ module.exports = function(grunt) {
       qa: {
         files: [
           '<%= yeoman.src %>/iptools-jquery-modal.js',
-          '<%= yeoman.test %>/spec/*.js'
+          '<%= yeoman.test %>/spec/*.js',
+          '<%= yeoman.src %>/iptools-jquery-modal.scss'
         ],
         tasks: ['concurrent:qa']
       },
@@ -38,6 +39,12 @@ module.exports = function(grunt) {
           '<%= yeoman.test %>/index.html'
         ],
         tasks: ['test']
+      },
+      scss: {
+        files: [
+          '<%= yeoman.src %>/iptools-jquery-modal.scss'
+        ],
+        tasks: ['scsslint']
       }
     },
     jshint: {
