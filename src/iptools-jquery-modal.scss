@@ -10,12 +10,12 @@ $animation-speed: 0.25s;
   left: 0;
   z-index: 100;
 
+  overflow: auto;
+
   width: 100%;
   height: 100%;
 
   background-color: rgba(0, 0, 0, 0.8);
-
-  overflow: auto;
 }
 
 .modal {
@@ -23,12 +23,12 @@ $animation-speed: 0.25s;
   z-index: 102;
 
   display: none;
+  overflow: hidden;
   max-width: 90%;
 
+  opacity: 0;
   background-color: $white;
 
-  opacity: 0;
-  overflow: hidden;
   transition: opacity $animation-speed $easing, transform $animation-speed $easing;
 
   &--active {
@@ -60,8 +60,8 @@ $animation-speed: 0.25s;
 
     cursor: pointer;
 
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       position: absolute;
       left: 8px;
 
@@ -73,11 +73,11 @@ $animation-speed: 0.25s;
       content: '';
     }
 
-    &:before {
+    &::before {
       transform: rotate(45deg);
     }
 
-    &:after {
+    &::after {
       transform: rotate(-45deg);
     }
   }
@@ -118,6 +118,7 @@ $animation-speed: 0.25s;
       margin: -20px -20px 0 0;
       width: 40px;
       height: 40px;
+
       border-radius: 100%;
 
       background-color: $black;
@@ -131,9 +132,9 @@ $animation-speed: 0.25s;
       }
 
       100% {
-        transform: scale(1);
-
         opacity: 0;
+
+        transform: scale(1);
       }
     }
 
@@ -145,14 +146,18 @@ $animation-speed: 0.25s;
 .modal--active.modal--vertical-align-top {
   top: 50px;
   left: 50%;
+
   margin-bottom: 50px;
+
   transform: translateX(-50%);
 }
 
 .modal--active.modal--vertical-align-center {
   top: 50%;
   left: 50%;
+
   margin-bottom: 0;
+
   transform: translate(-50%, -50%);
 }
 
@@ -192,6 +197,7 @@ $animation-speed: 0.25s;
     transform: scale(0.7) translate(-50%, -50%);
     transform-origin: 0% 0%;
   }
+
   100% {
     transform: scale(1) translate(-50%, -50%);
     transform-origin: 0% 0%;
@@ -203,6 +209,7 @@ $animation-speed: 0.25s;
     transform: scale(0.7) translateX(-50%);
     transform-origin: 0% 50%;
   }
+
   100% {
     transform: scale(1) translateX(-50%);
     transform-origin: 0% 50%;
@@ -214,6 +221,7 @@ $animation-speed: 0.25s;
     transform: translate(-50%, 20%);
     transform-origin: 0% 50%;
   }
+
   100% {
     transform: translate(-50%, 0);
     transform-origin: 0% 50%;
@@ -225,6 +233,7 @@ $animation-speed: 0.25s;
     transform: translate(-50%, 20%);
     transform-origin: 0% 50%;
   }
+
   100% {
     transform: translate(-50%, -50%);
     transform-origin: 0% 50%;
@@ -236,6 +245,7 @@ $animation-speed: 0.25s;
     transform: translateX(20%);
     transform-origin: 0% 0%;
   }
+
   100% {
     transform: translateX(-50%);
     transform-origin: 0% 0%;
@@ -247,6 +257,7 @@ $animation-speed: 0.25s;
     transform: translate(20%, -50%);
     transform-origin: 0% 0%;
   }
+
   100% {
     transform: translate(-50%, -50%);
     transform-origin: 0% 0%;
