@@ -6,6 +6,7 @@ module.exports = function(grunt) {
 
   // load tasks on demand (speeds up dev)
   require('jit-grunt')(grunt, {
+    scsslint: 'grunt-scss-lint'
   });
 
   grunt.initConfig({
@@ -26,7 +27,8 @@ module.exports = function(grunt) {
       qa: {
         files: [
           '<%= yeoman.src %>/iptools-jquery-modal.js',
-          '<%= yeoman.test %>/spec/*.js'
+          '<%= yeoman.test %>/spec/*.js',
+          '<%= yeoman.src %>/iptools-jquery-modal.scss'
         ],
         tasks: ['concurrent:qa']
       },
@@ -37,6 +39,12 @@ module.exports = function(grunt) {
           '<%= yeoman.test %>/index.html'
         ],
         tasks: ['test']
+      },
+      scss: {
+        files: [
+          '<%= yeoman.src %>/iptools-jquery-modal.scss'
+        ],
+        tasks: ['scsslint']
       }
     },
     jshint: {
@@ -48,6 +56,17 @@ module.exports = function(grunt) {
         '<%= yeoman.src %>/{,*/}*.js',
         '<%= yeoman.test %>/spec/{,*/}*.js'
       ]
+    },
+    scsslint: {
+      allFiles: [
+        '<%= yeoman.src %>/{,*/}*.scss',
+      ],
+      options: {
+        bundleExec: true,
+        config: '.scss-lint.yml',
+        reporterOutput: 'scss-lint-report.xml',
+        colorizeOutput: true
+      }
     },
     mocha: {
       all: {
@@ -63,6 +82,7 @@ module.exports = function(grunt) {
         tasks: [
           'jshint',
           'jscs',
+          'scsslint',
           'mocha'
         ]
       },
