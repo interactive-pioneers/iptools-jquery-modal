@@ -254,17 +254,16 @@
       if (!$overlay) {
         $overlay = $('<div/>')
           .addClass(settings.overlayClass)
+          .hide()
           .appendTo('body');
       }
+      return $overlay;
     }
 
     function showOverlay() {
       active = true;
       $('body').css('overflow', 'hidden');
-      if (!$overlay) {
-        addOverlay();
-      }
-      $overlay.stop().fadeIn(settings.animationDuration);
+      addOverlay().stop().fadeIn(settings.animationDuration);
     }
 
     function showSpinner() {
@@ -326,8 +325,7 @@
       } else if (!data.link) {
         throw new Error('Link to modal content missing!');
       }
-      addOverlay();
-      $modal = buildModal(data).appendTo($overlay);
+      $modal = buildModal(data).appendTo(addOverlay());
       triggerReady();
       switch (type) {
         case TYPES.STATIC:

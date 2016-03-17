@@ -63,6 +63,18 @@
           return expect(object.data(pluginName).getOverlay().hasClass(config.overlayClass)).to.be.ok;
         });
 
+        it('expected to set overflow on body', function() {
+          object.attr('href', '#test').trigger('click');
+          return expect($('body').css('overflow')).to.eql('hidden');
+        });
+
+        it('expected to animate overlay', function(done) {
+          object.attr('href', '#test').on('ready.iptModal', function() {
+            expect(object.data(pluginName).getOverlay().is(':animated')).to.be.ok;
+            done();
+          }).trigger('click');
+        });
+
         it('expected to toggle visibility', function() {
           object.attr('href', '#test').trigger('click');
           return expect(object.data(pluginName).getModal().is(':visible')).to.be.ok;
