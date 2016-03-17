@@ -3,19 +3,19 @@
   top: 0;
   left: 0;
   z-index: 100;
+  overflow: auto;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  overflow: auto; }
+  background-color: rgba(0, 0, 0, 0.8); }
 
 .modal {
   position: absolute;
   z-index: 102;
   display: none;
-  max-width: 90%;
-  background-color: #fff;
-  opacity: 0;
   overflow: hidden;
+  max-width: 90%;
+  opacity: 0;
+  background-color: #fff;
   transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out; }
   .modal--active {
     display: block;
@@ -34,16 +34,16 @@
     width: 17px;
     height: 17px;
     cursor: pointer; }
-    .modal__button-close:before, .modal__button-close:after {
+    .modal__button-close::before, .modal__button-close::after {
       position: absolute;
       left: 8px;
       width: 1px;
       height: 17px;
       background-color: #000;
       content: ''; }
-    .modal__button-close:before {
+    .modal__button-close::before {
       transform: rotate(45deg); }
-    .modal__button-close:after {
+    .modal__button-close::after {
       transform: rotate(-45deg); }
   .modal__spinner {
     position: fixed;
@@ -77,8 +77,8 @@
   0% {
     transform: scale(0.5); }
   100% {
-    transform: scale(1);
-    opacity: 0; } }
+    opacity: 0;
+    transform: scale(1); } }
 
 /* Vertical alignment classes */
 .modal--active.modal--vertical-align-top {
