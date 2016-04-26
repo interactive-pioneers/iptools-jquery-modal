@@ -19,10 +19,7 @@ See inline comments in [Example](#example). All options are optional.
 
 ## Requirements
 
-Component is maintained for both, jQuery 1 and 2:
-
-- `jQuery >=2.1.4` for modal version `>=1.0.0` (master branch)
-- `jQuery >=1.11.3 < 2.0.0` for modal version `<1.0.0` (jquery1 branch)
+- `jQuery >=1.11.3 <3.0.0`
 
 ## Example
 
