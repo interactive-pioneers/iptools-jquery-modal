@@ -1,8 +1,8 @@
-$white: #fff;
-$black: #000;
+$IPTModal_background-color: #fff;
+$IPTModal_foreground-color: #000;
 
-$easing: ease-in-out;
-$animation-speed: 0.25s;
+$IPTModal_animation-easing: ease-in-out;
+$IPTModal_animation-speed: 0.25s;
 
 .overlay {
   position: fixed;
@@ -27,9 +27,9 @@ $animation-speed: 0.25s;
   max-width: 90%;
 
   opacity: 0;
-  background-color: $white;
+  background-color: $IPTModal_background-color;
 
-  transition: opacity $animation-speed $easing, transform $animation-speed $easing;
+  transition: opacity $IPTModal_animation-speed $IPTModal_animation-easing, transform $IPTModal_animation-speed $IPTModal_animation-easing;
 
   &--active {
     display: block;
@@ -68,7 +68,7 @@ $animation-speed: 0.25s;
       width: 1px;
       height: 17px;
 
-      background-color: $black;
+      background-color: $IPTModal_foreground-color;
 
       content: '';
     }
@@ -95,7 +95,7 @@ $animation-speed: 0.25s;
       width: 30px;
       height: 30px;
 
-      background-color: $black;
+      background-color: $IPTModal_foreground-color;
 
       animation: spinner-rotating-plane 1.2s infinite ease-in-out;
     }
@@ -121,7 +121,7 @@ $animation-speed: 0.25s;
 
       border-radius: 100%;
 
-      background-color: $black;
+      background-color: $IPTModal_foreground-color;
 
       animation: spinner-pulse 1s infinite ease-in-out;
     }
@@ -164,32 +164,32 @@ $animation-speed: 0.25s;
 /* Compound effect/alignment classes */
 .modal--active.modal--effect-scale.modal--vertical-align-center {
   animation-name: modal--effect-scale-center;
-  animation-duration: $animation-speed;
+  animation-duration: $IPTModal_animation-speed;
 }
 
 .modal--active.modal--effect-scale.modal--vertical-align-top {
   animation-name: modal--effect-scale-top;
-  animation-duration: $animation-speed;
+  animation-duration: $IPTModal_animation-speed;
 }
 
 .modal--active.modal--effect-slideinbottom.modal--vertical-align-top {
   animation-name: modal--effect-slideinbottom-top;
-  animation-duration: $animation-speed;
+  animation-duration: $IPTModal_animation-speed;
 }
 
 .modal--active.modal--effect-slideinbottom.modal--vertical-align-center {
   animation-name: modal--effect-slideinbottom-center;
-  animation-duration: $animation-speed;
+  animation-duration: $IPTModal_animation-speed;
 }
 
 .modal--active.modal--effect-slideinright.modal--vertical-align-top {
   animation-name: modal--effect-slideinright-top;
-  animation-duration: $animation-speed;
+  animation-duration: $IPTModal_animation-speed;
 }
 
 .modal--active.modal--effect-slideinright.modal--vertical-align-center {
   animation-name: modal--effect-slideinright-center;
-  animation-duration: $animation-speed;
+  animation-duration: $IPTModal_animation-speed;
 }
 
 @keyframes modal--effect-scale-center {
