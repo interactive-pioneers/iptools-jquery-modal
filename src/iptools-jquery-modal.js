@@ -32,7 +32,9 @@
         closeButton: '__button-close',
         spinner: '__spinner',
         content: '__content'
-      }
+      },
+      overflowHidden: 'body-overflow-hidden'
+
     };
 
     var dataAttributes = {
@@ -59,6 +61,8 @@
       height: 'auto',
       zIndex: 102,
       recreate: true
+      overflowHiddenClass: classes.overflowHidden,
+      overflowAutoClass: classes.overflowAuto,
     };
 
     this.element = $(element);
@@ -239,7 +243,7 @@
       if ($overlay) {
         $overlay.stop().fadeOut(settings.animationDuration);
       }
-      $('html').css('overflow', 'auto');
+      $('body').removeClass(settings.overflowHiddenClass);
       active = false;
     }
 
@@ -272,7 +276,7 @@
 
     function showOverlay() {
       active = true;
-      $('html').css('overflow', 'hidden');
+      $('body').addClass(settings.overflowHiddenClass);
       addOverlay().stop().fadeIn(settings.animationDuration);
     }
 

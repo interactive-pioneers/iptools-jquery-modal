@@ -64,7 +64,7 @@
 
         it('expected to set overflow on html tag', function() {
           object.attr('href', '#test').trigger('click');
-          return expect($('html').css('overflow')).to.eql('hidden');
+          return expect($('body').hasClass('body-overflow-hidden')).to.be.ok;
         });
 
         it('expected to animate overlay', function(done) {
