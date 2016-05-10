@@ -32,7 +32,8 @@
         closeButton: '__button-close',
         spinner: '__spinner',
         content: '__content'
-      }
+      },
+      overlayFadeIn: 'overlay--fade-in'
     };
 
     var dataAttributes = {
@@ -57,7 +58,8 @@
       spinnerHTML: '',
       width: '80%',
       height: 'auto',
-      zIndex: 102
+      zIndex: 102,
+      overlayFadeInClass: classes.overlayFadeIn
     };
 
     this.element = $(element);
@@ -228,7 +230,7 @@
 
     function hideOverlay() {
       if ($overlay) {
-        $overlay.stop().fadeOut(settings.animationDuration);
+        $overlay.removeClass(settings.overlayFadeInClass);
       }
       $('body').css('overflow', 'auto');
       active = false;
@@ -254,7 +256,6 @@
       if (!$overlay) {
         $overlay = $('<div/>')
           .addClass(settings.overlayClass)
-          .hide()
           .appendTo('body');
       }
       return $overlay;
@@ -263,7 +264,8 @@
     function showOverlay() {
       active = true;
       $('body').css('overflow', 'hidden');
-      addOverlay().stop().fadeIn(settings.animationDuration);
+      addOverlay().addClass(settings.overlayFadeInClass);
+      console.log(settings);
     }
 
     function showSpinner() {
