@@ -34,7 +34,8 @@
         content: '__content'
       },
       overflowHidden: 'body-overflow-hidden',
-      overlayFadeIn: 'overlay--fade-in'
+      overlayFadeIn: 'overlay--fade-in',
+      overlayFadeOut: 'overlay--fade-out'
     };
 
     var dataAttributes = {
@@ -62,7 +63,8 @@
       zIndex: 102,
       recreate: true,
       overflowHiddenClass: classes.overflowHidden,
-      overlayFadeInClass: classes.overlayFadeIn
+      overlayFadeInClass: classes.overlayFadeIn,
+      overlayFadeOutClass: classes.overlayFadeOut
     };
 
     this.element = $(element);
@@ -242,6 +244,7 @@
     function hideOverlay() {
       if ($overlay) {
         $overlay.removeClass(settings.overlayFadeInClass);
+        $overlay.addClass(settings.overlayFadeOutClass);
       }
       $('body').removeClass(settings.overflowHiddenClass);
       active = false;
@@ -276,7 +279,7 @@
     function showOverlay() {
       active = true;
       $('body').addClass(settings.overflowHiddenClass);
-      addOverlay().addClass(settings.overlayFadeInClass);
+      addOverlay().addClass(settings.overlayFadeInClass).removeClass(settings.overlayFadeOutClass);
     }
 
     function showSpinner() {

@@ -15,10 +15,16 @@ $IPTModal_animation-speed: 0.25s;
 
   background-color: rgba(0, 0, 0, 0.8);
   opacity: 0;
-  transition: opacity 1s linear;
+  transition: opacity 0.25s linear;
 
   &--fade-in {
     opacity: 1;
+    pointer-events: all;
+  }
+  
+  &--fade-out {
+    opacity: 0;
+    pointer-events: none;
   }
 }
 
