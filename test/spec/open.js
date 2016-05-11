@@ -68,9 +68,9 @@
           return expect($('body').css('overflow')).to.eql('hidden');
         });
 
-        it('expected to animate overlay', function(done) {
+        it('expected to switch overlay class', function(done) {
           object.attr('href', '#test').on('ready.iptModal', function() {
-            expect(object.data(pluginName).getOverlay().is(':animated')).to.be.ok;
+            expect(object.data(pluginName).getOverlay().hasClass('overlay--fade-in')).to.be.ok;
             done();
           }).trigger('click');
         });
