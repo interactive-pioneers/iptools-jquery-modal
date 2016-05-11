@@ -52,7 +52,7 @@ See inline comments in [Example](#example). All options are optional.
       modalVAlignTopClass: 'modal--vertical-align-top', // CSS rules setting vertical alignment of the modal
       modalVAlignCenterClass: 'modal--vertical-align-center', // CSS rules setting vertical alignment of the modal
       modifiers: '', // Modifier classes e.g. modal--no-padding
-      overlayClass: 'overlay'
+      overlayClass: 'overlay',
       showSpinner: true, // Enable/disable loader animation
       spinnerHTML: '', // Loader HTML
       width: '80%', // Modal width
@@ -95,4 +95,4 @@ Following tasks are there to help with development:
 - `grunt build` minify source to dist/
 
 ## Licence
-Copyright © 2015 Interactive Pioneers GmbH. Licenced under [GPLv3](LICENSE).
+Copyright © 2015-2016 Interactive Pioneers GmbH. Licenced under [GPLv3](LICENSE).
