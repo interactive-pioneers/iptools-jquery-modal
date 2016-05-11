@@ -8,7 +8,6 @@ $IPTModal_animation-speed: 0.25s;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
 
   overflow: auto;
 
@@ -20,7 +19,6 @@ $IPTModal_animation-speed: 0.25s;
 
 .modal {
   position: absolute;
-  z-index: 102;
 
   display: none;
   overflow: hidden;
