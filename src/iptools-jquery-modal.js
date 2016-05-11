@@ -243,8 +243,7 @@
 
     function hideOverlay() {
       if ($overlay) {
-        $overlay.removeClass(settings.overlayFadeInClass);
-        $overlay.addClass(settings.overlayFadeOutClass);
+        $overlay.removeClass(settings.overlayFadeInClass).addClass(settings.overlayFadeOutClass);
       }
       $('body').removeClass(settings.overflowHiddenClass);
       active = false;
