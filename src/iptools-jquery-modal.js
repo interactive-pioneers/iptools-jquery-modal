@@ -254,7 +254,7 @@
       if (!$overlay) {
         $overlay = $('<div/>')
           .addClass(settings.overlayClass)
-            .css('z-index', (settings.zIndex - 2))
+          .css('z-index', (settings.zIndex - 2))
           .hide()
           .appendTo('body');
       }
