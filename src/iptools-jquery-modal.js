@@ -34,7 +34,6 @@
         content: '__content'
       },
       overflowHidden: 'body-overflow-hidden'
-
     };
 
     var dataAttributes = {
