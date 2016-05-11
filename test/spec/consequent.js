@@ -48,6 +48,10 @@
           expect(object.data(pluginName).getModal()).to.not.exist;
         });
 
+        it('expected to have overlay with fade-out class', function() {
+          expect(object.data(pluginName).getOverlay().hasClass('overlay--fade-out')).to.be.ok;
+        });
+
         it('expected to create modal on 2nd call', function(done) {
           object.on('success.iptModal', function() {
             expect(object.data(pluginName).getModal()).to.exist;
