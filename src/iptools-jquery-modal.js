@@ -34,7 +34,6 @@
         content: '__content'
       },
       overflowHidden: 'body-overflow-hidden'
-
     };
 
     var dataAttributes = {
@@ -60,8 +59,7 @@
       width: '80%',
       height: 'auto',
       zIndex: 102,
-      overflowHiddenClass: classes.overflowHidden,
-      overflowAutoClass: classes.overflowAuto,
+      overflowHiddenClass: classes.overflowHidden
     };
 
     this.element = $(element);
