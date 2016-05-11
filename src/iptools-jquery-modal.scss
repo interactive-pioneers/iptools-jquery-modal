@@ -140,6 +140,11 @@ $IPTModal_animation-speed: 0.25s;
 
 }
 
+/* Body modifier classes */
+.body-overflow-hidden {
+  overflow: hidden;
+}
+
 /* Vertical alignment classes */
 .modal--active.modal--vertical-align-top {
   top: 50px;

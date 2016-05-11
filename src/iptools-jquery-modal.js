@@ -32,7 +32,8 @@
         closeButton: '__button-close',
         spinner: '__spinner',
         content: '__content'
-      }
+      },
+      overflowHidden: 'body-overflow-hidden'
     };
 
     var dataAttributes = {
@@ -57,7 +58,8 @@
       spinnerHTML: '',
       width: '80%',
       height: 'auto',
-      zIndex: 102
+      zIndex: 102,
+      overflowHiddenClass: classes.overflowHidden
     };
 
     this.element = $(element);
@@ -230,7 +232,8 @@
       if ($overlay) {
         $overlay.stop().fadeOut(settings.animationDuration);
       }
-      $('body').css('overflow', 'auto');
+      $('body').removeClass(settings.overflowHiddenClass);
+
       active = false;
     }
 
@@ -263,7 +266,7 @@
 
     function showOverlay() {
       active = true;
-      $('body').css('overflow', 'hidden');
+      $('body').addClass(settings.overflowHiddenClass);
       addOverlay().stop().fadeIn(settings.animationDuration);
     }
 
