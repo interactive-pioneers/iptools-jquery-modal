@@ -63,9 +63,9 @@
           return expect(object.data(pluginName).getOverlay().hasClass(config.overlayClass)).to.be.ok;
         });
 
-        it('expected to set overflow on body', function() {
+        it('expected to set overflow on html tag', function() {
           object.attr('href', '#test').trigger('click');
-          return expect($('body').css('overflow')).to.eql('hidden');
+          return expect($('html').css('overflow')).to.eql('hidden');
         });
 
         it('expected to animate overlay', function(done) {
@@ -343,6 +343,14 @@
           object.on('success.iptModal', function() {
             $('.' + config.closeButtonClass).trigger('click');
             expect(object.data(pluginName).getModal()).to.not.exist;
+            done();
+          }).trigger('click');
+        });
+
+        it('expected to remove overflow control on html on close', function(done) {
+          object.on('success.iptModal', function() {
+            $('.' + config.closeButtonClass).trigger('click');
+            expect($('html').css('overflow')).to.eql('auto');
             done();
           }).trigger('click');
         });
