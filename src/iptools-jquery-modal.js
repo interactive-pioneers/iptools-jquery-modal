@@ -230,7 +230,7 @@
       if ($overlay) {
         $overlay.stop().fadeOut(settings.animationDuration);
       }
-      $('body').css('overflow', 'auto');
+      $('html').css('overflow', 'auto');
       active = false;
     }
 
@@ -263,7 +263,7 @@
 
     function showOverlay() {
       active = true;
-      $('body').css('overflow', 'hidden');
+      $('html').css('overflow', 'hidden');
       addOverlay().stop().fadeIn(settings.animationDuration);
     }
 
