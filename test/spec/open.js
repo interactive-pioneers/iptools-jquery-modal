@@ -160,38 +160,6 @@
           }).data(pluginName).open(data);
         });
 
-        it('expected to not close the modal when click outside occurs', function(done) {
-          object.on('success.iptModal', function() {
-            $(document).trigger('mouseup');
-            expect(object.data(pluginName).getModal()).to.exist;
-            done();
-          }).data(pluginName).open(data);
-        });
-
-        context('when on mobile', function() {
-
-          var mockConfig = {
-            modalClass: 'close-on-body-touch-test-modal',
-            modalId: 'close-on-body-touch-test-modal',
-            closeOnClickOutside: true
-          };
-          var mobileObject = null;
-
-          before(function() {
-            mobileObject = $(selector).iptModal(mockConfig);
-          });
-
-          it('expected to close the modal when touch on body occurs', function(done) {
-            mobileObject.on('success.iptModal', function() {
-              $(document).on('touchstart', function() {
-                expect(mobileObject.data(pluginName).getModal()).to.not.exist;
-                done();
-              }).trigger('touchstart');
-            }).data(pluginName).open(data);
-          });
-
-        });
-
         context('with default effect', function() {
           it('expected to have single defined effect', function(done) {
             var defaultEffect = 'scale';

@@ -146,6 +146,10 @@
       self.element.trigger(getNamespacedEvent('complete'));
     }
 
+    function triggerClose() {
+      self.element.trigger(getNamespacedEvent('close'));
+    }
+
     function handleUnobtrusiveAjaxComplete() {
       triggerComplete();
     }
@@ -354,6 +358,7 @@
     }
 
     this.close = function() {
+      triggerClose();
       hideModal();
       hideOverlay();
       unbindTemporaryEvents();
