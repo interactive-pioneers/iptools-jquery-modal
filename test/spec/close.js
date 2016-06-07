@@ -85,6 +85,22 @@
             }).data(pluginName).open(data);
           });
 
+          it('expected to emit close event on close icon click', function(done) {
+            object.on('success.iptModal', function() {
+              object.data(pluginName).getModal().find('.' + config.closeButtonClass).click();
+            }).on('close.iptModal', function() {
+              done();
+            }).data(pluginName).open(data);
+          });
+
+          it('expected to emit close event on API close call', function(done) {
+            object.on('success.iptModal', function() {
+              object.data(pluginName).close();
+            }).on('close.iptModal', function() {
+              done();
+            }).data(pluginName).open(data);
+          });
+
         });
 
       });
