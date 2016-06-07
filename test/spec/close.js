@@ -34,7 +34,7 @@
           });
 
           afterEach(function() {
-            object.off('success.iptModal');
+            object.off('success.iptModal close.iptModal');
             object.data(pluginName).destroy();
           });
 
@@ -57,7 +57,7 @@
 
           afterEach(function() {
             config.closeOnClickOutside = false;
-            object.off('success.iptModal');
+            object.off('success.iptModal close.iptModal');
             object.data(pluginName).destroy();
           });
 
@@ -65,6 +65,22 @@
             object.on('success.iptModal', function() {
               $(document).trigger('touchstart');
               expect(object.data(pluginName).getModal()).to.not.exist;
+              done();
+            }).data(pluginName).open(data);
+          });
+
+          it('expected to emit close event on document mouseup', function(done) {
+            object.on('success.iptModal', function() {
+              $(document).trigger('mouseup');
+            }).on('close.iptModal', function() {
+              done();
+            }).data(pluginName).open(data);
+          });
+
+          it('expected to emit close event on document touchstart', function(done) {
+            object.on('success.iptModal', function() {
+              $(document).trigger('touchstart');
+            }).on('close.iptModal', function() {
               done();
             }).data(pluginName).open(data);
           });
