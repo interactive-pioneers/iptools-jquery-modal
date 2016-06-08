@@ -21,14 +21,13 @@
     var pluginName = 'plugin_iptModal';
     var selector = '.js_trigger-modal';
     var object = null;
-    var data = null;
+    var data = {link: '#test'};
 
     describe('open', function() {
 
       context('with static modal', function() {
 
         beforeEach(function() {
-          data = {link: '#test'};
           object = $(selector).iptModal(config);
         });
 
@@ -217,6 +216,71 @@
             }).data(pluginName).open(data);
           });
 
+        });
+
+        context('with recreate enabled', function() {
+
+          before(function() {
+            config.recreate = true;
+            object = $(selector).iptModal(config);
+          });
+
+          it('expected to have recreate setting turned on', function() {
+            expect(object.data(pluginName).getSettings().recreate).to.be.ok;
+          });
+
+          it('expected to recreate modal', function(done) {
+            object.on('success.iptModal', function() {
+              object.off('success.iptModal').on('success.iptModal', function() {
+                object.off('success.iptModal');
+                done();
+              }).data(pluginName).open(data);
+            }).data(pluginName).open(data);
+          });
+        });
+
+        context('without recreate (default)', function() {
+
+          before(function() {
+            object = $(selector).iptModal(config);
+          });
+
+          it('expected to have recreate setting turned on', function() {
+            expect(object.data(pluginName).getSettings().recreate).to.be.ok;
+          });
+
+          it('expected to recreate modal', function(done) {
+            object.on('success.iptModal', function() {
+              object.off('success.iptModal').on('success.iptModal', function() {
+                object.off('success.iptModal');
+                done();
+              }).data(pluginName).open(data);
+            }).data(pluginName).open(data);
+          });
+        });
+
+        context('with recreate disabled', function() {
+
+          before(function() {
+            config.recreate = false;
+            object = $(selector).iptModal(config);
+          });
+
+          after(function() {
+          });
+
+          it('expected to have recreate setting turned off', function() {
+            expect(object.data(pluginName).getSettings().recreate).to.not.be.ok;
+          });
+
+          it('expected to recreate modal', function(done) {
+            object.on('success.iptModal', function() {
+              object.off('success.iptModal').on('ignore.iptModal', function() {
+                object.off('ignore.iptModal');
+                done();
+              }).data(pluginName).open(data);
+            }).data(pluginName).open(data);
+          });
         });
 
       });

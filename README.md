@@ -56,7 +56,8 @@ See inline comments in [Example](#example). All options are optional.
       showSpinner: true, // Enable/disable loader animation
       spinnerHTML: '', // Loader HTML
       width: '80%', // Modal width
-      zIndex: 102 // CSS z-index
+      zIndex: 102, // CSS z-index
+      recreate: true // whether or not to recreate modal if already existing
     });
   });
 </script>

@@ -57,7 +57,8 @@
       spinnerHTML: '',
       width: '80%',
       height: 'auto',
-      zIndex: 102
+      zIndex: 102,
+      recreate: true
     };
 
     this.element = $(element);
@@ -148,6 +149,10 @@
 
     function triggerClose() {
       self.element.trigger(getNamespacedEvent('close'));
+    }
+
+    function triggerIgnore() {
+      self.element.trigger(getNamespacedEvent('ignore'));
     }
 
     function handleUnobtrusiveAjaxComplete() {
@@ -324,11 +329,17 @@
         .append($modalContent);
     }
 
+    function shallIgnoreRecreate() {
+      return !settings.recreate && $modal !== null;
+    }
+
     this.open = function(data) {
       if (!data) {
         throw new Error('Data for modal launch missing!');
       } else if (!data.link) {
         throw new Error('Link to modal content missing!');
+      } else if (shallIgnoreRecreate()) {
+        return triggerIgnore();
       }
       $modal = buildModal(data).appendTo(addOverlay());
       triggerReady();
