@@ -96,4 +96,5 @@ Following tasks are there to help with development:
 - `grunt build` minify source to dist/
 
 ## Licence
-Copyright © 2015-2016 Interactive Pioneers GmbH. Licenced under [GPLv3](LICENSE).
+
+Copyright © 2015-2016 Interactive Pioneers GmbH, contributors. Licenced under [GPL-3](LICENSE).
