@@ -71,8 +71,7 @@ module.exports = function(grunt) {
     mocha: {
       all: {
         options: {
-          run: true,
-          log: true
+          run: true
         },
         src: ['<%= yeoman.test %>/index.html']
       }
