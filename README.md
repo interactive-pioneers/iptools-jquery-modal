@@ -72,4 +72,4 @@ See inline comments in [Example](#example). All options are optional.
 
 ## Licence
 
-Copyright © 2015-2016 Interactive Pioneers GmbH, contributors. Licenced under [GPL-3](LICENSE).
+Copyright © 2015-2017 Interactive Pioneers GmbH, contributors. Licenced under [GPL-3](LICENSE).
