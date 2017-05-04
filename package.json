@@ -62,5 +62,11 @@
     "overlay",
     "jquery",
     "layout"
+  ],
+  "files": [
+    "*.md",
+    "LICENSE",
+    "src",
+    "dist"
   ]
 }
