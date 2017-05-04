@@ -1,12 +1,9 @@
 language: node_js
 node_js:
-- 6.2
-- 7.5
+  - 6.2
+  - 7.5
 before_install:
-- npm cache clean
-- bundle install
-- npm install -g grunt-cli bower
-- bower install
+  - bundle install
 notifications:
   hipchat:
     rooms:

@@ -46,7 +46,9 @@
     "grunt-jscs": "~2.7.0",
     "grunt-scss-lint": "~0.3.8",
     "chai": "~3.5.0",
-    "jquery": "^1.11.3"
+    "jquery": "^1.11.3",
+    "grunt-cli": "^1.2.0",
+    "bower": "^1.8.0"
   },
   "engines": {
     "node": ">=6.2.0"
@@ -56,6 +58,8 @@
     "url": "https://github.com/interactive-pioneers/iptools-jquery-modal.git"
   },
   "scripts": {
+    "bower": "bower",
+    "grunt": "grunt",
     "test": "grunt travis --verbose"
   },
   "keywords": [
