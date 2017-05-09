@@ -32,7 +32,7 @@
   "license": "GPL-3.0",
   "bugs": "https://github.com/interactive-pioneers/iptools-jquery-modal/issues",
   "dependencies": {
-    "jquery": ">=1.11.3 <3.0.0"
+    "jquery": ">=1.11.3 <4.0.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
