@@ -31,7 +31,9 @@
   ],
   "license": "GPL-3.0",
   "bugs": "https://github.com/interactive-pioneers/iptools-jquery-modal/issues",
-  "dependencies": {},
+  "dependencies": {
+    "jquery": ">=1.11.3"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-concurrent": "~2.2.1",
@@ -46,8 +48,6 @@
     "grunt-jscs": "~2.7.0",
     "grunt-scss-lint": "~0.3.8",
     "chai": "~3.5.0",
-    "jquery": "^1.11.3",
-    "grunt-cli": "^1.2.0",
     "bower": "^1.8.0"
   },
   "engines": {
