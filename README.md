@@ -1,4 +1,4 @@
-# iptools-jquery-modal [![Build Status](http://img.shields.io/travis/interactive-pioneers/iptools-jquery-modal.svg)](https://travis-ci.org/interactive-pioneers/iptools-jquery-modal) [![Bower version](https://badge.fury.io/bo/iptools-jquery-modal.svg)](http://badge.fury.io/bo/iptools-jquery-modal)
+# iptools-jquery-modal [![Build Status](http://img.shields.io/travis/interactive-pioneers/iptools-jquery-modal.svg)](https://travis-ci.org/interactive-pioneers/iptools-jquery-modal) [![npm version](https://badge.fury.io/js/iptools-jquery-modal.svg)](https://badge.fury.io/js/iptools-jquery-modal) [![Bower version](https://badge.fury.io/bo/iptools-jquery-modal.svg)](http://badge.fury.io/bo/iptools-jquery-modal)
 
 Multifunctional jQuery modal component.
 
