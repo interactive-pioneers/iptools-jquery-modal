@@ -32,6 +32,7 @@ First, ensure that you have [Node.js](http://nodejs.org/) 6.2.0 or greater insta
 
 Following tasks are there to help with development:
 
-- `npm start` listens to tests and source, reruns tests
-- `npm test` run QA task that includes tests, JSHint, and JSCS
+- `npm start` listen to tests and source, rerun tests
+- `npm test` run QA task that includes tests, JSHint, and JSCion
 - `npm run grunt build` build and minify source to dist/
+- `npm run server` run server to test distribution on page

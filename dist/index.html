@@ -1,0 +1,33 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>iptools-jquery-modal example</title>
+  <link rel="stylesheet" href="iptools-jquery-modal.css">
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="iptools-jquery-modal.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.js_trigger-modal')
+        .add('.js_trigger-modal2')
+        .add('.js_trigger-modal3')
+        .iptModal();
+    });
+  </script>
+</head>
+<body>
+  <h1>iptools-jquery-modal example page</h1>
+  <h3>Available effects</h3>
+  <ul>
+    <li><a href="#test" class="js_trigger-modal" data-modal-effect="scale">Scale</a></li>
+    <li><a href="#test" class="js_trigger-modal2" data-modal-effect="slideinright">Slide in from right</a></li>
+    <li><a href="#test" class="js_trigger-modal3" data-modal-effect="slideinbottom">Slide in from bottom</a></li>
+  </ul>
+  <div id="test" style="display: none;">
+    <div class="modal__button-close"></div>
+    <div class="modal__content">
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    </div>
+  </div>
+</body>
+</html>
