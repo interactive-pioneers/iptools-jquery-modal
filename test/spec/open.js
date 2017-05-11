@@ -379,10 +379,10 @@
           }).trigger('click');
         });
 
-        it('expected to remove overflow control on html on close', function(done) {
+        it('expected to remove overflow control on close', function(done) {
           object.on('success.iptModal', function() {
             $('.' + config.closeButtonClass).trigger('click');
-            expect($('html').css('overflow')).to.eql('auto');
+            expect($('body').hasClass(config.overflowHiddenClass)).to.not.be.ok;
             done();
           }).trigger('click');
         });
