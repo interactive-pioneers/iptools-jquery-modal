@@ -60,8 +60,7 @@
       height: 'auto',
       zIndex: 102,
       recreate: true
-      overflowHiddenClass: classes.overflowHidden,
-      overflowAutoClass: classes.overflowAuto,
+      overflowHiddenClass: classes.overflowHidden
     };
 
     this.element = $(element);
