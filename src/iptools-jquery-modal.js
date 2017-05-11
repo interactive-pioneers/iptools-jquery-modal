@@ -59,7 +59,7 @@
       width: '80%',
       height: 'auto',
       zIndex: 102,
-      recreate: true
+      recreate: true,
       overflowHiddenClass: classes.overflowHidden
     };
 
