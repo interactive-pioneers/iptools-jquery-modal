@@ -6,7 +6,8 @@ module.exports = function(grunt) {
 
   // load tasks on demand (speeds up dev)
   require('jit-grunt')(grunt, {
-    scsslint: 'grunt-scss-lint'
+    scsslint: 'grunt-scss-lint',
+    browserSync: 'grunt-browser-sync'
   });
 
   grunt.initConfig({
@@ -45,6 +46,13 @@ module.exports = function(grunt) {
           '<%= yeoman.src %>/iptools-jquery-modal.scss'
         ],
         tasks: ['scsslint']
+      },
+      server: {
+        files: [
+          '<%= yeoman.src %>/iptools-jquery-modal.scss',
+          '<%= yeoman.src %>/iptools-jquery-modal.js'
+        ],
+        tasks: ['concurrent:build']
       }
     },
     jshint: {
@@ -107,7 +115,7 @@ module.exports = function(grunt) {
         files: [{
           dot: true,
           src: [
-            '<%= yeoman.dist %>/*'
+            '<%= yeoman.dist %>/*.{js,css}'
           ]
         }]
       }
@@ -135,6 +143,21 @@ module.exports = function(grunt) {
           '<%= yeoman.src %>/*.js'
         ]
       }
+    },
+    browserSync: {
+      dev: {
+        bsFiles: {
+          src: [
+            'dist/iptools-jquery-modal.css',
+            'dist/iptools-jquery-modal.min.js',
+            'dist/index.html'
+          ]
+        },
+        options: {
+          watchTask: false,
+          server: './dist'
+        }
+      }
     }
   });
 
@@ -150,4 +173,14 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['build']);
 
   grunt.registerTask('travis', ['concurrent:qa']);
+
+  grunt.registerTask('serve', 'Start server. Use --allow-remote for remote access', function() {
+    grunt.task.run([
+      'clean:dist',
+      'concurrent:build',
+      'browserSync',
+      'watch:server'
+    ]);
+  });
+
 };
