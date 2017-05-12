@@ -12,6 +12,10 @@
         .add('.js_trigger-modal2')
         .add('.js_trigger-modal3')
         .iptModal();
+      $('a').on('close.iptModal', function(event) {
+        var effect = $(event.currentTarget).data('plugin_iptModal').getEffect();
+        console.log('Modal with ' + effect + ' effect closed');
+      });
     });
   </script>
 </head>

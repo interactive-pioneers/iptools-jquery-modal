@@ -17,6 +17,21 @@ Multifunctional jQuery modal component.
 
 See inline comments in [Example](#example). All options are optional.
 
+## Events
+
+Following events are emitted by the component:
+
+| Event               | Description                                                         |
+| -----               | -----------                                                         |
+| `complete.iptModal` | Completed, either with error or success                             |
+| `close.iptModal`    | Closed                                                              |
+| `error.iptModal`    | Failed to open                                                      |
+| `ignore.iptModal`   | Open request ignored, modal already open with no recreation allowed |
+| `ready.iptModal`    | Ready, loading started                                              |
+| `success.iptModal`  | Displayed                                                           |
+
+See [subscription example](https://github.com/interactive-pioneers/iptools-jquery-modal/blob/master/dist/index.html#L15) for `close` event.
+
 ## Requirements
 
 - `jQuery >=1.11.3 <4.0.0`
