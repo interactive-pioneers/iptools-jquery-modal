@@ -33,7 +33,9 @@
         spinner: '__spinner',
         content: '__content'
       },
-      overflowHidden: 'body-overflow-hidden'
+      overflowHidden: 'body-overflow-hidden',
+      overlayFadeIn: 'overlay--fade-in',
+      overlayFadeOut: 'overlay--fade-out'
     };
 
     var dataAttributes = {
@@ -60,7 +62,9 @@
       height: 'auto',
       zIndex: 102,
       recreate: true,
-      overflowHiddenClass: classes.overflowHidden
+      overflowHiddenClass: classes.overflowHidden,
+      overlayFadeInClass: classes.overlayFadeIn,
+      overlayFadeOutClass: classes.overlayFadeOut
     };
 
     this.element = $(element);
@@ -239,7 +243,7 @@
 
     function hideOverlay() {
       if ($overlay) {
-        $overlay.stop().fadeOut(settings.animationDuration);
+        $overlay.removeClass(settings.overlayFadeInClass).addClass(settings.overlayFadeOutClass);
       }
       $('body').removeClass(settings.overflowHiddenClass);
       active = false;
@@ -266,7 +270,6 @@
         $overlay = $('<div/>')
           .addClass(settings.overlayClass)
           .css('z-index', (settings.zIndex - 2))
-          .hide()
           .appendTo('body');
       }
       return $overlay;
@@ -275,7 +278,7 @@
     function showOverlay() {
       active = true;
       $('body').addClass(settings.overflowHiddenClass);
-      addOverlay().stop().fadeIn(settings.animationDuration);
+      addOverlay().addClass(settings.overlayFadeInClass).removeClass(settings.overlayFadeOutClass);
     }
 
     function showSpinner() {
